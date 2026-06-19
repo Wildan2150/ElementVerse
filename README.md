@@ -93,15 +93,13 @@ cp .env.example .env
 Buka file `.env` dan sesuaikan konfigurasi database dengan database yang sudah Anda buat:
 
 ```env
-# Database Configuration
-# Sesuaikan DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, dan DB_PASSWORD
-# dengan konfigurasi database yang Anda gunakan
-DB_CONNECTION=
-DB_HOST=
-DB_PORT=
-DB_DATABASE=
-DB_USERNAME=
-DB_PASSWORD=
+# Database Configuration - Sesuaikan dengan database Anda
+DB_CONNECTION=          # pgsql atau mysql
+DB_HOST=                # localhost atau IP server database
+DB_PORT=                # 5432 untuk PostgreSQL, 3306 untuk MySQL
+DB_DATABASE=            # Nama database yang sudah dibuat
+DB_USERNAME=            # Username database
+DB_PASSWORD=            # Password database
 
 # Queue Configuration (untuk background jobs)
 QUEUE_CONNECTION=database
