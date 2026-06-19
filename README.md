@@ -5,6 +5,7 @@ EduChem adalah sebuah Platform Learning Management System (LMS) interaktif yang 
 ## 📌 Gambaran Umum
 
 Aplikasi ini adalah platform pembelajaran modern yang memfasilitasi:
+
 - **Guru**: Membuat konten pembelajaran, mengelola kelas, memonitor progres siswa, dan evaluasi hasil belajar
 - **Siswa**: Mengakses materi pembelajaran, mengerjakan latihan soal, mendapat feedback AI, dan berinteraksi dengan chatbot pembelajaran
 - **Superadmin**: Mengelola data pengguna, kelas, dan statistik pembelajaran secara menyeluruh
@@ -28,17 +29,17 @@ Fitur-fitur utama dirancang untuk mendukung pembelajaran interaktif dengan integ
 
 ## 🚀 Tech Stack
 
-| Aspek | Teknologi |
-|-------|-----------|
-| **Backend** | Laravel 11, PHP 8.2+ |
-| **Frontend** | Vue 3, TypeScript, Inertia.js |
-| **Styling** | Tailwind CSS, Shadcn-vue, Lucide Icons |
-| **Database** | PostgreSQL / MySQL |
-| **AI Integration** | Google Gemini 2.0 Flash SDK |
-| **Build Tools** | Vite, PNPM |
-| **Queue & Jobs** | Laravel Queue (Background Processing) |
-| **Permission** | Spatie Laravel Permission |
-| **Documentation** | KaTeX (Math & Chemistry Renderer) |
+| Aspek              | Teknologi                              |
+| ------------------ | -------------------------------------- |
+| **Backend**        | Laravel 11, PHP 8.2+                   |
+| **Frontend**       | Vue 3, TypeScript, Inertia.js          |
+| **Styling**        | Tailwind CSS, Shadcn-vue, Lucide Icons |
+| **Database**       | PostgreSQL / MySQL                     |
+| **AI Integration** | Google Gemini 2.0 Flash SDK            |
+| **Build Tools**    | Vite, PNPM                             |
+| **Queue & Jobs**   | Laravel Queue (Background Processing)  |
+| **Permission**     | Spatie Laravel Permission              |
+| **Documentation**  | KaTeX (Math & Chemistry Renderer)      |
 
 ---
 
@@ -68,11 +69,13 @@ cd pope
 ### 2. Install Dependensi
 
 **Backend (PHP dengan Composer):**
+
 ```bash
 composer install
 ```
 
 **Frontend (JavaScript/Node.js):**
+
 ```bash
 pnpm install
 # atau menggunakan npm:
@@ -87,16 +90,18 @@ Salin file `.env.example` menjadi `.env`:
 cp .env.example .env
 ```
 
-Buka file `.env` dan sesuaikan konfigurasi berikut:
+Buka file `.env` dan sesuaikan konfigurasi database dengan database yang sudah Anda buat:
 
 ```env
-# Database Configuration (Buat database terlebih dahulu)
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=lms_educhem
-DB_USERNAME=postgres
-DB_PASSWORD=your_password
+# Database Configuration
+# Sesuaikan DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, dan DB_PASSWORD
+# dengan konfigurasi database yang Anda gunakan
+DB_CONNECTION=
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
 
 # Queue Configuration (untuk background jobs)
 QUEUE_CONNECTION=database
@@ -121,6 +126,7 @@ php artisan migrate:fresh --seed
 ```
 
 Perintah ini akan membuat tabel dan mengisi data awal termasuk akun test:
+
 - **Guru**: guru@test.com
 - **Siswa**: siswa1@test.com
 - **Admin**: admin@test.com
@@ -132,18 +138,22 @@ Perintah ini akan membuat tabel dan mengisi data awal termasuk akun test:
 Buka 3 terminal secara bersamaan:
 
 **Terminal 1 - Laravel Server:**
+
 ```bash
 php artisan serve
 ```
+
 Aplikasi akan berjalan di `http://localhost:8000`
 
 **Terminal 2 - Frontend Development Server:**
+
 ```bash
 pnpm run dev
 # atau: npm run dev
 ```
 
 **Terminal 3 - Queue Worker (untuk background jobs):**
+
 ```bash
 php artisan queue:work --timeout=120
 ```
@@ -186,6 +196,7 @@ pope/
 ```
 
 **Model Utama:**
+
 - `User` - Data pengguna dengan roles (admin, guru, siswa)
 - `Classroom` - Kelas pembelajaran
 - `Topic` - Topik/materi pembelajaran
@@ -237,12 +248,13 @@ npm run lint:fix
 Kontribusi hanya diterima dari anggota tim resmi. Jika Anda ingin berkontribusi:
 
 1. **Commit Message**: Ikuti format [Conventional Commits](https://www.conventionalcommits.org/)
-   - Contoh: `feat: tambah fitur chat AI`, `fix: perbaiki bug di dashboard`
+    - Contoh: `feat: tambah fitur chat AI`, `fix: perbaiki bug di dashboard`
 2. **Pull Request**: Buat PR dengan deskripsi yang jelas tentang perubahan
 3. **Testing**: Pastikan semua test lolos sebelum push
 4. **Code Quality**: Jalankan linter dan formatter sebelum commit
 
 Format pesan commit:
+
 ```
 <type>(<scope>): <subject>
 
@@ -252,6 +264,7 @@ Format pesan commit:
 ```
 
 Tipe commit yang umum:
+
 - `feat` - Fitur baru
 - `fix` - Perbaikan bug
 - `docs` - Dokumentasi
