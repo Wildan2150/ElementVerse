@@ -66,11 +66,15 @@ class TopicController extends Controller
         return redirect()->route('guru.classes.show', $classroom->id)->with('success', 'Topik berhasil dihapus!');
     }
 
-    public function togglePublish(Request $request, Classroom $classroom, Topic $topic)
-    {
-        if ($classroom->teacher_id !== $request->user()->id) { abort(403, 'Akses ditolak.'); }
-
-        $this->topicService->togglePublish($classroom, $topic);
-        return back()->with('success', 'Status rilis materi berhasil diubah!');
+   public function togglePublish(Request $request, Classroom $classroom, Topic $topic)
+{
+    if ($classroom->teacher_id !== $request->user()->id) {
+        abort(403, 'Akses ditolak.');
     }
+
+    $this->topicService->togglePublish($classroom, $topic);
+
+    // Kembalikan data topic yang sudah terupdate
+    return back()->with('success', 'Status rilis materi berhasil diubah!');
+}
 }
