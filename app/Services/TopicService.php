@@ -29,15 +29,20 @@ class TopicService
     }
 
     // ==========================================
-    // LOGIKA BARU: PUBLISH / UNPUBLISH TOPIK
+    // LOGIKA PUBLISH / UNPUBLISH TOPIK (per-kelas)
     // ==========================================
-    public function togglePublish(Topic $topic)
+    public function togglePublish(Classroom $classroom, Topic $topic): bool
     {
-        // Langsung balikkan nilainya di tabel master topics
-        $topic->update([
-            'is_published' => !$topic->is_published
+        $access = $classroom->topics()->where('topic_id', $topic->id)->first();
+
+        abort_unless($access, 404, 'Topik tidak ditemukan di kelas ini.');
+
+        $newValue = !$access->pivot->is_published;
+
+        $classroom->topics()->updateExistingPivot($topic->id, [
+            'is_published' => $newValue,
         ]);
-        
-        return $topic->is_published;
+
+        return $newValue;
     }
 }

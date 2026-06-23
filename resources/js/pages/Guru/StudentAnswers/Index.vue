@@ -84,8 +84,8 @@ const getTypeColor = (type: string) => {
 
 const formatAnswer = (answer: string | null, type: string): string => {
     if (!answer) {
-return '-';
-}
+        return '-';
+    }
 
     // Jika tipe checkbox/cmcq, coba parse JSON array
     if (type === 'eval_cmcq') {
@@ -93,8 +93,8 @@ return '-';
             const arr = JSON.parse(answer);
 
             if (Array.isArray(arr)) {
-return arr.join(', ');
-}
+                return arr.join(', ');
+            }
         } catch (e) {
             // fallback
         }
@@ -105,16 +105,16 @@ return arr.join(', ');
 
 const isFileAnswer = (answer: string | null): boolean => {
     if (!answer) {
-return false;
-}
+        return false;
+    }
 
     return answer.includes('/storage/');
 };
 
 const isImageFile = (answer: string | null): boolean => {
     if (!answer) {
-return false;
-}
+        return false;
+    }
 
     return /\.(jpg|jpeg|png|gif|webp)$/i.test(answer);
 };
@@ -137,8 +137,8 @@ const formatDate = (dateString: string) => {
 
 const renderMarkdown = (text: string | null) => {
     if (!text) {
-return '';
-}
+        return '';
+    }
 
     return marked.parse(text);
 };
@@ -154,8 +154,8 @@ const getInitials = (name: string) => {
 
 const stripHtml = (html: string | null | undefined): string => {
     if (!html) {
-return '-';
-}
+        return '-';
+    }
 
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
@@ -200,11 +200,9 @@ return '-';
             </div>
 
             <!-- Header Card -->
-            <Card
-                class="mb-8 overflow-hidden border-none bg-white shadow-sm"
-            >
+            <Card class="mb-8 overflow-hidden border-none bg-white shadow-sm">
                 <div
-                    class="flex flex-col justify-between gap-4 bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-6 md:px-8 text-white md:flex-row md:items-center"
+                    class="flex flex-col justify-between gap-4 bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-6 text-white md:flex-row md:items-center md:px-8"
                 >
                     <div>
                         <span
@@ -220,9 +218,7 @@ return '-';
                         <div
                             class="rounded-xl border border-slate-700 bg-slate-800 px-5 py-3 text-center shadow-inner"
                         >
-                            <div
-                                class="text-2xl font-black text-emerald-400"
-                            >
+                            <div class="text-2xl font-black text-emerald-400">
                                 {{ totalStudents }}
                             </div>
                             <div
@@ -234,9 +230,7 @@ return '-';
                         <div
                             class="rounded-xl border border-slate-700 bg-slate-800 px-5 py-3 text-center shadow-inner"
                         >
-                            <div
-                                class="text-2xl font-black text-indigo-400"
-                            >
+                            <div class="text-2xl font-black text-indigo-400">
                                 {{ phase.contents?.length || 0 }}
                             </div>
                             <div
@@ -262,11 +256,9 @@ return '-';
                 <h4 class="mb-1 text-[16px] font-bold text-slate-800">
                     Tidak Ada Soal Evaluasi
                 </h4>
-                <p
-                    class="max-w-[350px] text-[13px] font-medium text-slate-500"
-                >
-                    Fase ini belum memiliki blok evaluasi (soal). Tambahkan
-                    soal terlebih dahulu di Builder Fase.
+                <p class="max-w-[350px] text-[13px] font-medium text-slate-500">
+                    Fase ini belum memiliki blok evaluasi (soal). Tambahkan soal
+                    terlebih dahulu di Builder Fase.
                 </p>
             </div>
 
@@ -282,7 +274,7 @@ return '-';
                         <!-- Question Header (Clickable to expand) -->
                         <button
                             @click="toggleExpand(content.id)"
-                            class="flex w-full items-center justify-between px-4 py-3 md:px-6 md:py-4 text-left transition-colors hover:bg-slate-50/50"
+                            class="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-slate-50/50 md:px-6 md:py-4"
                         >
                             <div class="flex items-center gap-4">
                                 <span
@@ -291,9 +283,7 @@ return '-';
                                     {{ cIdx + 1 }}
                                 </span>
                                 <div>
-                                    <div
-                                        class="mb-1 flex items-center gap-2"
-                                    >
+                                    <div class="mb-1 flex items-center gap-2">
                                         <i
                                             class="pi text-[12px]"
                                             :class="[
@@ -304,9 +294,7 @@ return '-';
                                         <span
                                             class="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold tracking-wider text-slate-500 uppercase"
                                         >
-                                            {{
-                                                getTypeLabel(content.type)
-                                            }}
+                                            {{ getTypeLabel(content.type) }}
                                         </span>
                                     </div>
                                     <h3
@@ -380,44 +368,44 @@ return '-';
                             <!-- No Answers State -->
                             <div
                                 v-if="
-                                    getAnswersForContent(content.id)
-                                        .length === 0
+                                    getAnswersForContent(content.id).length ===
+                                    0
                                 "
                                 class="flex flex-col items-center justify-center py-12 text-center"
                             >
                                 <i
                                     class="pi pi-inbox mb-2 text-2xl text-slate-300"
                                 ></i>
-                                <p
-                                    class="text-[13px] font-bold text-slate-400"
-                                >
+                                <p class="text-[13px] font-bold text-slate-400">
                                     Belum ada siswa yang menjawab soal ini.
                                 </p>
                             </div>
 
                             <!-- Answer List -->
-                            <div
-                                v-else
-                                class="divide-y divide-slate-100"
-                            >
+                            <div v-else class="divide-y divide-slate-100">
                                 <div
-                                    v-for="(answer, aIdx) in getAnswersForContent(content.id)"
+                                    v-for="(
+                                        answer, aIdx
+                                    ) in getAnswersForContent(content.id)"
                                     :key="answer.id"
-                                    class="flex gap-4 px-4 py-3 md:px-6 md:py-4 transition-colors hover:bg-slate-50/50"
+                                    class="flex gap-4 px-4 py-3 transition-colors hover:bg-slate-50/50 md:px-6 md:py-4"
                                 >
                                     <!-- Student Avatar -->
-                                    <div class="flex shrink-0 flex-col items-center gap-1 pt-0.5">
+                                    <div
+                                        class="flex shrink-0 flex-col items-center gap-1 pt-0.5"
+                                    >
                                         <div
                                             class="flex h-9 w-9 items-center justify-center rounded-full border border-indigo-100 bg-indigo-50 text-[11px] font-black text-indigo-600 uppercase"
                                         >
                                             {{
                                                 getInitials(
-                                                    answer.user?.name ||
-                                                        'X',
+                                                    answer.user?.name || 'X',
                                                 )
                                             }}
                                         </div>
-                                        <span class="text-[9px] font-bold text-slate-400">
+                                        <span
+                                            class="text-[9px] font-bold text-slate-400"
+                                        >
                                             #{{ aIdx + 1 }}
                                         </span>
                                     </div>
@@ -436,14 +424,14 @@ return '-';
                                             >
                                             <span
                                                 class="text-[10px] text-slate-400"
-                                                >{{
-                                                    answer.user?.email
-                                                }}</span
+                                                >{{ answer.user?.email }}</span
                                             >
                                             <span
                                                 class="ml-auto text-[10px] font-bold text-slate-400"
                                             >
-                                                <i class="pi pi-clock mr-0.5 text-[8px]"></i>
+                                                <i
+                                                    class="pi pi-clock mr-0.5 text-[8px]"
+                                                ></i>
                                                 {{
                                                     formatDate(
                                                         answer.created_at,
@@ -480,24 +468,21 @@ return '-';
                                                     target="_blank"
                                                     class="inline-flex items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-[12px] font-bold text-indigo-600 transition-colors hover:bg-indigo-100"
                                                 >
-                                                    <i
-                                                        class="pi pi-file"
-                                                    ></i>
+                                                    <i class="pi pi-file"></i>
                                                     Lihat File
                                                 </a>
                                             </div>
-                                            <!-- Text Answer -->
-                                            <p
+                                            <!-- Text Answer (Diperbaiki di sini) -->
+                                            <div
                                                 v-else
-                                                class="whitespace-pre-wrap text-[13px] leading-relaxed text-slate-700"
-                                            >
-                                                {{
+                                                class="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed text-slate-700"
+                                                v-html="
                                                     formatAnswer(
                                                         answer.answer_data,
                                                         content.type,
                                                     )
-                                                }}
-                                            </p>
+                                                "
+                                            ></div>
                                         </div>
 
                                         <!-- AI Feedback -->

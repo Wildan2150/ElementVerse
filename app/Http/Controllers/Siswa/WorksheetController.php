@@ -20,12 +20,20 @@ class WorksheetController extends Controller
      */
     public function show(Request $request, Classroom $classroom, Topic $topic, TopicPhase $phase)
     {
+        // 1. Siswa harus terdaftar di kelas ini
         if (!$request->user()->joinedClasses()->where('class_id', $classroom->id)->exists()) {
             abort(403, 'Akses ditolak. Anda tidak terdaftar di kelas ini.');
         }
 
-        if (!$topic->is_published) {
+        // 2. Topic harus terdaftar di kelas ini dan sudah dipublish
+        $topicAccess = $classroom->topics()->where('topic_id', $topic->id)->first();
+        if (!$topicAccess || !$topicAccess->pivot->is_published) {
             abort(403, 'Materi ini masih berstatus DRAFT dan belum dipublikasikan oleh Guru.');
+        }
+
+        // 3. Phase harus milik topic yang diminta (cegah akses phase dari topic lain)
+        if ($phase->topic_id !== $topic->id) {
+            abort(403, 'Akses ditolak. Fase ini bukan bagian dari materi yang diminta.');
         }
 
         $phase->load(['contents' => function($query) {
@@ -53,6 +61,15 @@ class WorksheetController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
+        // Tentukan apakah fase terkunci untuk siswa ini
+        $classroomMember = $request->user()->joinedClasses()->where('class_id', $classroom->id)->first();
+        $isEvaluationFinished = $classroomMember?->pivot?->is_evaluation_finished ?? false;
+
+        $isLocked = $isEvaluationFinished || StudentAnswer::where('user_id', $request->user()->id)
+            ->where('phase_id', $phase->id)
+            ->where('is_locked', true)
+            ->exists();
+
         return Inertia::render('Siswa/Worksheet/Show', [
             'classroom' => $classroom,
             'topic' => $topic,
@@ -60,6 +77,7 @@ class WorksheetController extends Controller
             'studentAnswers' => (object) $studentAnswers,
             'aiFeedbacks' => (object) $aiFeedbacks,
             'discussions' => $discussions,
+            'isLocked' => $isLocked,
         ]);
     }
 
@@ -76,20 +94,35 @@ class WorksheetController extends Controller
 
         $userId = $request->user()->id;
 
-        // Validasi Keamanan: Pastikan siswa terdaftar di kelas yang memiliki akses ke topik fase ini
+        // 1. Pastikan phase punya topic
         $topic = $phase->topic;
         if (!$topic) {
             abort(404, 'Topik tidak ditemukan.');
         }
 
-        $hasAccess = DB::table('class_members')
+        // 2. Pastikan siswa terdaftar di minimal satu kelas yang punya akses ke topic ini
+        //    dan topic tersebut sudah dipublish di kelas itu
+        $classroomMember = DB::table('class_members')
             ->join('class_topic_accesses', 'class_topic_accesses.class_id', '=', 'class_members.class_id')
             ->where('class_members.user_id', $userId)
             ->where('class_topic_accesses.topic_id', $topic->id)
+            ->where('class_topic_accesses.is_published', true)
+            ->select('class_members.class_id', 'class_members.is_evaluation_finished')
+            ->first();
+
+        if (!$classroomMember) {
+            abort(403, 'Akses ditolak. Anda tidak memiliki akses ke materi ini.');
+        }
+
+        // 3. Cek penguncian fase
+        $isEvaluationFinished = $classroomMember->is_evaluation_finished ?? false;
+        $isLocked = $isEvaluationFinished || StudentAnswer::where('user_id', $userId)
+            ->where('phase_id', $phase->id)
+            ->where('is_locked', true)
             ->exists();
 
-        if (!$hasAccess) {
-            abort(403, 'Akses ditolak. Anda tidak terdaftar di kelas yang memiliki akses ke materi ini.');
+        if ($isLocked) {
+            abort(403, 'Fase ini sudah diselesaikan. Jawaban tidak dapat diubah.');
         }
 
         $answerData = null;
@@ -120,5 +153,61 @@ class WorksheetController extends Controller
         }
 
         return back()->with('success', 'Jawaban berhasil disimpan!');
+    }
+
+    /**
+     * Mengunci seluruh jawaban siswa pada fase ini
+     */
+    public function completePhase(Request $request, Classroom $classroom, TopicPhase $phase)
+    {
+        $userId = $request->user()->id;
+
+        // 1. Siswa harus terdaftar di kelas ini
+        if (!$request->user()->joinedClasses()->where('class_id', $classroom->id)->exists()) {
+            abort(403, 'Akses ditolak. Anda tidak terdaftar di kelas ini.');
+        }
+
+        // 2. Phase harus milik topic yang terdaftar dan sudah dipublish di kelas ini
+        $topic = $phase->topic;
+        $topicBelongsToClass = $classroom->topics()
+            ->where('topic_id', $topic?->id)
+            ->wherePivot('is_published', true)
+            ->exists();
+
+        if (!$topic || !$topicBelongsToClass) {
+            abort(403, 'Akses ditolak. Fase ini bukan bagian dari kelas ini.');
+        }
+
+        // Ambil semua konten bertipe evaluasi/input soal di fase ini
+        $contents = $phase->contents()
+            ->whereIn('type', ['eval_mcq', 'eval_cmcq', 'eval_short', 'eval_essay', 'eval_file', 'input_text'])
+            ->get();
+
+        foreach ($contents as $content) {
+            StudentAnswer::updateOrCreate(
+                ['user_id' => $userId, 'content_id' => $content->id],
+                [
+                    'phase_id' => $phase->id,
+                    'is_locked' => true,
+                ]
+            );
+        }
+
+        // Jika tidak ada soal sama sekali, lock dengan konten apa saja yang ada agar status isLocked terbaca true
+        if ($contents->isEmpty()) {
+            $anyContent = $phase->contents()->first();
+            if ($anyContent) {
+                StudentAnswer::updateOrCreate(
+                    ['user_id' => $userId, 'content_id' => $anyContent->id],
+                    [
+                        'phase_id' => $phase->id,
+                        'is_locked' => true,
+                    ]
+                );
+            }
+        }
+
+        return redirect()->route('siswa.classes.show', $classroom->id)
+            ->with('success', 'Fase berhasil diselesaikan!');
     }
 }

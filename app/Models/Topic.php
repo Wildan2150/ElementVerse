@@ -13,11 +13,6 @@ class Topic extends Model
     protected $fillable = [
         'title',
         'description',
-        'is_published',
-    ];
-
-    protected $casts = [
-        'is_published' => 'boolean',
     ];
 
     // RELASI BARU: Satu topik memiliki banyak fase (Urut berdasarkan kolom 'order')

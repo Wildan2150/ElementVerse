@@ -47,7 +47,7 @@ class Classroom extends Model
     public function topics(): BelongsToMany
     {
         return $this->belongsToMany(Topic::class, 'class_topic_accesses', 'class_id', 'topic_id')
-                    ->withPivot('is_open') // Membawa data is_open dari pivot agar bisa dibaca di Vue
+                    ->withPivot('is_open', 'is_published')
                     ->withTimestamps();
     }
 }

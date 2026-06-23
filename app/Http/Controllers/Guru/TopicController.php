@@ -42,13 +42,19 @@ class TopicController extends Controller
     {
         if ($classroom->teacher_id !== $request->user()->id) { abort(403, 'Akses ditolak.'); }
 
-        $topic->load(['phases' => function($query) {
-            $query->orderBy('order', 'asc');
-        }]);
+        // Ambil topic beserta pivot (is_published, is_open) dari relasi classroom
+        $topicWithPivot = $classroom->topics()
+            ->where('topic_id', $topic->id)
+            ->with(['phases' => function($query) {
+                $query->orderBy('order', 'asc');
+            }])
+            ->first();
+
+        abort_unless($topicWithPivot, 404);
 
         return inertia('Guru/Topics/Show', [
             'classroom' => $classroom,
-            'topic' => $topic
+            'topic' => $topicWithPivot,
         ]);
     }
 
@@ -64,7 +70,7 @@ class TopicController extends Controller
     {
         if ($classroom->teacher_id !== $request->user()->id) { abort(403, 'Akses ditolak.'); }
 
-        $this->topicService->togglePublish($topic);
+        $this->topicService->togglePublish($classroom, $topic);
         return back()->with('success', 'Status rilis materi berhasil diubah!');
     }
 }

@@ -27,8 +27,7 @@ const props = defineProps<{
             id: number;
             title: string;
             description: string | null;
-            is_published?: boolean;
-            pivot?: { is_open: boolean }; // Fallback jika menggunakan Pivot Tabel
+            pivot?: { is_open: boolean; is_published: boolean };
         }>;
         // Data Siswa (Peserta Kelas)
         students?: Array<{
@@ -469,12 +468,7 @@ const saveScores = (studentId: number) => {
                                     >
                                         {{ topic.title }}
                                         <span
-                                            v-if="
-                                                !(
-                                                    topic.is_published ??
-                                                    topic.pivot?.is_open
-                                                )
-                                            "
+                                            v-if="!topic.pivot?.is_published"
                                             class="ml-2 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 align-middle text-[10px] font-bold text-amber-600"
                                         >
                                             DRAFT

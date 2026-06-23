@@ -17,7 +17,7 @@ const props = defineProps<{
         id: number;
         title: string;
         description: string | null;
-        is_published: boolean;
+        pivot: { is_published: boolean; is_open: boolean };
         phases: Array<{
             id: number;
             name: string;
@@ -32,10 +32,10 @@ const props = defineProps<{
 // 1. LOGIKA PUBLISH / UNPUBLISH (Optimistic)
 // ==========================================
 const isToggling = ref(false);
-const localIsPublished = ref(!!props.topic.is_published);
+const localIsPublished = ref(!!props.topic.pivot?.is_published);
 
 watch(
-    () => props.topic.is_published,
+    () => props.topic.pivot?.is_published,
     (newVal) => {
         localIsPublished.value = !!newVal;
     },
@@ -213,15 +213,33 @@ const updatePhase = (phase: any) => {
     );
 };
 
+const isDeletePhaseModalOpen = ref(false);
+const phaseIdToDelete = ref<number | null>(null);
+
 const deletePhase = (id: number) => {
-    if (
-        confirm(
-            'Hapus fase ini? Seluruh isi materi dan pertanyaan di dalamnya akan ikut terhapus permanen.',
-        )
-    ) {
-        router.delete(route('guru.phases.destroy', { phase: id }), {
+    phaseIdToDelete.value = id;
+    isDeletePhaseModalOpen.value = true;
+};
+
+const closeDeletePhaseModal = () => {
+    isDeletePhaseModalOpen.value = false;
+    phaseIdToDelete.value = null;
+};
+
+const executeDeletePhase = () => {
+    if (phaseIdToDelete.value) {
+        router.delete(route('guru.phases.destroy', { phase: phaseIdToDelete.value }), {
             preserveScroll: true,
-            onSuccess: () => toast.success('Fase Dihapus'),
+            onSuccess: () => {
+                closeDeletePhaseModal();
+                toast.success('Fase Dihapus');
+            },
+            onError: () => {
+                closeDeletePhaseModal();
+                toast.error('Gagal Menghapus', {
+                    description: 'Terjadi kesalahan saat menghapus fase.',
+                });
+            }
         });
     }
 };
@@ -269,17 +287,27 @@ const deletePhase = (id: number) => {
                                 >
                                     {{ topic.title }}
                                 </h1>
+                                <!-- Badge: 3 state — loading, draft, published -->
                                 <span
-                                    v-if="!localIsPublished"
-                                    class="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-bold text-amber-600"
+                                    v-if="isToggling"
+                                    class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-400"
                                 >
-                                    DRAFT
+                                    <span class="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-slate-400"></span>
+                                    Menyimpan...
+                                </span>
+                                <span
+                                    v-else-if="!localIsPublished"
+                                    class="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-medium text-amber-700"
+                                >
+                                    <span class="inline-block h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+                                    Draft
                                 </span>
                                 <span
                                     v-else
-                                    class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600"
+                                    class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700"
                                 >
-                                    PUBLISHED
+                                    <span class="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                    Published
                                 </span>
                             </div>
                             <div
@@ -300,22 +328,33 @@ const deletePhase = (id: number) => {
                         class="flex flex-col gap-3 sm:flex-row sm:items-center"
                     >
                         <div
-                            class="flex items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-4 py-2 sm:justify-start"
+                            class="flex items-center justify-between gap-3 rounded-lg border px-4 py-2.5 transition-colors sm:justify-start"
+                            :class="isToggling
+                                ? 'border-slate-100 bg-slate-50 opacity-70 cursor-not-allowed'
+                                : localIsPublished
+                                    ? 'border-emerald-200 bg-emerald-50 cursor-pointer'
+                                    : 'border-slate-100 bg-slate-50 cursor-pointer'"
                         >
-                            <span class="text-[12px] font-bold text-slate-600"
-                                >Publikasi Siswa</span
-                            >
-                            <div
-                                class="cursor-pointer"
-                                @click.prevent="togglePublish"
-                            >
-                                <Switch
-                                    :checked="localIsPublished"
-                                    :disabled="isToggling"
-                                    class="pointer-events-none"
-                                    :class="localIsPublished ? '!bg-emerald-500' : '!bg-slate-300'"
-                                />
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[12px] font-medium"
+                                    :class="localIsPublished ? 'text-emerald-700' : 'text-slate-600'"
+                                >Publikasi ke siswa</span>
+                                <span class="text-[11px]"
+                                    :class="isToggling
+                                        ? 'text-slate-400'
+                                        : localIsPublished
+                                            ? 'text-emerald-600'
+                                            : 'text-slate-400'"
+                                >
+                                    {{ isToggling ? 'Menyimpan perubahan...' : localIsPublished ? 'Materi sudah terlihat oleh siswa' : 'Materi belum terlihat oleh siswa' }}
+                                </span>
                             </div>
+                            <Switch
+                                :checked="localIsPublished"
+                                :disabled="isToggling"
+                                :class="isToggling ? '!bg-slate-200' : localIsPublished ? '!bg-emerald-500' : '!bg-slate-300'"
+                                @click.prevent="togglePublish"
+                            />
                         </div>
 
                         <div class="flex items-center gap-2">
@@ -678,6 +717,54 @@ const deletePhase = (id: number) => {
                             class="pi pi-spinner pi-spin mr-2"
                         ></i>
                         <span v-else>Ya, Hapus Topik</span>
+                    </Button>
+                </div>
+            </div>
+        </div>
+    </Teleport>
+
+    <Teleport to="body">
+        <div
+            v-if="isDeletePhaseModalOpen"
+            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 dark:bg-black/60 px-4 backdrop-blur-[6px] transition-all"
+        >
+            <div
+                class="w-full max-w-[400px] animate-in overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-100/80 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] p-6 text-center duration-200 zoom-in-95 fade-in"
+            >
+                <div
+                    class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/30 text-amber-600 dark:text-amber-400 shadow-inner"
+                >
+                    <i
+                        class="pi pi-exclamation-triangle text-2xl"
+                    ></i>
+                </div>
+                <h3
+                    class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100"
+                >
+                    Hapus Fase Ini?
+                </h3>
+                <p
+                    class="mt-2 text-[14px] leading-relaxed font-medium text-slate-500 dark:text-slate-400"
+                >
+                    Hapus fase ini? Seluruh isi materi dan pertanyaan di dalamnya akan ikut terhapus permanen.
+                </p>
+                <div
+                    class="mt-8 flex flex-col-reverse justify-center gap-3 sm:flex-row"
+                >
+                    <Button
+                        type="button"
+                        variant="outline"
+                        @click="closeDeletePhaseModal"
+                        class="h-11 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 px-6 font-bold text-slate-600 dark:text-slate-300 text-[13px] w-full sm:w-auto"
+                    >
+                        Batalkan
+                    </Button>
+                    <Button
+                        type="button"
+                        @click="executeDeletePhase"
+                        class="h-11 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 px-6 font-bold text-white shadow-md shadow-rose-100 dark:shadow-none text-[13px] w-full sm:w-auto"
+                    >
+                        Ya, Hapus Fase
                     </Button>
                 </div>
             </div>
