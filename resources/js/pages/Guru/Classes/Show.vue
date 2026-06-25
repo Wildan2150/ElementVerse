@@ -513,7 +513,7 @@ const saveScores = (studentId: number) => {
                     </h2>
                     <Button
                         @click="openTopicModal"
-                        class="h-9 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[12px] font-bold text-[#070814] shadow-[0_0_10px_rgba(210,255,0,0.15)] hover:brightness-110"
+                        class="h-9 text-[12px] font-bold"
                     >
                         <i class="pi pi-plus mr-1.5"></i> Buat Topik Baru
                     </Button>
@@ -539,7 +539,7 @@ const saveScores = (studentId: number) => {
                                 </div>
                                 <div>
                                     <h3
-                                        class="text-slate-105 text-[16px] font-bold transition-colors group-hover:text-[var(--theme-primary)]"
+                                        class="text-[16px] font-bold text-slate-900 transition-colors group-hover:text-[var(--theme-primary)] dark:text-slate-100"
                                     >
                                         {{ topic.title }}
                                         <span
@@ -572,7 +572,7 @@ const saveScores = (studentId: number) => {
                                     "
                                 >
                                     <Button
-                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-5 text-[13px] font-bold text-[#070814] shadow-[0_0_10px_rgba(210,255,0,0.15)] hover:brightness-110"
+                                        class="h-10 px-5 text-[13px] font-bold"
                                     >
                                         Kelola Fase POE
                                         <i
@@ -1102,7 +1102,7 @@ const saveScores = (studentId: number) => {
                                             :disabled="
                                                 scoresForm[siswa.id].loading
                                             "
-                                            class="inline-flex h-9 items-center gap-1.5 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-4 text-[12px] font-bold text-[#070814] hover:brightness-110 disabled:opacity-50"
+                                            class="inline-flex h-9 items-center gap-1.5 rounded-xl px-4 text-[12px] font-bold"
                                         >
                                             <i
                                                 v-if="
@@ -1197,7 +1197,7 @@ const saveScores = (studentId: number) => {
                         <Button
                             type="submit"
                             :disabled="topicForm.processing"
-                            class="h-10 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
+                            class="h-10 rounded-xl px-6 text-[13px] font-bold"
                         >
                             <i
                                 v-if="topicForm.processing"

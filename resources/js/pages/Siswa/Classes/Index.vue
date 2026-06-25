@@ -84,7 +84,7 @@ const submitJoinClass = () => {
                         :disabled="
                             form.processing || form.class_code.length !== 6
                         "
-                        class="h-10 w-full rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110 disabled:opacity-50 sm:w-auto"
+                        class="h-10 w-full rounded-xl px-6 text-[13px] font-bold sm:w-auto"
                     >
                         <span v-if="form.processing"
                             ><i class="pi pi-spin pi-spinner"></i

@@ -538,7 +538,7 @@ const stripHtml = (html: string | null | undefined): string => {
                 >
                     <Button
                         variant="outline"
-                        class="h-10 border-border/40 bg-white/5 px-6 text-[13px] font-bold text-slate-200 hover:bg-white/10 hover:text-white"
+                        class="h-10 px-6 text-[13px] font-bold"
                     >
                         <i class="pi pi-arrow-left mr-2 text-[10px]"></i>
                         Kembali ke Topik

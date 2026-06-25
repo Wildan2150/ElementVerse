@@ -5,13 +5,7 @@ import { onMounted, onUnmounted, computed } from 'vue';
 // --- IMPORT KOMPONEN SHADCN-VUE ---
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import {
     Table,
@@ -147,7 +141,7 @@ onUnmounted(() => {
                                 Total Users
                             </p>
                             <h2
-                                class="dark:text-slate-105 text-3xl font-extrabold text-slate-900"
+                                class="text-3xl font-extrabold text-slate-900 dark:text-slate-100"
                             >
                                 {{ stats.total_users }}
                             </h2>
@@ -187,7 +181,7 @@ onUnmounted(() => {
                                 Total Kelas
                             </p>
                             <h2
-                                class="dark:text-slate-105 text-3xl font-extrabold text-slate-900"
+                                class="text-3xl font-extrabold text-slate-900 dark:text-slate-100"
                             >
                                 {{ stats.total_kelas }}
                             </h2>
@@ -527,7 +521,7 @@ onUnmounted(() => {
             >
                 <CardHeader class="border-b border-transparent pb-4">
                     <CardTitle
-                        class="dark:text-slate-105 text-[17px] font-bold text-slate-800"
+                        class="text-[17px] font-bold text-slate-800 dark:text-slate-100"
                         >Class Monitoring (POE Progress)</CardTitle
                     >
                 </CardHeader>

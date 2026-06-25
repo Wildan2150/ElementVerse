@@ -675,8 +675,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 <div class="mt-3 flex justify-end">
                                     <Button
                                         @click="saveContent(content)"
-                                        size="sm"
-                                        class="border border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                                        class="h-10 font-bold"
                                         >Simpan Teks</Button
                                     >
                                 </div>
@@ -842,8 +841,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 <div class="flex justify-end">
                                     <Button
                                         @click="saveContent(content)"
-                                        size="sm"
-                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
+                                        class="h-10 font-bold"
                                         >Simpan Pertanyaan</Button
                                     >
                                 </div>
@@ -868,8 +866,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 <div class="flex justify-end">
                                     <Button
                                         @click="saveContent(content)"
-                                        size="sm"
-                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
+                                        class="h-10 font-bold"
                                         >Simpan Evaluasi</Button
                                     >
                                 </div>
@@ -905,8 +902,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 <div class="flex justify-end">
                                     <Button
                                         @click="saveContent(content)"
-                                        size="sm"
-                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
+                                        class="h-10 font-bold"
                                         >Simpan Instruksi</Button
                                     >
                                 </div>
@@ -1108,8 +1104,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 <div class="flex justify-end">
                                     <Button
                                         @click="saveContent(content)"
-                                        size="sm"
-                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
+                                        class="h-10 font-bold"
                                         >Simpan Forum Diskusi</Button
                                     >
                                 </div>
@@ -1146,17 +1141,11 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                     Tambah Komponen Baru ke Fase Ini
                 </h3>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <Button
-                        @click="addContent('text')"
-                        variant="outline"
-                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                    <Button @click="addContent('text')" variant="outline"
                         ><i class="pi pi-align-left mr-2 text-slate-400"></i>
                         Teks Materi</Button
                     >
-                    <Button
-                        @click="addContent('h5p')"
-                        variant="outline"
-                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                    <Button @click="addContent('h5p')" variant="outline"
                         ><i class="pi pi-video mr-2 text-indigo-400"></i> Media
                         H5P</Button
                     >
@@ -1165,33 +1154,21 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                         class="mx-1 hidden h-8 w-px bg-white/10 lg:block"
                     ></div>
 
-                    <Button
-                        @click="addContent('eval_mcq')"
-                        variant="outline"
-                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                    <Button @click="addContent('eval_mcq')" variant="outline"
                         ><i
                             class="pi pi-check-circle text-emerald-450 mr-2"
                         ></i>
                         Pilihan Ganda</Button
                     >
-                    <Button
-                        @click="addContent('eval_cmcq')"
-                        variant="outline"
-                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                    <Button @click="addContent('eval_cmcq')" variant="outline"
                         ><i class="pi pi-list text-emerald-455 mr-2"></i>
                         Pilihan Kompleks</Button
                     >
-                    <Button
-                        @click="addContent('eval_short')"
-                        variant="outline"
-                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                    <Button @click="addContent('eval_short')" variant="outline"
                         ><i class="pi pi-minus mr-2 text-amber-400"></i> Jawaban
                         Singkat</Button
                     >
-                    <Button
-                        @click="addContent('eval_essay')"
-                        variant="outline"
-                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                    <Button @click="addContent('eval_essay')" variant="outline"
                         ><i class="pi pi-align-justify mr-2 text-amber-400"></i>
                         Esai Panjang</Button
                     >

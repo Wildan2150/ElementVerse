@@ -56,7 +56,7 @@ defineProps<{
 
             <div class="my-6 flex items-center justify-start">
                 <Button
-                    class="h-11 w-full rounded-xl bg-blue-600 font-bold text-white transition-all hover:bg-blue-700"
+                    class="w-full rounded-lg py-6 text-[15px] font-bold shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all duration-200 active:scale-[0.97] active:brightness-95'"
                     :disabled="processing"
                     data-test="email-password-reset-link-button"
                 >

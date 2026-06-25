@@ -3,7 +3,6 @@ import { Head, useForm, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { toast } from 'vue-sonner';
 import RichTextEditor from '@/components/RichTextEditor.vue';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -269,7 +268,7 @@ const stats = computed(
                             <div class="mb-4 flex items-start justify-between">
                                 <div class="pr-2">
                                     <h4
-                                        class="dark:text-slate-105 line-clamp-1 text-[16px] font-bold text-slate-900 transition-colors group-hover:text-[var(--theme-primary)]"
+                                        class="line-clamp-1 text-[16px] font-bold text-slate-900 transition-colors group-hover:text-[var(--theme-primary)] dark:text-slate-100"
                                         :title="cls.class_name"
                                     >
                                         {{ cls.class_name }}
@@ -297,7 +296,7 @@ const stats = computed(
                             </div>
 
                             <p
-                                class="text-slate-650 mb-5 line-clamp-2 flex-1 text-[13px]"
+                                class="mb-5 line-clamp-2 flex-1 text-[13px] text-slate-600 dark:text-slate-300"
                             >
                                 {{
                                     stripHtml(cls.description) ||
@@ -310,13 +309,13 @@ const stats = computed(
                             >
                                 <div class="flex -space-x-2 overflow-hidden">
                                     <div
-                                        class="bg-slate-250 inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900"
+                                        class="inline-block h-6 w-6 rounded-full bg-slate-200 ring-2 ring-white dark:bg-slate-700 dark:ring-slate-900"
                                     ></div>
                                     <div
-                                        class="bg-slate-350 inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900"
+                                        class="inline-block h-6 w-6 rounded-full bg-slate-300 ring-2 ring-white dark:bg-slate-600 dark:ring-slate-900"
                                     ></div>
                                     <div
-                                        class="bg-slate-450 inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900"
+                                        class="inline-block h-6 w-6 rounded-full bg-slate-400 ring-2 ring-white dark:bg-slate-500 dark:ring-slate-900"
                                     ></div>
                                 </div>
 
@@ -359,6 +358,7 @@ const stats = computed(
                 </div>
 
                 <div
+                    v-else
                     class="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/40 bg-card/60 py-20 text-slate-400 backdrop-blur-md"
                 >
                     <div
@@ -438,7 +438,7 @@ const stats = computed(
                             <Button
                                 type="submit"
                                 :disabled="form.processing"
-                                class="mt-2 h-10 w-full rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
+                                class="mt-2 h-10 w-full rounded-xl text-[13px] font-bold"
                             >
                                 <i
                                     v-if="!form.processing"

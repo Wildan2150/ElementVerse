@@ -2,6 +2,7 @@
 import { Form, Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
@@ -59,16 +60,18 @@ const togglePassword = () => {
                 class="border border-white/5 bg-white/[0.02] px-6 py-8 shadow-2xl backdrop-blur-md sm:rounded-xl sm:px-10"
             >
                 <div class="mb-7 text-center">
+                    <div class="mb-4 flex justify-center">
+                        <img
+                            src="/assets/images/logo_elementverse.png"
+                            alt="ElementVerse Logo"
+                            class="h-10 w-auto object-contain select-none"
+                        />
+                    </div>
                     <h1
                         class="mb-1 text-[28px] font-bold tracking-tight text-white"
                     >
                         Login
                     </h1>
-                    <div
-                        class="mb-3 bg-gradient-to-r from-[#d2ff00] to-[#00ffff] bg-clip-text text-[11.5px] font-black tracking-[0.25em] text-transparent uppercase select-none"
-                    >
-                        ElementVerse
-                    </div>
                     <p class="text-[14px] font-medium text-slate-400">
                         Sign in to your account
                     </p>
@@ -193,29 +196,34 @@ const togglePassword = () => {
                     </div>
 
                     <div>
-                        <button
+                        <Button
                             type="submit"
                             :disabled="processing"
-                            class="flex w-full justify-center rounded-lg border border-transparent bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-4 py-2.5 text-[15px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.3)] transition-all hover:brightness-110 focus:ring-2 focus:ring-[#d2ff00] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                            :class="[
+                                'w-full rounded-lg py-6 text-[15px] font-bold shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all duration-200 active:scale-[0.97] active:brightness-95',
+                                processing
+                                    ? 'pointer-events-none opacity-80'
+                                    : '',
+                            ]"
                         >
                             <Spinner
                                 v-if="processing"
                                 class="mr-2 h-5 w-5 text-[#070814]"
                             />
                             Login
-                        </button>
+                        </Button>
                     </div>
                 </Form>
 
                 <div class="mt-8 text-center text-[14px]">
                     <span class="font-medium text-slate-400"
-                        >Not registered yet?
+                        >Not registered yet? 
                     </span>
                     <Link
                         :href="route('register')"
                         class="font-semibold text-[#00ffff] transition-colors hover:text-[#d2ff00]"
                     >
-                        Create an account ↗
+                        Create an account
                     </Link>
                 </div>
             </div>

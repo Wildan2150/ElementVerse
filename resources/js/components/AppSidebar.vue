@@ -157,24 +157,12 @@ const menuItems = computed(() => {
                 class="absolute -top-8 -right-8 h-32 w-32 rounded-full bg-[#00ffff]/10 blur-3xl"
             ></div>
 
-            <div class="relative flex items-center gap-4">
-                <div
-                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#d2ff00] to-[#00ffff] text-[#08091a] shadow-[0_0_20px_rgba(210,255,0,0.35)] ring-1 ring-white/10 transition-transform duration-300 hover:scale-105"
-                >
-                    <i class="pi pi-bolt text-2xl"></i>
-                </div>
-                <div class="flex flex-col overflow-hidden">
-                    <span
-                        class="truncate text-lg font-extrabold tracking-widest text-white uppercase"
-                    >
-                        ElementVerse
-                    </span>
-                    <span
-                        class="truncate text-[11px] font-semibold tracking-wider text-[#00ffff]/80 uppercase"
-                    >
-                        Interactive Chemistry
-                    </span>
-                </div>
+            <div class="relative flex items-center">
+                <img
+                    src="/assets/images/logo_elementverse.png"
+                    alt="ElementVerse Logo"
+                    class="h-10 w-auto object-contain select-none"
+                />
             </div>
         </SidebarHeader>
 

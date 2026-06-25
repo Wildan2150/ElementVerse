@@ -406,7 +406,7 @@ const executeDeletePhase = () => {
                             <Button
                                 @click="openEditModal"
                                 variant="outline"
-                                class="h-10 border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                                class="h-10"
                             >
                                 <i class="pi pi-pencil mr-2"></i> Edit
                             </Button>
@@ -432,10 +432,7 @@ const executeDeletePhase = () => {
                         Observe, dan Explain.
                     </p>
                 </div>
-                <Button
-                    @click="openCreatePhaseModal"
-                    class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
-                >
+                <Button @click="openCreatePhaseModal" class="h-10 font-bold">
                     <i class="pi pi-plus mr-2"></i> Tambah Fase Baru
                 </Button>
             </div>
@@ -526,9 +523,7 @@ const executeDeletePhase = () => {
                                     })
                                 "
                             >
-                                <Button
-                                    class="h-10 border border-border/40 bg-white/5 px-5 text-slate-200 shadow-sm hover:bg-white/10 hover:text-white"
-                                >
+                                <Button variant="outline" class="h-10 px-5">
                                     Kelola Isi Konten
                                     <i
                                         class="pi pi-arrow-right ml-2 text-[10px]"
@@ -574,7 +569,7 @@ const executeDeletePhase = () => {
                 </p>
                 <Button
                     @click="openCreatePhaseModal"
-                    class="h-11 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
+                    class="h-11 px-6 text-[13px] font-bold"
                 >
                     <i class="pi pi-plus mr-2"></i> Buat Fase Pertama
                 </Button>
@@ -638,7 +633,7 @@ const executeDeletePhase = () => {
                         <Button
                             type="submit"
                             :disabled="createPhaseForm.processing"
-                            class="h-10 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
+                            class="h-10 rounded-xl px-6 text-[13px] font-bold"
                         >
                             <i
                                 v-if="createPhaseForm.processing"
@@ -717,7 +712,7 @@ const executeDeletePhase = () => {
                         <Button
                             type="submit"
                             :disabled="editForm.processing"
-                            class="h-10 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
+                            class="h-10 rounded-xl px-6 text-[13px] font-bold"
                         >
                             <i
                                 v-if="editForm.processing"

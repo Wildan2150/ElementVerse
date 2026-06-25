@@ -365,7 +365,7 @@ onUnmounted(() => {
                         />
                         <button
                             type="submit"
-                            class="absolute top-1/2 right-2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[#070814] shadow-md transition-all duration-300 hover:brightness-110 active:scale-90 disabled:cursor-not-allowed disabled:opacity-50"
+                            class="absolute top-1/2 right-2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[#070814] shadow-md transition-all duration-200 hover:shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
                             :disabled="!newMessage.trim() || isTyping"
                         >
                             <Send
@@ -394,7 +394,7 @@ onUnmounted(() => {
 
             <button
                 @click="toggleChat"
-                class="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-[#d2ff00] to-[#00ffff] text-[#070814] shadow-[0_8px_20px_rgba(0,255,255,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,255,255,0.4)] active:scale-95"
+                class="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-[#d2ff00] to-[#00ffff] text-[#070814] shadow-[0_8px_20px_rgba(0,255,255,0.25)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,255,255,0.4)] focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95"
             >
                 <X
                     v-show="isOpen"

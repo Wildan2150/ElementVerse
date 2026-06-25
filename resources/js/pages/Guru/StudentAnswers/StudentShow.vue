@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { toast } from 'vue-sonner';
 import { Button } from '@/components/ui/button';
@@ -274,7 +274,7 @@ const isImage = (url: string | null) => {
                             v-if="!isEvaluationFinished"
                             @click="finishEvaluation"
                             :disabled="progressPercent < 100"
-                            class="rounded-xl bg-indigo-600 px-4 py-2.5 font-bold text-white transition-all hover:bg-indigo-700 disabled:border disabled:border-white/10 disabled:bg-white/5 disabled:text-slate-500"
+                            class="rounded-xl font-bold"
                         >
                             <i class="pi pi-lock mr-2 text-[12px]"></i> Selesai
                             Evaluasi
@@ -283,7 +283,8 @@ const isImage = (url: string | null) => {
                         <Button
                             v-else
                             @click="editEvaluation"
-                            class="text-rose-455 hover:text-rose-350 rounded-xl border border-rose-500/25 bg-white/5 px-4 py-2.5 font-bold transition-all hover:bg-rose-500/10"
+                            variant="outline"
+                            class="rounded-xl font-bold"
                         >
                             <i class="pi pi-unlock mr-2 text-[12px]"></i> Edit
                             Evaluasi
@@ -293,14 +294,10 @@ const isImage = (url: string | null) => {
                         <Button
                             @click="sendEvaluation"
                             :disabled="!isEvaluationFinished"
-                            class="rounded-xl border-none px-4 py-2.5 font-bold shadow-sm transition-all"
-                            :class="[
-                                !isEvaluationFinished
-                                    ? 'cursor-not-allowed border border-white/10 bg-white/5 text-slate-500 opacity-70'
-                                    : isEvaluationSent
-                                      ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                                      : 'bg-indigo-600 text-white hover:bg-indigo-700',
-                            ]"
+                            :variant="
+                                !isEvaluationFinished ? 'outline' : 'default'
+                            "
+                            class="rounded-xl font-bold"
                         >
                             <i
                                 :class="[
@@ -316,7 +313,8 @@ const isImage = (url: string | null) => {
                         </Button>
 
                         <!-- Tombol Cetak Evaluasi (PDF) -->
-                        <a
+                        <Button
+                            as="a"
                             :href="
                                 route('guru.classes.students.print', {
                                     classroom: classroom.id,
@@ -324,13 +322,12 @@ const isImage = (url: string | null) => {
                                 })
                             "
                             target="_blank"
-                            class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 font-bold text-slate-200 shadow-sm transition-all hover:bg-white/10 hover:text-white"
+                            variant="outline"
+                            class="rounded-xl font-bold"
                         >
-                            <i
-                                class="pi pi-print mr-2 text-[12px] text-slate-400"
-                            ></i>
+                            <i class="pi pi-print mr-2 text-[12px]"></i>
                             Cetak Evaluasi (PDF)
-                        </a>
+                        </Button>
                     </div>
 
                     <div
@@ -401,10 +398,10 @@ const isImage = (url: string | null) => {
                     :key="topic.id"
                     @click="activeTopicId = topic.id"
                     :class="[
-                        'rounded-full px-5 py-2.5 text-[14px] font-bold shadow-sm transition-all',
+                        'rounded-full px-5 py-2.5 text-[14px] font-bold shadow-sm transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97]',
                         activeTopicId === topic.id
-                            ? 'border-transparent bg-indigo-600 text-white ring-2 ring-indigo-600 ring-offset-2'
-                            : 'text-slate-250 border border-white/10 bg-white/5 hover:bg-white/10 hover:text-white',
+                            ? 'bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[#070814] hover:brightness-110'
+                            : 'border border-white/10 bg-white/5 text-slate-200 hover:border-white/30 hover:bg-white/10 hover:text-white',
                     ]"
                 >
                     {{ topic.title }}

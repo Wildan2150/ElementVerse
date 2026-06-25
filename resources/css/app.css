@@ -498,3 +498,51 @@
     margin-top: 0.75rem !important;
     margin-bottom: 0.75rem !important;
 }
+
+/* ==========================================================================
+   GLOBAL DARK SCROLLBAR THEME
+   ========================================================================== */
+
+/* WebKit Browsers (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a !important; /* Dark Slate track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155 !important; /* Slate 700 thumb */
+    border-radius: 9999px !important;
+    border: 2px solid #0f172a !important; /* Visual padding */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569 !important; /* Slate 600 thumb */
+}
+
+::-webkit-scrollbar-corner {
+    background: #0f172a !important;
+}
+
+/* Firefox standard scrollbars */
+html,
+body,
+* {
+    scrollbar-width: thin !important;
+    scrollbar-color: #334155 #0f172a !important;
+}
+
+/* Utility to hide scrollbars (respecting scrollbar-none class) */
+.scrollbar-none {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}

@@ -225,7 +225,7 @@ const executeDelete = () => {
                     <div class="flex-shrink-0">
                         <Button
                             @click="openCreateModal"
-                            class="h-10 w-full border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-4 font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110 sm:w-auto"
+                            class="h-10 w-full px-4 font-bold sm:w-auto"
                         >
                             <i class="pi pi-plus mr-2"></i> Buat Kelas
                         </Button>
@@ -339,7 +339,7 @@ const executeDelete = () => {
                                 class="flex-1"
                             >
                                 <Button
-                                    class="h-9 w-full border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[12px] font-bold text-[#070814] shadow-[0_0_10px_rgba(210,255,0,0.15)] hover:brightness-110"
+                                    class="h-9 w-full text-[12px] font-bold"
                                 >
                                     Kelola Kelas
                                     <i
@@ -407,7 +407,7 @@ const executeDelete = () => {
                 <Button
                     v-if="!searchQuery"
                     @click="openCreateModal"
-                    class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
+                    class="h-10 px-6 font-bold"
                 >
                     <i class="pi pi-plus mr-2"></i> Buat Kelas Baru
                 </Button>
@@ -510,7 +510,7 @@ const executeDelete = () => {
                         <Button
                             type="submit"
                             :disabled="createForm.processing"
-                            class="h-10 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
+                            class="h-10 rounded-xl px-6 text-[13px] font-bold"
                         >
                             <i
                                 v-if="createForm.processing"
@@ -601,7 +601,7 @@ const executeDelete = () => {
                         <Button
                             type="submit"
                             :disabled="editForm.processing"
-                            class="h-10 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
+                            class="h-10 rounded-xl px-6 text-[13px] font-bold"
                         >
                             <i
                                 v-if="editForm.processing"

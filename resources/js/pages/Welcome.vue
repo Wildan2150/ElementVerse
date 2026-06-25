@@ -200,17 +200,12 @@ const features = [
                         @click.prevent="scrollToSection('home')"
                         class="-m-1.5 flex items-center gap-2.5 p-1.5"
                     >
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#d2ff00] to-[#00ffff] text-[#08091a] shadow-[0_0_15px_rgba(210,255,0,0.35)] ring-1 ring-white/10"
-                            >
-                                <i class="pi pi-bolt text-lg"></i>
-                            </div>
-                            <span
-                                class="text-lg font-extrabold tracking-widest text-white uppercase"
-                            >
-                                ElementVerse
-                            </span>
+                        <div class="flex items-center">
+                            <img
+                                src="/assets/images/logo_elementverse.png"
+                                alt="ElementVerse Logo"
+                                class="h-8 w-auto object-contain select-none"
+                            />
                         </div>
                     </Link>
                 </div>
@@ -256,7 +251,7 @@ const features = [
                         </Link>
                         <Link
                             :href="route('register')"
-                            class="rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-5 py-2 text-sm font-extrabold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.3)] shadow-sm transition-all hover:brightness-110"
+                            class="rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-5 py-2 text-sm font-extrabold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95"
                         >
                             Daftar Gratis
                         </Link>
@@ -453,20 +448,20 @@ const features = [
                     <Link
                         v-if="$page.props.auth?.user"
                         :href="route('dashboard')"
-                        class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.35)] transition-all hover:brightness-110 sm:w-auto"
+                        class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.3)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
                     >
                         Lanjutkan Belajar &rarr;
                     </Link>
                     <template v-else>
                         <Link
                             :href="route('register')"
-                            class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.35)] transition-all hover:brightness-110 sm:w-auto"
+                            class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.3)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
                         >
                             Mulai Sekarang &rarr;
                         </Link>
                         <Link
                             :href="route('login')"
-                            class="w-full rounded-full border border-white/10 bg-white/5 px-8 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10 sm:w-auto"
+                            class="w-full rounded-full border border-white/10 bg-white/5 px-8 py-3.5 text-sm font-bold text-slate-200 backdrop-blur-sm transition-all duration-200 hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:bg-white/5 sm:w-auto"
                         >
                             Sudah punya akun? Masuk
                         </Link>
@@ -835,20 +830,20 @@ const features = [
                             <Link
                                 v-if="$page.props.auth?.user"
                                 :href="route('dashboard')"
-                                class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3 text-sm font-extrabold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.3)] transition-all hover:brightness-110 sm:w-auto"
+                                class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3 text-sm font-extrabold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
                             >
                                 Buka Dashboard &rarr;
                             </Link>
                             <template v-else>
                                 <Link
                                     :href="route('register')"
-                                    class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3 text-sm font-extrabold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.3)] transition-all hover:brightness-110 sm:w-auto"
+                                    class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3 text-sm font-extrabold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
                                 >
                                     Daftar Gratis
                                 </Link>
                                 <Link
                                     :href="route('login')"
-                                    class="w-full rounded-full border border-white/10 bg-white/5 px-8 py-3 text-sm font-bold text-white transition-all hover:border-white/20 hover:bg-white/10 sm:w-auto"
+                                    class="w-full rounded-full border border-white/10 bg-white/5 px-8 py-3 text-sm font-bold text-slate-200 transition-all duration-200 hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:bg-white/5 sm:w-auto"
                                 >
                                     Masuk
                                 </Link>
@@ -867,17 +862,12 @@ const features = [
                 class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 sm:flex-row lg:px-12"
             >
                 <div class="flex items-center gap-2.5">
-                    <div class="flex items-center gap-2.5">
-                        <div
-                            class="flex h-7 w-7 items-center justify-center rounded bg-gradient-to-br from-[#d2ff00] to-[#00ffff] text-[#08091a] shadow-[0_0_10px_rgba(210,255,0,0.3)]"
-                        >
-                            <i class="pi pi-bolt text-sm"></i>
-                        </div>
-                        <span
-                            class="text-sm font-extrabold tracking-widest text-white uppercase"
-                        >
-                            ElementVerse
-                        </span>
+                    <div class="flex items-center">
+                        <img
+                            src="/assets/images/logo_elementverse.png"
+                            alt="ElementVerse Logo"
+                            class="h-6 w-auto object-contain select-none"
+                        />
                     </div>
                 </div>
                 <p class="text-center text-xs">
