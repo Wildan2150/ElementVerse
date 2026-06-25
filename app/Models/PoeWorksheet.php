@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class LC5EWorksheet extends Model
+class PoeWorksheet extends Model
 {
     use HasFactory;
+
+    protected $table = 'LC5E_worksheets';
 
     protected $fillable = [
         'user_id',

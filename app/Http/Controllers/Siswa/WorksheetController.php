@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class WorksheetController extends Controller
 {
     /**
-     * Menampilkan Halaman Belajar (Lembar Kerja) Fase LC5E kepada Siswa
+     * Menampilkan Halaman Belajar (Lembar Kerja) Fase POE kepada Siswa
      */
     public function show(Request $request, Classroom $classroom, Topic $topic, TopicPhase $phase)
     {

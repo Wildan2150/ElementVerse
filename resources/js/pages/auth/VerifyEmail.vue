@@ -3,15 +3,21 @@ import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import AuthLayout from '@/layouts/AuthLayout.vue';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
-import AuthLayout from '@/layouts/AuthLayout.vue';
 
 defineOptions({
-    layout: (h, page) => h(AuthLayout, {
-        title: 'Email verification',
-        description: 'Please verify your email address by clicking on the link we just emailed to you.',
-    }, () => page),
+    layout: (h, page) =>
+        h(
+            AuthLayout,
+            {
+                title: 'Email verification',
+                description:
+                    'Please verify your email address by clicking on the link we just emailed to you.',
+            },
+            () => page,
+        ),
 });
 
 defineProps<{

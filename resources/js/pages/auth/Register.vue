@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui/spinner';
 
 defineOptions({
     layout: {
-        title: 'Register - EduChem LC5E System',
+        title: 'Register - ElementVerse',
         description: 'Enter your details below to create your account',
     },
 });
@@ -31,7 +31,6 @@ const togglePasswordConfirmation = () => {
 };
 
 const submit = () => {
-    // URL string langsung seperti yang Anda buat sebelumnya
     form.post('/register', {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
@@ -39,22 +38,40 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Register - EduChem LC5E System" />
+    <Head title="Register - ElementVerse" />
 
     <div
-        class="flex min-h-screen flex-col justify-center bg-[#F0F4FF] py-12 font-sans sm:px-6 lg:px-8"
+        class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-[#070814] py-12 font-sans text-slate-100 sm:px-6 lg:px-8"
     >
-        <div class="sm:mx-auto sm:w-full sm:max-w-[420px]">
+        <!-- Decorative Glow Orbs -->
+        <div class="pointer-events-none absolute inset-0 z-0">
             <div
-                class="border border-gray-100 bg-white px-6 py-8 shadow-sm sm:rounded-xl sm:px-10"
+                class="absolute -top-20 -left-20 h-80 w-80 rounded-full bg-violet-600/10 blur-[120px]"
+            ></div>
+            <div
+                class="absolute right-10 bottom-10 h-80 w-80 rounded-full bg-[#00ffff]/5 blur-[120px]"
+            ></div>
+            <div
+                class="absolute top-[30%] left-[-10%] h-[1px] w-[600px] rotate-[-35deg] bg-gradient-to-r from-transparent via-[#00ffff]/20 to-transparent blur-[1px]"
+            ></div>
+        </div>
+
+        <div class="relative z-10 sm:mx-auto sm:w-full sm:max-w-[420px]">
+            <div
+                class="border border-white/5 bg-white/[0.02] px-6 py-8 shadow-2xl backdrop-blur-md sm:rounded-xl sm:px-10"
             >
                 <div class="mb-7 text-center">
                     <h1
-                        class="mb-2 text-[28px] font-bold tracking-tight text-gray-900"
+                        class="mb-1 text-[28px] font-bold tracking-tight text-white"
                     >
-                        Create an account
+                        Create Account
                     </h1>
-                    <p class="text-[15px] font-medium text-gray-500">
+                    <div
+                        class="mb-3 bg-gradient-to-r from-[#d2ff00] to-[#00ffff] bg-clip-text text-[11.5px] font-black tracking-[0.25em] text-transparent uppercase select-none"
+                    >
+                        ElementVerse
+                    </div>
+                    <p class="text-[14px] font-medium text-slate-400">
                         Enter your details below to get started
                     </p>
                 </div>
@@ -64,7 +81,7 @@ const submit = () => {
                     <div>
                         <label
                             for="name"
-                            class="mb-1.5 block text-[14px] font-medium text-gray-700"
+                            class="mb-1.5 block text-[14px] font-semibold text-slate-300"
                             >Full Name</label
                         >
                         <div class="mt-1">
@@ -75,7 +92,7 @@ const submit = () => {
                                 required
                                 autofocus
                                 v-model="form.name"
-                                class="block w-full appearance-none rounded-lg border border-gray-300 px-4 py-2.5 placeholder-gray-400 shadow-sm transition-colors focus:border-[#4F46E5] focus:ring-[#4F46E5] focus:outline-none sm:text-[14px]"
+                                class="block w-full appearance-none rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-slate-500 shadow-sm transition-colors focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none sm:text-[14px]"
                                 placeholder="E.g. Budi Santoso"
                             />
                         </div>
@@ -86,7 +103,7 @@ const submit = () => {
                     <div>
                         <label
                             for="email"
-                            class="mb-1.5 block text-[14px] font-medium text-gray-700"
+                            class="mb-1.5 block text-[14px] font-semibold text-slate-300"
                             >Email address</label
                         >
                         <div class="mt-1">
@@ -96,7 +113,7 @@ const submit = () => {
                                 autocomplete="email"
                                 required
                                 v-model="form.email"
-                                class="block w-full appearance-none rounded-lg border border-gray-300 px-4 py-2.5 placeholder-gray-400 shadow-sm transition-colors focus:border-[#4F46E5] focus:ring-[#4F46E5] focus:outline-none sm:text-[14px]"
+                                class="block w-full appearance-none rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-slate-500 shadow-sm transition-colors focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none sm:text-[14px]"
                                 placeholder="E.g. budi@siswa.com"
                             />
                         </div>
@@ -107,7 +124,7 @@ const submit = () => {
                     <div>
                         <label
                             for="password"
-                            class="mb-1.5 block text-[14px] font-medium text-gray-700"
+                            class="mb-1.5 block text-[14px] font-semibold text-slate-300"
                             >Password</label
                         >
                         <div class="relative mt-1">
@@ -117,14 +134,14 @@ const submit = () => {
                                 autocomplete="new-password"
                                 required
                                 v-model="form.password"
-                                class="block w-full appearance-none rounded-lg border border-gray-300 py-2.5 pr-10 pl-4 placeholder-gray-400 shadow-sm transition-colors focus:border-[#4F46E5] focus:ring-[#4F46E5] focus:outline-none sm:text-[14px]"
+                                class="block w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-2.5 pr-10 pl-4 text-white placeholder-slate-500 shadow-sm transition-colors focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none sm:text-[14px]"
                                 placeholder="Create a password"
                             />
 
                             <button
                                 type="button"
                                 @click.prevent="togglePassword"
-                                class="absolute inset-y-0 right-0 flex items-center justify-center px-4 text-gray-400 transition-colors hover:text-gray-600 focus:outline-none"
+                                class="absolute inset-y-0 right-0 flex items-center justify-center px-4 text-slate-400 transition-colors hover:text-white focus:outline-none"
                             >
                                 <svg
                                     v-show="!showPassword"
@@ -172,7 +189,7 @@ const submit = () => {
                     <div>
                         <label
                             for="password_confirmation"
-                            class="mb-1.5 block text-[14px] font-medium text-gray-700"
+                            class="mb-1.5 block text-[14px] font-semibold text-slate-300"
                             >Confirm Password</label
                         >
                         <div class="relative mt-1">
@@ -186,14 +203,14 @@ const submit = () => {
                                 autocomplete="new-password"
                                 required
                                 v-model="form.password_confirmation"
-                                class="block w-full appearance-none rounded-lg border border-gray-300 py-2.5 pr-10 pl-4 placeholder-gray-400 shadow-sm transition-colors focus:border-[#4F46E5] focus:ring-[#4F46E5] focus:outline-none sm:text-[14px]"
+                                class="block w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-2.5 pr-10 pl-4 text-white placeholder-slate-500 shadow-sm transition-colors focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none sm:text-[14px]"
                                 placeholder="Confirm your password"
                             />
 
                             <button
                                 type="button"
                                 @click.prevent="togglePasswordConfirmation"
-                                class="absolute inset-y-0 right-0 flex items-center justify-center px-4 text-gray-400 transition-colors hover:text-gray-600 focus:outline-none"
+                                class="absolute inset-y-0 right-0 flex items-center justify-center px-4 text-slate-400 transition-colors hover:text-white focus:outline-none"
                             >
                                 <svg
                                     v-show="!showPasswordConfirmation"
@@ -242,11 +259,11 @@ const submit = () => {
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="flex w-full justify-center rounded-lg border border-transparent bg-[#4F46E5] px-4 py-2.5 text-[15px] font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2 focus:outline-none disabled:opacity-50"
+                            class="flex w-full justify-center rounded-lg border border-transparent bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-4 py-2.5 text-[15px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.3)] transition-all hover:brightness-110 focus:ring-2 focus:ring-[#d2ff00] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             <Spinner
                                 v-if="form.processing"
-                                class="mr-2 h-5 w-5 text-white"
+                                class="mr-2 h-5 w-5 text-[#070814]"
                             />
                             Register
                         </button>
@@ -255,13 +272,12 @@ const submit = () => {
 
                 <!-- Redirect to Login -->
                 <div class="mt-8 text-center text-[14px]">
-                    <span class="font-medium text-gray-500"
+                    <span class="font-medium text-slate-400"
                         >Already have an account?
                     </span>
-                    <!-- Menggunakan string literal '/login' agar aman -->
                     <Link
                         href="/login"
-                        class="font-semibold text-[#4F46E5] transition-colors hover:text-indigo-500"
+                        class="font-semibold text-[#00ffff] transition-colors hover:text-[#d2ff00]"
                     >
                         Log in ↗
                     </Link>

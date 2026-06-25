@@ -6,7 +6,6 @@ import { toast } from 'vue-sonner';
 import FloatingChatbot from '@/components/FloatingChatbot.vue';
 import RichTextEditor from '@/components/RichTextEditor.vue';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 
 const page = usePage();
 const authUser = computed(() => page.props.auth?.user);
@@ -62,7 +61,8 @@ const toggleAIFeedback = (contentId: number) => {
     if (expandedAIFeedbacks.value[contentId] === undefined) {
         expandedAIFeedbacks.value[contentId] = false;
     } else {
-        expandedAIFeedbacks.value[contentId] = !expandedAIFeedbacks.value[contentId];
+        expandedAIFeedbacks.value[contentId] =
+            !expandedAIFeedbacks.value[contentId];
     }
 };
 
@@ -73,8 +73,8 @@ const startPollingAI = (contentId: number) => {
 
     // Bersihkan interval lama jika ada (mencegah bug double-polling)
     if (pollIntervals[contentId]) {
-clearInterval(pollIntervals[contentId]);
-}
+        clearInterval(pollIntervals[contentId]);
+    }
 
     pollIntervals[contentId] = setInterval(() => {
         pollAttempts[contentId]++;
@@ -104,8 +104,6 @@ clearInterval(pollIntervals[contentId]);
     }, 3000); // interval 3000 ms = 3 detik
 };
 
-
-
 onMounted(() => {
     if (props.studentAnswers) {
         for (const [key, value] of Object.entries(props.studentAnswers)) {
@@ -133,8 +131,8 @@ const saveAnswer = (contentId: number) => {
     const answerData = answers.value[contentId];
 
     if (Array.isArray(answerData) && answerData.length === 0) {
-return;
-}
+        return;
+    }
 
     if (
         !Array.isArray(answerData) &&
@@ -166,8 +164,8 @@ return;
 
                 // Hapus feedback lama dari layar
                 if (props.aiFeedbacks) {
-props.aiFeedbacks[contentId] = '';
-}
+                    props.aiFeedbacks[contentId] = '';
+                }
 
                 // Mulai Auto-Polling jika fase ini mengaktifkan fitur AI
                 if (props.phase.is_ai_enabled) {
@@ -192,8 +190,8 @@ const uploadFile = (contentId: number, event: Event) => {
     const file = target.files?.[0];
 
     if (!file) {
-return;
-}
+        return;
+    }
 
     isSubmitting.value[contentId] = true;
     const formData = new FormData();
@@ -221,8 +219,8 @@ return;
 
 const renderMarkdown = (text: string) => {
     if (!text) {
-return '';
-}
+        return '';
+    }
 
     return marked.parse(text);
 };
@@ -239,11 +237,18 @@ const handleFinish = () => {
 
 const executeFinish = () => {
     isConfirmFinishModalOpen.value = false;
-    router.post(route('siswa.phases.complete', { classroom: props.classroom.id, phase: props.phase.id }), {}, {
-        onSuccess: () => {
-            toast.success('Fase pembelajaran selesai!', { icon: '✅' });
-        }
-    });
+    router.post(
+        route('siswa.phases.complete', {
+            classroom: props.classroom.id,
+            phase: props.phase.id,
+        }),
+        {},
+        {
+            onSuccess: () => {
+                toast.success('Fase pembelajaran selesai!', { icon: '✅' });
+            },
+        },
+    );
 };
 
 // ==========================================
@@ -260,18 +265,18 @@ const formatTime = (dateString: string) => {
     const diffMins = Math.floor(diffMs / 60000);
 
     if (diffMins < 1) {
-return 'Baru saja';
-}
+        return 'Baru saja';
+    }
 
     if (diffMins < 60) {
-return `${diffMins} menit lalu`;
-}
+        return `${diffMins} menit lalu`;
+    }
 
     const diffHours = Math.floor(diffMins / 60);
 
     if (diffHours < 24) {
-return `${diffHours} jam lalu`;
-}
+        return `${diffHours} jam lalu`;
+    }
 
     const diffDays = Math.floor(diffHours / 24);
 
@@ -290,9 +295,9 @@ const getInitials = (name: string) => {
 const startReply = (contentId: number, discussion: any) => {
     replyingTo.value[contentId] = {
         id: discussion.id,
-        name: discussion.user?.name || 'Anonim'
+        name: discussion.user?.name || 'Anonim',
     };
-    
+
     // Focus the specific input field
     const inputEl = document.getElementById(`disc-input-${contentId}`);
 
@@ -306,13 +311,15 @@ const cancelReply = (contentId: number) => {
 };
 
 const getTruncatedMessage = (contentId: number, discussionId: number) => {
-    const disc = props.discussions?.find(d => d.id === discussionId);
+    const disc = props.discussions?.find((d) => d.id === discussionId);
 
     if (!disc) {
-return '';
-}
+        return '';
+    }
 
-    return disc.message.length > 40 ? disc.message.substring(0, 40) + '...' : disc.message;
+    return disc.message.length > 40
+        ? disc.message.substring(0, 40) + '...'
+        : disc.message;
 };
 
 const postMessage = (contentId: number) => {
@@ -335,24 +342,20 @@ const postMessage = (contentId: number) => {
         payload.parent_id = replyingTo.value[contentId].id;
     }
 
-    router.post(
-        route('siswa.discussions.store', props.phase.id),
-        payload,
-        {
-            preserveScroll: true,
-            onSuccess: () => {
-                newMessage.value[contentId] = '';
-                replyingTo.value[contentId] = null;
-                toast.success('Komentar terkirim!', { icon: '💬' });
-            },
-            onError: () => {
-                toast.error('Gagal mengirim komentar.');
-            },
-            onFinish: () => {
-                isPostingMessage.value[contentId] = false;
-            },
+    router.post(route('siswa.discussions.store', props.phase.id), payload, {
+        preserveScroll: true,
+        onSuccess: () => {
+            newMessage.value[contentId] = '';
+            replyingTo.value[contentId] = null;
+            toast.success('Komentar terkirim!', { icon: '💬' });
         },
-    );
+        onError: () => {
+            toast.error('Gagal mengirim komentar.');
+        },
+        onFinish: () => {
+            isPostingMessage.value[contentId] = false;
+        },
+    });
 };
 
 const refreshDiscussions = () => {
@@ -369,38 +372,39 @@ const refreshDiscussions = () => {
 <template>
     <Head :title="`Materi: ${phase.name}`" />
 
-    <div class="min-h-screen bg-[#F4F7F9] px-4 py-6 md:px-8">
+    <div class="min-h-screen bg-transparent px-4 py-6 md:px-8">
         <!-- Header -->
         <div
-            class="mx-auto mb-6 flex max-w-4xl flex-col justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:flex-row md:items-center"
+            class="mx-auto mb-6 flex max-w-4xl flex-col justify-between gap-4 rounded-2xl border border-border/40 bg-card/65 p-5 text-card-foreground shadow-sm backdrop-blur-md md:flex-row md:items-center"
         >
             <div>
                 <div
-                    class="mb-1 flex items-center gap-2 text-[11px] font-bold text-slate-500"
+                    class="mb-1 flex items-center gap-2 text-[11px] font-bold text-slate-500 dark:text-slate-400"
                 >
                     <Link
                         :href="route('siswa.classes.show', classroom.id)"
-                        class="transition-colors hover:text-indigo-600"
+                        class="transition-colors hover:text-[var(--theme-primary)]"
                     >
-                        <span class="text-indigo-600">{{
-                            classroom.class_name
-                        }}</span>
+                        <span
+                            class="text-indigo-600 dark:text-[var(--theme-primary)]"
+                            >{{ classroom.class_name }}</span
+                        >
                     </Link>
                     <i class="pi pi-chevron-right text-[8px]"></i>
                     <span>{{ topic.title }}</span>
                 </div>
-                <h1 class="text-xl font-black text-slate-900">
+                <h1 class="text-xl font-black text-slate-900 dark:text-white">
                     {{ phase.name }}
                 </h1>
             </div>
 
             <div
                 v-if="phase.is_ai_enabled"
-                class="flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-1.5"
+                class="flex animate-pulse items-center gap-2 rounded-lg border border-[#00ffff]/20 bg-[#00ffff]/5 px-3 py-1.5 shadow-[0_0_10px_rgba(0,255,255,0.1)]"
             >
-                <i class="pi pi-sparkles text-sm text-indigo-500"></i>
+                <i class="pi pi-sparkles text-sm text-[#00ffff]"></i>
                 <span
-                    class="text-[11px] font-bold tracking-widest text-indigo-600 uppercase"
+                    class="text-[11px] font-bold tracking-widest text-[#00ffff] uppercase"
                     >AI Assistant Aktif</span
                 >
             </div>
@@ -410,13 +414,13 @@ const refreshDiscussions = () => {
             <div v-for="content in phase.contents" :key="content.id">
                 <div
                     v-if="content.type === 'text'"
-                    class="prose prose-slate max-w-none rounded-2xl border border-slate-100 bg-white p-6 text-[15px] leading-relaxed text-slate-700 shadow-sm rich-text-content"
+                    class="prose prose-slate rich-text-content max-w-none rounded-2xl border border-border/40 bg-card/65 p-6 text-[15px] leading-relaxed text-slate-700 shadow-sm dark:text-slate-200"
                     v-html="content.content_data.body"
                 ></div>
 
                 <div
                     v-if="content.type === 'image' && content.content_data.url"
-                    class="flex justify-center rounded-2xl border border-slate-100 bg-white p-4 shadow-sm"
+                    class="flex justify-center rounded-2xl border border-border/40 bg-card/65 p-4 shadow-sm"
                 >
                     <img
                         :src="content.content_data.url"
@@ -427,17 +431,22 @@ const refreshDiscussions = () => {
 
                 <div
                     v-if="content.type === 'h5p' && content.content_data.path"
-                    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+                    class="rounded-2xl border border-border/40 bg-card/65 p-4 shadow-sm"
                 >
                     <div class="mb-3 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <span class="inline-flex h-2 w-2 rounded-full bg-indigo-500"></span>
-                            <span class="text-sm font-bold text-slate-700">Materi Interaktif</span>
+                            <span
+                                class="inline-flex h-2 w-2 rounded-full bg-[var(--theme-primary)] shadow-[0_0_8px_var(--theme-primary)]"
+                            ></span>
+                            <span
+                                class="text-sm font-bold text-slate-700 dark:text-slate-200"
+                                >Materi Interaktif</span
+                            >
                         </div>
                         <a
                             :href="content.content_data.path"
                             target="_blank"
-                            class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-indigo-600 hover:border-indigo-200"
+                            class="dark:text-slate-350 inline-flex items-center gap-1.5 rounded-lg border border-border/40 bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm transition-all hover:border-indigo-200 hover:bg-slate-50 hover:text-indigo-600 dark:bg-white/5 dark:hover:border-[var(--theme-primary)] dark:hover:bg-white/10 dark:hover:text-[var(--theme-primary)]"
                         >
                             <i class="pi pi-external-link"></i>
                             <span>Buka di Tab Baru</span>
@@ -445,12 +454,22 @@ const refreshDiscussions = () => {
                     </div>
                     <div
                         class="w-full rounded-xl bg-slate-900"
-                        style="max-height: 85vh; overflow-y: auto; -webkit-overflow-scrolling: touch;"
+                        style="
+                            max-height: 85vh;
+                            overflow-y: auto;
+                            -webkit-overflow-scrolling: touch;
+                        "
                     >
                         <iframe
                             :src="content.content_data.path"
                             class="w-full border-0"
-                            style="height: 1000px; width: 125%; transform: scale(0.8); transform-origin: top left;overflow-y: hidden;"
+                            style="
+                                height: 1000px;
+                                width: 125%;
+                                transform: scale(0.8);
+                                transform-origin: top left;
+                                overflow-y: hidden;
+                            "
                             scrolling="no"
                             allowfullscreen="allowfullscreen"
                             allow="
@@ -461,7 +480,7 @@ const refreshDiscussions = () => {
                                 encrypted-media *;
                             "
                             sandbox="allow-scripts allow-forms allow-same-origin allow-downloads"
-                            title="Interactive Video LC5E"
+                            title="Interactive Video POE"
                         ></iframe>
                     </div>
                 </div>
@@ -469,16 +488,22 @@ const refreshDiscussions = () => {
                 <!-- SOAL PILIHAN GANDA (MCQ) -->
                 <div
                     v-if="content.type === 'eval_mcq'"
-                    class="relative overflow-hidden rounded-2xl border border-indigo-100 bg-indigo-50/50 p-6 shadow-sm"
+                    class="relative overflow-hidden rounded-2xl border border-border/40 bg-card/65 p-6 text-card-foreground shadow-sm backdrop-blur-md"
                 >
                     <div
-                        class="absolute top-0 left-0 h-full w-1.5 bg-indigo-500"
+                        class="absolute top-0 left-0 h-full w-1.5 bg-[var(--theme-primary)] shadow-[0_0_8px_var(--theme-primary)]"
                     ></div>
                     <div class="mb-4 flex items-center gap-2">
-                        <i class="pi pi-question-circle text-indigo-500"></i>
+                        <i
+                            class="pi pi-question-circle text-[var(--theme-primary)]"
+                        ></i>
                         <h4
-                            class="font-bold text-slate-800 rich-text-content"
-                            v-html="content.content_data.question || content.content_data.label || ''"
+                            class="rich-text-content font-bold text-slate-800 dark:text-white"
+                            v-html="
+                                content.content_data.question ||
+                                content.content_data.label ||
+                                ''
+                            "
                         ></h4>
                     </div>
                     <div class="space-y-2 pl-6">
@@ -486,9 +511,9 @@ const refreshDiscussions = () => {
                             v-for="(option, idx) in content.content_data
                                 .options"
                             :key="idx"
-                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition-all hover:border-indigo-200 hover:bg-slate-50"
+                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-border/40 bg-white/5 p-3 shadow-sm transition-all hover:border-[var(--theme-primary)]/30 hover:bg-slate-100/10 dark:bg-white/5 dark:hover:bg-white/10"
                             :class="{
-                                'border-indigo-400 bg-indigo-50/50 ring-1 ring-indigo-400':
+                                'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10 ring-1 ring-[var(--theme-primary)] dark:bg-[var(--theme-primary)]/20':
                                     answers[content.id] === option,
                             }"
                         >
@@ -499,10 +524,10 @@ const refreshDiscussions = () => {
                                 v-model="answers[content.id]"
                                 @change="saveAnswer(content.id)"
                                 :disabled="props.isLocked"
-                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                                class="h-4 w-4 text-[var(--theme-primary)] focus:ring-[var(--theme-primary)]"
                             />
                             <span
-                                class="text-[14px] text-slate-700 rich-text-content"
+                                class="rich-text-content text-[14px] text-slate-700 dark:text-slate-300"
                                 v-html="option"
                             ></span>
                         </label>
@@ -510,7 +535,7 @@ const refreshDiscussions = () => {
                     <div class="mt-3 flex min-h-[20px] justify-end">
                         <span
                             v-if="isSubmitting[content.id]"
-                            class="text-[11px] font-bold text-indigo-500"
+                            class="text-[11px] font-bold text-[var(--theme-primary)]"
                             ><i class="pi pi-spinner pi-spin mr-1"></i>
                             Menyimpan...</span
                         >
@@ -520,19 +545,23 @@ const refreshDiscussions = () => {
                 <!-- SOAL CHECKBOX (CMCQ) -->
                 <div
                     v-if="content.type === 'eval_cmcq'"
-                    class="relative overflow-hidden rounded-2xl border border-indigo-100 bg-indigo-50/50 p-6 shadow-sm"
+                    class="relative overflow-hidden rounded-2xl border border-border/40 bg-card/65 p-6 text-card-foreground shadow-sm backdrop-blur-md"
                 >
                     <div
-                        class="absolute top-0 left-0 h-full w-1.5 bg-indigo-500"
+                        class="absolute top-0 left-0 h-full w-1.5 bg-[var(--theme-primary)] shadow-[0_0_8px_var(--theme-primary)]"
                     ></div>
                     <div class="mb-4 flex flex-wrap items-center gap-2">
-                        <i class="pi pi-list text-indigo-500"></i>
+                        <i class="pi pi-list text-[var(--theme-primary)]"></i>
                         <h4
-                            class="font-bold text-slate-800 rich-text-content"
-                            v-html="content.content_data.question || content.content_data.label || ''"
+                            class="rich-text-content font-bold text-slate-800 dark:text-white"
+                            v-html="
+                                content.content_data.question ||
+                                content.content_data.label ||
+                                ''
+                            "
                         ></h4>
                         <span
-                            class="rounded bg-amber-100 px-2 py-0.5 text-[9px] font-black tracking-wider text-amber-700 uppercase shadow-sm"
+                            class="rounded border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[9px] font-black tracking-wider text-amber-400 uppercase shadow-sm"
                             >Pilih lebih dari satu</span
                         >
                     </div>
@@ -541,9 +570,9 @@ const refreshDiscussions = () => {
                             v-for="(option, idx) in content.content_data
                                 .options"
                             :key="idx"
-                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition-all hover:border-indigo-200 hover:bg-slate-50"
+                            class="flex cursor-pointer items-center gap-3 rounded-xl border border-border/40 bg-white/5 p-3 shadow-sm transition-all hover:border-[var(--theme-primary)]/30 hover:bg-slate-100/10 dark:bg-white/5 dark:hover:bg-white/10"
                             :class="{
-                                'border-indigo-400 bg-indigo-50/50 ring-1 ring-indigo-400':
+                                'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10 ring-1 ring-[var(--theme-primary)] dark:bg-[var(--theme-primary)]/20':
                                     answers[content.id]?.includes(option),
                             }"
                         >
@@ -553,10 +582,10 @@ const refreshDiscussions = () => {
                                 v-model="answers[content.id]"
                                 @change="saveAnswer(content.id)"
                                 :disabled="props.isLocked"
-                                class="h-4 w-4 rounded text-indigo-600 focus:ring-indigo-500"
+                                class="h-4 w-4 rounded text-[var(--theme-primary)] focus:ring-[var(--theme-primary)]"
                             />
                             <span
-                                class="text-[14px] text-slate-700 rich-text-content"
+                                class="rich-text-content text-[14px] text-slate-700 dark:text-slate-300"
                                 v-html="option"
                             ></span>
                         </label>
@@ -564,7 +593,7 @@ const refreshDiscussions = () => {
                     <div class="mt-3 flex min-h-[20px] justify-end">
                         <span
                             v-if="isSubmitting[content.id]"
-                            class="text-[11px] font-bold text-indigo-500"
+                            class="text-[11px] font-bold text-[var(--theme-primary)]"
                             ><i class="pi pi-spinner pi-spin mr-1"></i>
                             Menyimpan...</span
                         >
@@ -574,16 +603,23 @@ const refreshDiscussions = () => {
                 <!-- SOAL JAWABAN SINGKAT -->
                 <div
                     v-if="content.type === 'eval_short'"
-                    class="relative overflow-hidden rounded-2xl border border-indigo-100 bg-indigo-50/50 p-6 shadow-sm"
+                    class="relative overflow-hidden rounded-2xl border border-border/40 bg-card/65 p-6 text-card-foreground shadow-sm backdrop-blur-md"
                 >
                     <div
-                        class="absolute top-0 left-0 h-full w-1.5 bg-indigo-500"
+                        class="absolute top-0 left-0 h-full w-1.5 bg-[var(--theme-primary)] shadow-[0_0_8px_var(--theme-primary)]"
                     ></div>
                     <label
-                        class="mb-3 block flex items-center gap-2 text-[14px] font-extrabold text-slate-800"
+                        class="mb-3 block flex items-center gap-2 text-[14px] font-extrabold text-slate-800 dark:text-white"
                     >
-                        <i class="pi pi-pencil text-indigo-500"></i>
-                        <span class="rich-text-content" v-html="content.content_data.question || content.content_data.label || ''"></span>
+                        <i class="pi pi-pencil text-[var(--theme-primary)]"></i>
+                        <span
+                            class="rich-text-content"
+                            v-html="
+                                content.content_data.question ||
+                                content.content_data.label ||
+                                ''
+                            "
+                        ></span>
                     </label>
 
                     <!-- Kotak Input terkunci saat menunggu AI atau terkunci -->
@@ -591,7 +627,7 @@ const refreshDiscussions = () => {
                         type="text"
                         v-model="answers[content.id]"
                         placeholder="Ketik jawaban singkat Anda..."
-                        class="w-full rounded-xl border border-indigo-200 bg-white p-3.5 text-[14px] text-slate-700 shadow-inner transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:cursor-not-allowed disabled:opacity-70"
+                        class="w-full rounded-xl border border-border/45 bg-white/5 p-3.5 text-[14px] text-slate-700 shadow-inner transition-all focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white/5 dark:text-white"
                         :disabled="
                             isSubmitting[content.id] ||
                             isWaitingForAI[content.id] ||
@@ -604,10 +640,12 @@ const refreshDiscussions = () => {
                     >
                         <!-- Tombol disembunyikan saat sedang proses atau terkunci -->
                         <Button
-                            v-if="!isWaitingForAI[content.id] && !props.isLocked"
+                            v-if="
+                                !isWaitingForAI[content.id] && !props.isLocked
+                            "
                             @click="saveAnswer(content.id)"
                             size="sm"
-                            class="h-9 rounded-xl bg-indigo-600 px-5 text-xs font-bold text-white shadow-sm transition-all hover:scale-105 hover:bg-indigo-700 active:scale-95"
+                            class="h-9 rounded-xl bg-[var(--theme-primary)] px-5 text-xs font-bold text-[#070814] shadow-sm transition-all hover:scale-105 hover:brightness-110 active:scale-95"
                             :disabled="isSubmitting[content.id]"
                         >
                             <i
@@ -651,8 +689,12 @@ const refreshDiscussions = () => {
                         <!-- 2. State Tampil Hasil AI -->
                         <div
                             v-else-if="aiFeedbacks && aiFeedbacks[content.id]"
-                            class="relative animate-in rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-sm duration-300 zoom-in-95 transition-all"
-                            :class="isAIFeedbackExpanded(content.id) ? 'p-6' : 'py-3.5 px-6'"
+                            class="relative animate-in rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-sm transition-all duration-300 zoom-in-95"
+                            :class="
+                                isAIFeedbackExpanded(content.id)
+                                    ? 'p-6'
+                                    : 'px-6 py-3.5'
+                            "
                         >
                             <div
                                 class="absolute -top-3 left-6 flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-3 py-1 shadow-sm"
@@ -668,17 +710,25 @@ const refreshDiscussions = () => {
                             <button
                                 type="button"
                                 @click="toggleAIFeedback(content.id)"
-                                class="absolute -top-3 right-6 flex items-center gap-1 rounded-full border border-indigo-200 bg-white px-3 py-1 text-[10px] font-bold text-indigo-600 shadow-sm hover:bg-indigo-50 active:scale-95 transition-all"
+                                class="absolute -top-3 right-6 flex items-center gap-1 rounded-full border border-indigo-200 bg-white px-3 py-1 text-[10px] font-bold text-indigo-600 shadow-sm transition-all hover:bg-indigo-50 active:scale-95"
                             >
                                 <i
                                     class="pi text-[8px]"
-                                    :class="isAIFeedbackExpanded(content.id) ? 'pi-chevron-up' : 'pi-chevron-down'"
+                                    :class="
+                                        isAIFeedbackExpanded(content.id)
+                                            ? 'pi-chevron-up'
+                                            : 'pi-chevron-down'
+                                    "
                                 ></i>
-                                <span>{{ isAIFeedbackExpanded(content.id) ? 'Sembunyikan' : 'Lihat' }}</span>
+                                <span>{{
+                                    isAIFeedbackExpanded(content.id)
+                                        ? 'Sembunyikan'
+                                        : 'Lihat'
+                                }}</span>
                             </button>
                             <div
                                 v-show="isAIFeedbackExpanded(content.id)"
-                                class="prose prose-sm prose-slate mt-3 max-w-none leading-relaxed rich-text-content animate-in fade-in duration-200"
+                                class="prose prose-sm prose-slate rich-text-content mt-3 max-w-none animate-in leading-relaxed duration-200 fade-in"
                                 v-html="renderMarkdown(aiFeedbacks[content.id])"
                             ></div>
                         </div>
@@ -732,7 +782,10 @@ const refreshDiscussions = () => {
                         v-model="answers[content.id]"
                         variant="student"
                         placeholder="Ketik uraian jawaban Anda di sini..."
-                        :disabled="isSubmitting[content.id] || isWaitingForAI[content.id]"
+                        :disabled="
+                            isSubmitting[content.id] ||
+                            isWaitingForAI[content.id]
+                        "
                     />
 
                     <div
@@ -740,7 +793,9 @@ const refreshDiscussions = () => {
                     >
                         <!-- Tombol disembunyikan saat sedang proses atau terkunci -->
                         <Button
-                            v-if="!isWaitingForAI[content.id] && !props.isLocked"
+                            v-if="
+                                !isWaitingForAI[content.id] && !props.isLocked
+                            "
                             @click="saveAnswer(content.id)"
                             size="sm"
                             class="h-9 rounded-xl bg-indigo-600 px-5 text-xs font-bold text-white shadow-sm transition-all hover:scale-105 hover:bg-indigo-700 active:scale-95"
@@ -762,22 +817,23 @@ const refreshDiscussions = () => {
                         <!-- 1. State Loading Berjalan (Animasi) -->
                         <div
                             v-if="isWaitingForAI[content.id]"
-                            class="relative flex animate-in items-center gap-4 overflow-hidden rounded-2xl border border-indigo-100 bg-white px-6 py-5 shadow-sm duration-500 fade-in slide-in-from-bottom-2"
+                            class="relative flex animate-in items-center gap-4 overflow-hidden rounded-2xl border border-border/40 bg-card px-6 py-5 shadow-sm duration-500 fade-in slide-in-from-bottom-2"
                         >
                             <div
-                                class="absolute inset-0 animate-pulse bg-gradient-to-r from-indigo-50 to-purple-50 opacity-50"
+                                class="absolute inset-0 animate-pulse bg-gradient-to-r from-indigo-500/5 to-purple-500/5 opacity-50"
                             ></div>
                             <i
-                                class="pi pi-sparkles animate-spin text-2xl text-indigo-500"
+                                class="pi pi-sparkles animate-spin text-2xl text-[var(--theme-primary)]"
                                 style="animation-duration: 3s"
                             ></i>
                             <div class="relative z-10 flex flex-col">
                                 <span
-                                    class="text-[14px] font-bold text-indigo-800"
+                                    class="text-[14px] font-bold text-indigo-800 dark:text-indigo-300"
                                     >Guru AI sedang menganalisis
                                     jawabanmu...</span
                                 >
-                                <span class="text-[12px] text-indigo-500"
+                                <span
+                                    class="text-[12px] text-indigo-500 dark:text-indigo-400"
                                     >Tunggu sebentar, sedang menyusun
                                     feedback.</span
                                 >
@@ -787,34 +843,46 @@ const refreshDiscussions = () => {
                         <!-- 2. State Tampil Hasil AI -->
                         <div
                             v-else-if="aiFeedbacks && aiFeedbacks[content.id]"
-                            class="relative animate-in rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-sm duration-300 zoom-in-95 transition-all"
-                            :class="isAIFeedbackExpanded(content.id) ? 'p-6' : 'py-3.5 px-6'"
+                            class="relative animate-in rounded-2xl border border-[#00ffff]/20 bg-gradient-to-br from-[#00ffff]/5 to-purple-500/5 text-card-foreground shadow-[0_0_15px_rgba(0,255,255,0.05)] transition-all duration-300 zoom-in-95"
+                            :class="
+                                isAIFeedbackExpanded(content.id)
+                                    ? 'p-6'
+                                    : 'px-6 py-3.5'
+                            "
                         >
                             <div
-                                class="absolute -top-3 left-6 flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-3 py-1 shadow-sm"
+                                class="absolute -top-3 left-6 flex items-center gap-1.5 rounded-full border border-border/40 bg-card px-3 py-1 shadow-sm"
                             >
                                 <i
-                                    class="pi pi-sparkles text-[10px] text-indigo-500"
+                                    class="pi pi-sparkles text-[10px] text-[var(--theme-primary)]"
                                 ></i>
                                 <span
-                                    class="text-[10px] font-black tracking-widest text-indigo-600 uppercase"
+                                    class="text-[10px] font-black tracking-widest text-[var(--theme-primary)] uppercase"
                                     >Feedback Guru AI</span
                                 >
                             </div>
                             <button
                                 type="button"
                                 @click="toggleAIFeedback(content.id)"
-                                class="absolute -top-3 right-6 flex items-center gap-1 rounded-full border border-indigo-200 bg-white px-3 py-1 text-[10px] font-bold text-indigo-600 shadow-sm hover:bg-indigo-50 active:scale-95 transition-all"
+                                class="absolute -top-3 right-6 flex items-center gap-1 rounded-full border border-border/40 bg-card px-3 py-1 text-[10px] font-bold text-[var(--theme-primary)] shadow-sm transition-all hover:bg-slate-100 active:scale-95 dark:hover:bg-slate-900"
                             >
                                 <i
                                     class="pi text-[8px]"
-                                    :class="isAIFeedbackExpanded(content.id) ? 'pi-chevron-up' : 'pi-chevron-down'"
+                                    :class="
+                                        isAIFeedbackExpanded(content.id)
+                                            ? 'pi-chevron-up'
+                                            : 'pi-chevron-down'
+                                    "
                                 ></i>
-                                <span>{{ isAIFeedbackExpanded(content.id) ? 'Sembunyikan' : 'Lihat' }}</span>
+                                <span>{{
+                                    isAIFeedbackExpanded(content.id)
+                                        ? 'Sembunyikan'
+                                        : 'Lihat'
+                                }}</span>
                             </button>
                             <div
                                 v-show="isAIFeedbackExpanded(content.id)"
-                                class="prose prose-sm prose-slate mt-3 max-w-none leading-relaxed rich-text-content animate-in fade-in duration-200"
+                                class="prose prose-sm prose-slate rich-text-content mt-3 max-w-none animate-in leading-relaxed text-slate-700 duration-200 fade-in dark:text-slate-300"
                                 v-html="renderMarkdown(aiFeedbacks[content.id])"
                             ></div>
                         </div>
@@ -824,20 +892,27 @@ const refreshDiscussions = () => {
                 <!-- SOAL UPLOAD FILE -->
                 <div
                     v-if="content.type === 'eval_file'"
-                    class="relative overflow-hidden rounded-2xl border border-pink-100 bg-pink-50/40 p-6 shadow-sm"
+                    class="relative overflow-hidden rounded-2xl border border-pink-500/20 bg-pink-500/5 p-6 text-card-foreground shadow-sm"
                 >
                     <div
                         class="absolute top-0 left-0 h-full w-1.5 bg-pink-500"
                     ></div>
                     <label
-                        class="mb-3 block flex items-center gap-2 text-[14px] font-extrabold text-slate-800"
+                        class="mb-3 block flex items-center gap-2 text-[14px] font-extrabold text-slate-800 dark:text-white"
                     >
                         <i class="pi pi-camera text-pink-500"></i>
-                        <span class="rich-text-content" v-html="content.content_data.question || content.content_data.label || ''"></span>
+                        <span
+                            class="rich-text-content"
+                            v-html="
+                                content.content_data.question ||
+                                content.content_data.label ||
+                                ''
+                            "
+                        ></span>
                     </label>
                     <div
                         v-if="!props.isLocked"
-                        class="group relative mt-2 flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-pink-200 bg-white transition-colors hover:bg-pink-50"
+                        class="group relative mt-2 flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-pink-500/20 bg-white/5 transition-colors hover:bg-pink-500/10 dark:bg-white/5"
                     >
                         <input
                             type="file"
@@ -851,22 +926,34 @@ const refreshDiscussions = () => {
                             <i
                                 class="pi pi-cloud-upload mb-2 text-3xl text-pink-400 transition-transform group-hover:-translate-y-1"
                             ></i>
-                            <p class="mb-1 text-[13px] text-slate-500">
+                            <p
+                                class="mb-1 text-[13px] text-slate-500 dark:text-slate-400"
+                            >
                                 <span class="font-bold text-pink-600"
                                     >Klik untuk upload</span
                                 >
                                 atau Drag & Drop foto
                             </p>
-                            <p class="text-[11px] text-slate-400">
+                            <p
+                                class="text-[11px] text-slate-400 dark:text-slate-500"
+                            >
                                 Format: PNG, JPG, atau PDF (Maks 2MB)
                             </p>
                         </div>
                     </div>
                     <div
-                        v-if="props.isLocked && !(answers[content.id] === 'uploaded' || (answers[content.id] && answers[content.id].includes('/storage/')))"
-                        class="mt-2 inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[12px] font-medium text-slate-500"
+                        v-if="
+                            props.isLocked &&
+                            !(
+                                answers[content.id] === 'uploaded' ||
+                                (answers[content.id] &&
+                                    answers[content.id].includes('/storage/'))
+                            )
+                        "
+                        class="dark:text-slate-450 mt-2 inline-flex items-center rounded-lg border border-border/40 bg-white/5 px-3 py-2 text-[12px] font-medium text-slate-500"
                     >
-                        <i class="pi pi-info-circle mr-2"></i> Tidak ada file yang diunggah.
+                        <i class="pi pi-info-circle mr-2"></i> Tidak ada file
+                        yang diunggah.
                     </div>
                     <div
                         v-if="isSubmitting[content.id]"
@@ -881,7 +968,7 @@ const refreshDiscussions = () => {
                             (answers[content.id] &&
                                 answers[content.id].includes('/storage/'))
                         "
-                        class="mt-3 inline-flex items-center rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-[12px] font-bold text-emerald-600"
+                        class="mt-3 inline-flex items-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-[12px] font-bold text-emerald-500"
                     >
                         <i class="pi pi-check-circle mr-2"></i> File Anda
                         berhasil diunggah dan diamankan.
@@ -891,21 +978,24 @@ const refreshDiscussions = () => {
                 <!-- FORUM DISKUSI -->
                 <div
                     v-if="content.type === 'discussion'"
-                    class="relative overflow-hidden rounded-2xl border border-sky-100 bg-sky-50/40 p-6 shadow-sm"
+                    class="relative overflow-hidden rounded-2xl border border-sky-500/20 bg-sky-500/5 p-6 text-card-foreground shadow-sm"
                 >
                     <div
                         class="absolute top-0 left-0 h-full w-1.5 bg-sky-500"
                     ></div>
                     <div class="mb-3 flex items-center justify-between">
                         <label
-                            class="flex items-center gap-2 text-[14px] font-extrabold text-slate-800"
+                            class="flex items-center gap-2 text-[14px] font-extrabold text-slate-800 dark:text-white"
                         >
                             <i class="pi pi-comments text-sky-500"></i>
-                            <span class="rich-text-content" v-html="content.content_data.topic"></span>
+                            <span
+                                class="rich-text-content"
+                                v-html="content.content_data.topic"
+                            ></span>
                         </label>
                         <button
                             @click="refreshDiscussions"
-                            class="flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-bold text-slate-500 transition-colors hover:bg-sky-50 hover:text-sky-600"
+                            class="flex items-center gap-1 rounded-lg border border-border/40 bg-card px-2.5 py-1 text-[10px] font-bold text-slate-500 transition-colors hover:text-sky-600"
                         >
                             <i class="pi pi-refresh text-[10px]"></i> Refresh
                         </button>
@@ -913,7 +1003,7 @@ const refreshDiscussions = () => {
 
                     <!-- Area Komentar -->
                     <div
-                        class="mb-4 flex max-h-80 min-h-[200px] flex-col gap-3 overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 shadow-inner"
+                        class="mb-4 flex max-h-80 min-h-[200px] flex-col gap-3 overflow-y-auto rounded-xl border border-border/40 bg-[#08091a]/80 p-4 shadow-inner"
                     >
                         <!-- Jika belum ada komentar -->
                         <div
@@ -956,13 +1046,13 @@ const refreshDiscussions = () => {
                                 <!-- Bubble -->
                                 <div class="flex-1">
                                     <div
-                                        class="rounded-xl border border-slate-100 bg-slate-50 px-3.5 py-2.5"
+                                        class="rounded-xl border border-border/40 bg-slate-50 px-3.5 py-2.5 text-card-foreground dark:bg-white/5"
                                     >
                                         <div
                                             class="mb-1 flex items-center gap-2"
                                         >
                                             <span
-                                                class="text-[12px] font-bold text-slate-800"
+                                                class="text-[12px] font-bold text-slate-800 dark:text-white"
                                                 >{{
                                                     discussion.user?.name ||
                                                     'Anonim'
@@ -978,15 +1068,22 @@ const refreshDiscussions = () => {
                                             >
                                         </div>
                                         <p
-                                            class="text-[13px] leading-relaxed text-slate-700"
+                                            class="text-[13px] leading-relaxed text-slate-700 dark:text-slate-300"
                                         >
                                             {{ discussion.message }}
                                         </p>
                                     </div>
-                                    <div class="mt-1 flex items-center gap-3 pl-1">
+                                    <div
+                                        class="mt-1 flex items-center gap-3 pl-1"
+                                    >
                                         <button
-                                            @click="startReply(content.id, discussion)"
-                                            class="text-[11px] font-bold text-slate-400 hover:text-sky-600 transition-colors"
+                                            @click="
+                                                startReply(
+                                                    content.id,
+                                                    discussion,
+                                                )
+                                            "
+                                            class="text-[11px] font-bold text-[#00ffff] opacity-75 transition-colors hover:opacity-100"
                                         >
                                             Balas
                                         </button>
@@ -998,7 +1095,7 @@ const refreshDiscussions = () => {
                                             discussion.replies &&
                                             discussion.replies.length > 0
                                         "
-                                        class="mt-2 space-y-2 border-l-2 border-sky-100 pl-4"
+                                        class="mt-2 space-y-2 border-l-2 border-sky-500/30 pl-4"
                                     >
                                         <div
                                             v-for="reply in discussion.replies"
@@ -1011,8 +1108,8 @@ const refreshDiscussions = () => {
                                                     authUser &&
                                                     reply.user?.id ===
                                                         authUser.id
-                                                        ? 'bg-sky-400'
-                                                        : 'bg-slate-400'
+                                                        ? 'bg-sky-500'
+                                                        : 'bg-slate-550'
                                                 "
                                             >
                                                 {{
@@ -1024,10 +1121,10 @@ const refreshDiscussions = () => {
                                                 }}
                                             </div>
                                             <div
-                                                class="rounded-lg bg-white px-3 py-2"
+                                                class="rounded-lg border border-border/30 bg-slate-50 px-3 py-2 text-card-foreground dark:bg-[#070814]"
                                             >
                                                 <span
-                                                    class="text-[11px] font-bold text-slate-700"
+                                                    class="text-[11px] font-bold text-slate-700 dark:text-white"
                                                     >{{
                                                         reply.user?.name ||
                                                         'Anonim'
@@ -1042,7 +1139,7 @@ const refreshDiscussions = () => {
                                                     }}</span
                                                 >
                                                 <p
-                                                    class="mt-0.5 text-[12px] text-slate-600"
+                                                    class="dark:text-slate-350 mt-0.5 text-[12px] text-slate-600"
                                                 >
                                                     {{ reply.message }}
                                                 </p>
@@ -1057,17 +1154,25 @@ const refreshDiscussions = () => {
                     <!-- Info Sedang Membalas -->
                     <div
                         v-if="replyingTo[content.id]"
-                        class="mb-2 flex items-center justify-between rounded-xl bg-sky-50 px-3.5 py-2 text-[12px] text-sky-700 border border-sky-100"
+                        class="mb-2 flex items-center justify-between rounded-xl border border-sky-500/20 bg-sky-500/10 px-3.5 py-2 text-[12px] text-sky-400"
                     >
                         <div class="flex items-center gap-1.5">
                             <i class="pi pi-comments text-sky-500"></i>
                             <span>
-                                Membalas <strong>@{{ replyingTo[content.id].name }}</strong>: "{{ getTruncatedMessage(content.id, replyingTo[content.id].id) }}"
+                                Membalas
+                                <strong
+                                    >@{{ replyingTo[content.id].name }}</strong
+                                >: "{{
+                                    getTruncatedMessage(
+                                        content.id,
+                                        replyingTo[content.id].id,
+                                    )
+                                }}"
                             </span>
                         </div>
                         <button
                             @click="cancelReply(content.id)"
-                            class="text-[11px] font-extrabold text-sky-600 hover:text-sky-800 transition-colors uppercase tracking-wider"
+                            class="text-[11px] font-extrabold tracking-wider text-sky-400 uppercase transition-colors hover:text-sky-600"
                         >
                             Batal
                         </button>
@@ -1080,7 +1185,7 @@ const refreshDiscussions = () => {
                             :id="'disc-input-' + content.id"
                             v-model="newMessage[content.id]"
                             placeholder="Ketik komentar atau balasan Anda di sini..."
-                            class="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-[13px] shadow-sm transition-colors focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                            class="flex-1 rounded-xl border border-border/40 bg-white/5 px-4 py-2.5 text-[13px] text-slate-900 shadow-sm transition-colors focus:border-sky-500 focus:ring-1 focus:ring-sky-500 dark:bg-[#070814] dark:text-white"
                             :disabled="isPostingMessage[content.id]"
                             @keyup.enter="postMessage(content.id)"
                         />
@@ -1105,25 +1210,29 @@ const refreshDiscussions = () => {
             <div class="flex justify-end pt-4">
                 <Button
                     @click="handleFinish"
-                    class="h-11 rounded-xl bg-blue-500 px-8 font-bold text-white shadow-md hover:bg-blue-600"
+                    class="h-11 rounded-xl bg-[var(--theme-primary)] px-8 font-bold text-[#070814] shadow-md transition-all hover:brightness-110"
                 >
                     Selesai <i class="pi pi-check-circle ml-2"></i>
                 </Button>
             </div>
         </div>
     </div>
-    <FloatingChatbot v-if="phase.is_chatbot_enabled" :topicTitle="topic.title" :phaseId="phase.id" />
+    <FloatingChatbot
+        v-if="phase.is_chatbot_enabled"
+        :topicTitle="topic.title"
+        :phaseId="phase.id"
+    />
 
     <Teleport to="body">
         <div
             v-if="isConfirmFinishModalOpen"
-            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 dark:bg-black/60 px-4 backdrop-blur-[6px] transition-all"
+            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 px-4 backdrop-blur-[6px] transition-all dark:bg-black/60"
         >
             <div
-                class="w-full max-w-[400px] animate-in overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-100/80 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] p-6 text-center duration-200 zoom-in-95 fade-in"
+                class="w-full max-w-[400px] animate-in overflow-hidden rounded-3xl border border-slate-100/80 bg-white p-6 text-center shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] duration-200 zoom-in-95 fade-in dark:border-slate-800/50 dark:bg-slate-950 dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
             >
                 <div
-                    class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/30 text-amber-600 dark:text-amber-400 shadow-inner"
+                    class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-amber-100 bg-amber-50 text-amber-600 shadow-inner dark:border-amber-900/30 dark:bg-amber-950/30 dark:text-amber-400"
                 >
                     <i class="pi pi-exclamation-triangle text-2xl"></i>
                 </div>
@@ -1135,7 +1244,8 @@ const refreshDiscussions = () => {
                 <p
                     class="mt-2 text-[14px] leading-relaxed font-medium text-slate-500 dark:text-slate-400"
                 >
-                    Apakah Anda yakin ingin menyelesaikan fase ini? Setelah diselesaikan, jawaban Anda tidak dapat diubah lagi.
+                    Apakah Anda yakin ingin menyelesaikan fase ini? Setelah
+                    diselesaikan, jawaban Anda tidak dapat diubah lagi.
                 </p>
                 <div
                     class="mt-8 flex flex-col-reverse justify-center gap-3 sm:flex-row"
@@ -1144,14 +1254,14 @@ const refreshDiscussions = () => {
                         type="button"
                         variant="outline"
                         @click="isConfirmFinishModalOpen = false"
-                        class="h-11 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 px-6 font-bold text-slate-600 dark:text-slate-300 text-[13px] w-full sm:w-auto"
+                        class="h-11 w-full rounded-xl border border-slate-200 px-6 text-[13px] font-bold text-slate-600 hover:bg-slate-50 sm:w-auto dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-900"
                     >
                         Batalkan
                     </Button>
                     <Button
                         type="button"
                         @click="executeFinish"
-                        class="h-11 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 px-6 font-bold text-white shadow-md shadow-blue-100 dark:shadow-none text-[13px] w-full sm:w-auto"
+                        class="h-11 w-full rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-6 text-[13px] font-bold text-white shadow-md shadow-blue-100 hover:from-blue-600 hover:to-indigo-700 sm:w-auto dark:shadow-none"
                     >
                         Ya, Selesaikan
                     </Button>
@@ -1231,7 +1341,7 @@ const refreshDiscussions = () => {
     list-style-type: none !important;
 }
 .rich-text-content ol > li::before {
-    content: counter(list-0, decimal) ". ";
+    content: counter(list-0, decimal) '. ';
     position: absolute;
     left: -1.5rem;
     width: 1.25rem;
@@ -1244,7 +1354,7 @@ const refreshDiscussions = () => {
     padding-left: 1.5rem !important;
 }
 .rich-text-content ol > li.ql-indent-1::before {
-    content: counter(list-1, lower-alpha) ". ";
+    content: counter(list-1, lower-alpha) '. ';
     left: 0rem;
 }
 .rich-text-content ol > li.ql-indent-1 {
@@ -1257,7 +1367,7 @@ const refreshDiscussions = () => {
     padding-left: 3rem !important;
 }
 .rich-text-content ol > li.ql-indent-2::before {
-    content: counter(list-2, lower-roman) ". ";
+    content: counter(list-2, lower-roman) '. ';
     left: 1.5rem;
 }
 .rich-text-content ol > li.ql-indent-2 {
@@ -1270,7 +1380,7 @@ const refreshDiscussions = () => {
     padding-left: 4.5rem !important;
 }
 .rich-text-content ol > li.ql-indent-3::before {
-    content: counter(list-3, decimal) ". ";
+    content: counter(list-3, decimal) '. ';
     left: 3rem;
 }
 
@@ -1286,7 +1396,7 @@ const refreshDiscussions = () => {
     list-style-type: none !important;
 }
 .rich-text-content ul > li::before {
-    content: "•";
+    content: '•';
     position: absolute;
     left: -1.25rem;
 }
@@ -1296,7 +1406,7 @@ const refreshDiscussions = () => {
     padding-left: 1.5rem !important;
 }
 .rich-text-content ul > li.ql-indent-1::before {
-    content: "○";
+    content: '○';
     left: 0.25rem;
 }
 
@@ -1305,7 +1415,7 @@ const refreshDiscussions = () => {
     padding-left: 3rem !important;
 }
 .rich-text-content ul > li.ql-indent-2::before {
-    content: "▪";
+    content: '▪';
     left: 1.75rem;
 }
 

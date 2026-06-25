@@ -11,20 +11,22 @@ import AuthLayout from '@/layouts/AuthLayout.vue';
 // 2. IMPORT PRIMEVUE & TEMA
 import 'primeicons/primeicons.css';
 
-
 // 4. IMPORT PLUGIN ZIGGY VUE DARI LOKASI YANG BENAR
 import { ZiggyVue } from 'ziggy-js'; // Harus dari 'ziggy-js'
-import { Ziggy } from './ziggy.js';  // Ini file fisik peta rute kita
+import { Ziggy } from './ziggy.js'; // Ini file fisik peta rute kita
 
-const appName = import.meta.env.VITE_APP_NAME || 'EduChem';
+const appName = import.meta.env.VITE_APP_NAME || 'ElementVerse';
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     resolve: async (name) => {
         // Pemetaan folder 'pages' (huruf kecil)
         const pages = import.meta.glob('./pages/**/*.vue', { eager: true });
-        const page: any = await resolvePageComponent(`./pages/${name}.vue`, pages);
-        
+        const page: any = await resolvePageComponent(
+            `./pages/${name}.vue`,
+            pages,
+        );
+
         // PASANG LAYOUT SECARA OTOMATIS
         if (page.default.layout === undefined) {
             const lowerName = name.toLowerCase();
@@ -35,32 +37,37 @@ createInertiaApp({
                 page.default.layout = AppLayout; // Sidebar dirender di sini
             }
         }
-        
+
         return page;
     },
     setup({ el, App, props, plugin }) {
-        // SOLUSI SSR 1: Hapus dark mode HANYA jika berjalan di sisi Client (Browser)
-        if (typeof document !== 'undefined') {
-            document.documentElement.classList.remove('dark');
+        // SOLUSI SSR 1: Inisialisasi tema saat berjalan di sisi Client (Browser)
+        if (typeof window !== 'undefined') {
+            const savedAppearance =
+                localStorage.getItem('appearance') || 'dark';
+            document.documentElement.classList.toggle(
+                'dark',
+                savedAppearance === 'dark',
+            );
         }
-        
+
         const app = createApp({ render: () => h(App, props) });
         app.use(plugin);
-        
+
         // Konfigurasi PrimeVue (Force Light Mode)
         app.use(PrimeVue, {
             theme: {
                 preset: Aura,
                 options: {
-                    darkModeSelector: false, 
-                }
-            }
+                    darkModeSelector: false,
+                },
+            },
         });
 
         // SOLUSI SSR 2: Daftarkan ZiggyVue dengan menyuapkan objek Ziggy
         // Ini yang membuat route() bisa dibaca oleh server NodeJS!
         app.use(ZiggyVue, Ziggy);
-        
+
         // Mount aplikasi HANYA jika elemen DOM (el) tersedia di browser
         if (el) {
             app.mount(el);
@@ -69,5 +76,5 @@ createInertiaApp({
         // WAJIB UNTUK SSR: Return instance aplikasi
         return app;
     },
-    progress: { color: '#4F8CFF' }, // Warna loading biru EduChem
+    progress: { color: '#d2ff00' }, // Warna loading hijau neon ElementVerse
 });

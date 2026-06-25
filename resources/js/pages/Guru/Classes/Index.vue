@@ -2,6 +2,7 @@
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { toast } from 'vue-sonner';
+import RichTextEditor from '@/components/RichTextEditor.vue';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -11,11 +12,16 @@ import {
     CardDescription,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import RichTextEditor from '@/components/RichTextEditor.vue';
 
 const stripHtml = (html: string | null | undefined): string => {
-    if (!html) return '';
-    return html.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!html) {
+        return '';
+    }
+
+    return html
+        .replace(/<\/?[^>]+(>|$)/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
 };
 
 const props = defineProps<{
@@ -33,8 +39,8 @@ const searchQuery = ref('');
 
 const filteredClasses = computed(() => {
     if (!searchQuery.value) {
-return props.classes;
-}
+        return props.classes;
+    }
 
     const query = searchQuery.value.toLowerCase();
 
@@ -121,8 +127,8 @@ const closeEditModal = () => {
 
 const submitEdit = () => {
     if (!editingClassId.value) {
-return;
-}
+        return;
+    }
 
     editForm.put(route('guru.classes.update', editingClassId.value), {
         preserveScroll: true,
@@ -156,8 +162,8 @@ const closeDeleteModal = () => {
 
 const executeDelete = () => {
     if (!classToDelete.value) {
-return;
-}
+        return;
+    }
 
     isDeleting.value = true;
 
@@ -183,18 +189,20 @@ return;
 <template>
     <Head title="Manajemen Kelas" />
 
-    <div class="min-h-screen bg-[#F8FAFC] px-4 py-6 font-sans md:px-8 lg:px-10">
+    <div
+        class="min-h-screen bg-transparent px-4 py-6 font-sans md:px-8 lg:px-10"
+    >
         <div class="mx-auto mb-8 max-w-7xl">
             <div
-                class="flex flex-col items-start justify-between gap-4 border-b border-slate-200 pb-6 md:flex-row md:items-end"
+                class="flex flex-col items-start justify-between gap-4 border-b border-border/40 pb-6 md:flex-row md:items-end"
             >
                 <div>
                     <h1
-                        class="text-[26px] font-bold tracking-tight text-slate-900"
+                        class="text-[26px] font-bold tracking-tight text-slate-100"
                     >
                         Manajemen Kelas
                     </h1>
-                    <p class="mt-1 text-[14px] font-medium text-slate-500">
+                    <p class="mt-1 text-[14px] font-medium text-slate-400">
                         Kelola seluruh kelas, salin kode unik, dan pantau jumlah
                         siswa Anda.
                     </p>
@@ -211,13 +219,13 @@ return;
                             v-model="searchQuery"
                             type="text"
                             placeholder="Cari nama atau kode kelas..."
-                            class="h-10 w-full rounded-lg border-slate-200 bg-white pl-9 text-[13px] focus-visible:ring-indigo-500"
+                            class="h-10 w-full rounded-lg border-border/40 bg-white/5 pl-9 text-[13px] text-white focus:border-[var(--theme-primary)] focus:outline-none focus-visible:border-[var(--theme-primary)] focus-visible:ring-[var(--theme-primary)]/20"
                         />
                     </div>
                     <div class="flex-shrink-0">
                         <Button
                             @click="openCreateModal"
-                            class="h-10 w-full bg-indigo-600 px-4 font-semibold text-white hover:bg-indigo-700 sm:w-auto"
+                            class="h-10 w-full border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-4 font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110 sm:w-auto"
                         >
                             <i class="pi pi-plus mr-2"></i> Buat Kelas
                         </Button>
@@ -234,18 +242,18 @@ return;
                 <Card
                     v-for="cls in filteredClasses"
                     :key="cls.id"
-                    class="group flex flex-col rounded-xl border-slate-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md"
+                    class="group flex flex-col rounded-xl border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md transition-all duration-200 hover:border-[var(--theme-primary)]/50 hover:shadow-[0_0_20px_rgba(210,255,0,0.08)]"
                 >
-                    <CardHeader class="border-b border-slate-50 pb-3">
+                    <CardHeader class="border-b border-border/40 pb-3">
                         <div class="flex items-start justify-between">
                             <div class="pr-3">
                                 <CardTitle
-                                    class="text-[17px] leading-tight font-bold text-slate-900 transition-colors group-hover:text-indigo-600"
+                                    class="text-[17px] leading-tight font-bold text-slate-100 transition-colors group-hover:text-[var(--theme-primary)]"
                                 >
                                     {{ cls.class_name }}
                                 </CardTitle>
                                 <CardDescription
-                                    class="mt-1.5 flex items-center gap-1.5 text-[11px] font-medium text-slate-500"
+                                    class="mt-1.5 flex items-center gap-1.5 text-[11px] font-medium text-slate-400"
                                 >
                                     <i class="pi pi-calendar text-[10px]"></i>
                                     Dibuat:
@@ -263,15 +271,15 @@ return;
 
                             <button
                                 @click="copyCode(cls.class_code)"
-                                class="group/code flex shrink-0 cursor-pointer flex-col items-center justify-center rounded-lg border border-indigo-100 bg-indigo-50/50 p-2 transition-colors hover:bg-indigo-100"
+                                class="group/code flex shrink-0 cursor-pointer flex-col items-center justify-center rounded-lg border border-[var(--theme-primary)]/20 bg-[var(--theme-primary)]/5 p-2 transition-colors hover:bg-[var(--theme-primary)]/10"
                                 title="Klik untuk menyalin kode"
                             >
                                 <span
-                                    class="font-mono text-[14px] font-bold tracking-widest text-indigo-700"
+                                    class="font-mono text-[14px] font-bold tracking-widest text-[var(--theme-primary)]"
                                     >{{ cls.class_code }}</span
                                 >
                                 <span
-                                    class="mt-0.5 text-[9px] font-bold tracking-wider text-indigo-400 uppercase group-hover/code:text-indigo-600"
+                                    class="mt-0.5 text-[9px] font-bold tracking-wider text-[var(--theme-primary)]/60 uppercase group-hover/code:text-[var(--theme-primary)]"
                                 >
                                     <i class="pi pi-copy mr-0.5 text-[8px]"></i>
                                     Salin
@@ -282,7 +290,7 @@ return;
 
                     <CardContent class="flex flex-1 flex-col pt-4 pb-4">
                         <p
-                            class="mb-4 line-clamp-2 flex-1 text-[13px] text-slate-600"
+                            class="mb-4 line-clamp-2 flex-1 text-[13px] text-slate-300"
                         >
                             {{
                                 stripHtml(cls.description) ||
@@ -292,33 +300,33 @@ return;
 
                         <div class="mb-4 grid grid-cols-2 gap-3">
                             <div
-                                class="flex flex-col rounded-lg border border-slate-100 bg-slate-50 p-2.5"
+                                class="flex flex-col rounded-lg border border-border/40 bg-white/5 p-2.5"
                             >
                                 <span
                                     class="mb-1 text-[10px] font-bold tracking-wider text-slate-400 uppercase"
                                     >Total Siswa</span
                                 >
                                 <div
-                                    class="flex items-center gap-1.5 text-[14px] font-bold text-slate-700"
+                                    class="flex items-center gap-1.5 text-[14px] font-bold text-slate-200"
                                 >
                                     <i
-                                        class="pi pi-users text-[12px] text-blue-500"
+                                        class="pi pi-users text-[12px] text-[#00ffff]"
                                     ></i>
                                     {{ cls.students_count || 0 }}
                                 </div>
                             </div>
                             <div
-                                class="flex flex-col rounded-lg border border-slate-100 bg-slate-50 p-2.5"
+                                class="flex flex-col rounded-lg border border-border/40 bg-white/5 p-2.5"
                             >
                                 <span
                                     class="mb-1 text-[10px] font-bold tracking-wider text-slate-400 uppercase"
-                                    >Review LC5E</span
+                                    >Review POE</span
                                 >
                                 <div
-                                    class="flex items-center gap-1.5 text-[14px] font-bold text-slate-700"
+                                    class="flex items-center gap-1.5 text-[14px] font-bold text-slate-200"
                                 >
                                     <i
-                                        class="pi pi-file-edit text-[12px] text-emerald-500"
+                                        class="pi pi-file-edit text-[12px] text-[var(--theme-primary)]"
                                     ></i>
                                     0
                                 </div>
@@ -331,7 +339,7 @@ return;
                                 class="flex-1"
                             >
                                 <Button
-                                    class="h-9 w-full bg-indigo-600 text-[12px] text-white hover:bg-indigo-700"
+                                    class="h-9 w-full border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[12px] font-bold text-[#070814] shadow-[0_0_10px_rgba(210,255,0,0.15)] hover:brightness-110"
                                 >
                                     Kelola Kelas
                                     <i
@@ -344,7 +352,7 @@ return;
                                 variant="outline"
                                 size="icon"
                                 @click="openEditModal(cls)"
-                                class="h-9 w-9 shrink-0 border-amber-200 text-amber-500 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-600"
+                                class="h-9 w-9 shrink-0 border-amber-500/30 bg-white/5 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
                                 title="Edit Kelas"
                             >
                                 <i class="pi pi-pencil text-[13px]"></i>
@@ -354,7 +362,7 @@ return;
                                 variant="outline"
                                 size="icon"
                                 @click="confirmDelete(cls.id, cls.class_name)"
-                                class="h-9 w-9 shrink-0 border-rose-200 text-rose-500 transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600"
+                                class="h-9 w-9 shrink-0 border-rose-500/30 bg-white/5 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300"
                                 title="Hapus Kelas"
                             >
                                 <i class="pi pi-trash text-[13px]"></i>
@@ -366,10 +374,10 @@ return;
 
             <div
                 v-else
-                class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-24 text-center"
+                class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/40 bg-card/60 px-6 py-24 text-center backdrop-blur-md"
             >
                 <div
-                    class="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-slate-50"
+                    class="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-white/5"
                 >
                     <i
                         class="pi pi-search text-4xl text-slate-300"
@@ -380,7 +388,7 @@ return;
                         v-else
                     ></i>
                 </div>
-                <h4 class="mb-2 text-[18px] font-bold text-slate-800">
+                <h4 class="mb-2 text-[18px] font-bold text-slate-200">
                     {{
                         searchQuery
                             ? 'Kelas Tidak Ditemukan'
@@ -388,7 +396,7 @@ return;
                     }}
                 </h4>
                 <p
-                    class="mb-6 max-w-[400px] text-[14px] leading-relaxed font-medium text-slate-500"
+                    class="mb-6 max-w-[400px] text-[14px] leading-relaxed font-medium text-slate-400"
                 >
                     {{
                         searchQuery
@@ -399,7 +407,7 @@ return;
                 <Button
                     v-if="!searchQuery"
                     @click="openCreateModal"
-                    class="h-10 bg-indigo-600 px-6 font-semibold text-white hover:bg-indigo-700"
+                    class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
                 >
                     <i class="pi pi-plus mr-2"></i> Buat Kelas Baru
                 </Button>
@@ -408,7 +416,7 @@ return;
                     v-else
                     variant="outline"
                     @click="searchQuery = ''"
-                    class="h-10 border-slate-200 px-6 font-semibold text-slate-600"
+                    class="text-slate-350 h-10 border-border/40 bg-white/5 px-6 font-bold hover:bg-white/10 hover:text-white"
                 >
                     Reset Pencarian
                 </Button>
@@ -419,23 +427,28 @@ return;
     <Teleport to="body">
         <div
             v-if="isCreateModalOpen"
-            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 dark:bg-black/60 px-4 backdrop-blur-[6px] transition-all"
+            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 px-4 backdrop-blur-[6px] transition-all dark:bg-black/60"
         >
             <div
-                class="w-full max-w-[450px] animate-in overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-100/80 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] duration-200 zoom-in-95 fade-in"
+                class="w-full max-w-[450px] animate-in overflow-hidden rounded-3xl border border-slate-100/80 bg-white shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] duration-200 zoom-in-95 fade-in dark:border-slate-800/50 dark:bg-slate-950 dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
             >
                 <div
-                    class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 bg-gradient-to-r from-amber-50/50 via-rose-50/30 to-orange-50/40 dark:from-slate-900/50 dark:via-slate-900/30 dark:to-slate-900/40 px-6 py-4.5"
+                    class="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-amber-50/50 via-rose-50/30 to-orange-50/40 px-6 py-4.5 dark:border-slate-800 dark:from-slate-900/50 dark:via-slate-900/30 dark:to-slate-900/40"
                 >
                     <div class="flex items-center gap-3">
-                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-900/30 text-amber-600 dark:text-amber-400">
+                        <div
+                            class="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-200/50 bg-amber-50 text-amber-600 dark:border-amber-900/30 dark:bg-amber-950/30 dark:text-amber-400"
+                        >
                             <i class="pi pi-plus-circle text-[15px]"></i>
                         </div>
-                        <span class="text-base font-extrabold text-slate-800 dark:text-slate-100">Buat Kelas Baru</span>
+                        <span
+                            class="text-base font-extrabold text-slate-800 dark:text-slate-100"
+                            >Buat Kelas Baru</span
+                        >
                     </div>
                     <button
                         @click="closeCreateModal"
-                        class="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
+                        class="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-slate-50 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-900 dark:hover:text-slate-300"
                     >
                         <i class="pi pi-times text-sm"></i>
                     </button>
@@ -444,7 +457,7 @@ return;
                 <form @submit.prevent="submitCreate" class="p-6">
                     <div class="space-y-5">
                         <div
-                            class="flex items-start gap-2 rounded-xl border border-amber-100 dark:border-amber-900/30 bg-amber-50/50 dark:bg-amber-950/20 p-3 text-[12px] font-medium text-amber-700 dark:text-amber-400"
+                            class="flex items-start gap-2 rounded-xl border border-amber-100 bg-amber-50/50 p-3 text-[12px] font-medium text-amber-700 dark:border-amber-900/30 dark:bg-amber-950/20 dark:text-amber-400"
                         >
                             <i class="pi pi-info-circle mt-0.5"></i>
                             Sistem akan otomatis men-generate 6 digit kode unik
@@ -453,7 +466,7 @@ return;
 
                         <div>
                             <label
-                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-700 dark:text-slate-300 uppercase"
+                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-300 uppercase"
                             >
                                 Nama Kelas <span class="text-rose-500">*</span>
                             </label>
@@ -462,7 +475,7 @@ return;
                                 type="text"
                                 required
                                 placeholder="Contoh: Kimia X IPA 1"
-                                class="h-11 rounded-xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-[14px] shadow-sm focus-visible:ring-amber-500/20 focus-visible:border-amber-500 focus:border-amber-500 focus:ring-amber-500/20"
+                                class="h-11 rounded-xl border-border/40 bg-white/5 text-[14px] text-white shadow-sm focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20 focus:outline-none focus-visible:border-[var(--theme-primary)] focus-visible:ring-[var(--theme-primary)]/20"
                             />
                             <span
                                 v-if="createForm.errors.class_name"
@@ -474,7 +487,7 @@ return;
 
                         <div>
                             <label
-                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-700 dark:text-slate-300 uppercase"
+                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-300 uppercase"
                             >
                                 Deskripsi Singkat
                             </label>
@@ -490,14 +503,14 @@ return;
                             type="button"
                             variant="outline"
                             @click="closeCreateModal"
-                            class="h-10 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 px-5 font-bold text-[13px] text-slate-600 dark:text-slate-300"
+                            class="h-10 rounded-xl border border-border/40 bg-white/5 px-5 text-[13px] font-bold text-slate-300 hover:bg-white/10"
                         >
                             Batal
                         </Button>
                         <Button
                             type="submit"
                             :disabled="createForm.processing"
-                            class="h-10 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 px-6 font-bold text-white shadow-md shadow-indigo-100 dark:shadow-none text-[13px]"
+                            class="h-10 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
                         >
                             <i
                                 v-if="createForm.processing"
@@ -514,23 +527,28 @@ return;
     <Teleport to="body">
         <div
             v-if="isEditModalOpen"
-            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 dark:bg-black/60 px-4 backdrop-blur-[6px] transition-all"
+            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 px-4 backdrop-blur-[6px] transition-all dark:bg-black/60"
         >
             <div
-                class="w-full max-w-[450px] animate-in overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-100/80 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] duration-200 zoom-in-95 fade-in"
+                class="w-full max-w-[450px] animate-in overflow-hidden rounded-3xl border border-slate-100/80 bg-white shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] duration-200 zoom-in-95 fade-in dark:border-slate-800/50 dark:bg-slate-950 dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
             >
                 <div
-                    class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 bg-gradient-to-r from-amber-50/50 via-rose-50/30 to-orange-50/40 dark:from-slate-900/50 dark:via-slate-900/30 dark:to-slate-900/40 px-6 py-4.5"
+                    class="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-amber-50/50 via-rose-50/30 to-orange-50/40 px-6 py-4.5 dark:border-slate-800 dark:from-slate-900/50 dark:via-slate-900/30 dark:to-slate-900/40"
                 >
                     <div class="flex items-center gap-3">
-                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-900/30 text-amber-600 dark:text-amber-400">
+                        <div
+                            class="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-200/50 bg-amber-50 text-amber-600 dark:border-amber-900/30 dark:bg-amber-950/30 dark:text-amber-400"
+                        >
                             <i class="pi pi-pencil text-[15px]"></i>
                         </div>
-                        <span class="text-base font-extrabold text-slate-800 dark:text-slate-100">Edit Informasi Kelas</span>
+                        <span
+                            class="text-base font-extrabold text-slate-800 dark:text-slate-100"
+                            >Edit Informasi Kelas</span
+                        >
                     </div>
                     <button
                         @click="closeEditModal"
-                        class="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
+                        class="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 transition-colors hover:bg-slate-50 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-900 dark:hover:text-slate-300"
                     >
                         <i class="pi pi-times text-sm"></i>
                     </button>
@@ -540,7 +558,7 @@ return;
                     <div class="space-y-5">
                         <div>
                             <label
-                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-700 dark:text-slate-300 uppercase"
+                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-300 uppercase"
                             >
                                 Nama Kelas <span class="text-rose-500">*</span>
                             </label>
@@ -548,7 +566,7 @@ return;
                                 v-model="editForm.class_name"
                                 type="text"
                                 required
-                                class="h-11 rounded-xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-[14px] shadow-sm focus-visible:ring-amber-500/20 focus-visible:border-amber-500 focus:border-amber-500 focus:ring-amber-500/20"
+                                class="h-11 rounded-xl border-border/40 bg-white/5 text-[14px] text-white shadow-sm focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20 focus:outline-none focus-visible:border-[var(--theme-primary)] focus-visible:ring-[var(--theme-primary)]/20"
                             />
                             <span
                                 v-if="editForm.errors.class_name"
@@ -560,7 +578,7 @@ return;
 
                         <div>
                             <label
-                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-700 dark:text-slate-300 uppercase"
+                                class="mb-2 block text-[12px] font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300"
                             >
                                 Deskripsi Singkat
                             </label>
@@ -576,14 +594,14 @@ return;
                             type="button"
                             variant="outline"
                             @click="closeEditModal"
-                            class="h-10 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 px-5 font-bold text-[13px] text-slate-600 dark:text-slate-300"
+                            class="h-10 rounded-xl border border-border/40 bg-white/5 px-5 text-[13px] font-bold text-slate-300 hover:bg-white/10"
                         >
                             Batal
                         </Button>
                         <Button
                             type="submit"
                             :disabled="editForm.processing"
-                            class="h-10 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 px-6 font-bold text-white shadow-md shadow-indigo-100 dark:shadow-none text-[13px]"
+                            class="h-10 rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] hover:brightness-110"
                         >
                             <i
                                 v-if="editForm.processing"
@@ -601,17 +619,15 @@ return;
     <Teleport to="body">
         <div
             v-if="isDeleteModalOpen"
-            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 dark:bg-black/60 px-4 backdrop-blur-[6px] transition-all"
+            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 px-4 backdrop-blur-[6px] transition-all dark:bg-black/60"
         >
             <div
-                class="w-full max-w-[400px] animate-in overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-100/80 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] p-6 text-center duration-200 zoom-in-95 fade-in"
+                class="w-full max-w-[400px] animate-in overflow-hidden rounded-3xl border border-slate-100/80 bg-white p-6 text-center shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] duration-200 zoom-in-95 fade-in dark:border-slate-800/50 dark:bg-slate-950 dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
             >
                 <div
-                    class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/30 text-amber-600 dark:text-amber-400 shadow-inner"
+                    class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-amber-100 bg-amber-50 text-amber-600 shadow-inner dark:border-amber-900/30 dark:bg-amber-950/30 dark:text-amber-400"
                 >
-                    <i
-                        class="pi pi-exclamation-triangle text-2xl"
-                    ></i>
+                    <i class="pi pi-exclamation-triangle text-2xl"></i>
                 </div>
 
                 <h3
@@ -638,7 +654,7 @@ return;
                         variant="outline"
                         @click="closeDeleteModal"
                         :disabled="isDeleting"
-                        class="h-11 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 px-6 font-bold text-slate-600 dark:text-slate-300 text-[13px] w-full sm:w-auto"
+                        class="h-11 w-full rounded-xl border border-border/40 bg-white/5 px-6 text-[13px] font-bold text-slate-300 hover:bg-white/10 sm:w-auto"
                     >
                         Batalkan
                     </Button>
@@ -646,7 +662,7 @@ return;
                         type="button"
                         @click="executeDelete"
                         :disabled="isDeleting"
-                        class="h-11 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 px-6 font-bold text-white shadow-md shadow-rose-100 dark:shadow-none text-[13px] w-full sm:w-auto"
+                        class="h-11 w-full rounded-xl border-none bg-gradient-to-r from-rose-500 to-red-600 px-6 text-[13px] font-bold text-white shadow-[0_0_15px_rgba(239,68,68,0.2)] hover:brightness-110 sm:w-auto"
                     >
                         <i
                             v-if="isDeleting"

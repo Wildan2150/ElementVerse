@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title inertia>{{ config('app.name', 'EduChem LC5E') }}</title>
+    <title inertia>{{ config('app.name', 'ElementVerse') }}</title>
 
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -20,8 +20,7 @@
     
     @inertiaHead
 </head>
-{{-- Dark mode dimatikan paksa. Menggunakan bg-slate-50 untuk nuansa Modern SaaS --}}
-<body class="font-sans antialiased bg-slate-50 text-slate-900">
+<body class="font-sans antialiased bg-background text-foreground">
     @inertia
 </body>
 </html>

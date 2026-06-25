@@ -13,7 +13,7 @@ use Inertia\Inertia;
 class StudentAnswerController extends Controller
 {
     /**
-     * Menampilkan rekap jawaban seluruh siswa untuk sebuah fase LC5E.
+     * Menampilkan rekap jawaban seluruh siswa untuk sebuah fase POE.
      */
     public function index(Request $request, Classroom $classroom, Topic $topic, TopicPhase $phase)
     {

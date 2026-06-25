@@ -167,24 +167,26 @@ const stripHtml = (html: string | null | undefined): string => {
 <template>
     <Head :title="`Rekap Jawaban: ${phase.name}`" />
 
-    <div class="min-h-screen bg-[#F4F7F9] px-3 py-4 font-sans sm:px-6 md:px-8">
+    <div
+        class="min-h-screen bg-transparent px-3 py-4 font-sans sm:px-6 md:px-8"
+    >
         <div class="mx-auto max-w-6xl">
             <!-- Breadcrumb -->
             <div
-                class="mb-6 flex items-center gap-2 text-[12px] font-bold text-slate-500"
+                class="mb-6 flex items-center gap-2 text-[12px] font-bold text-slate-400"
             >
                 <Link
                     :href="route('guru.dashboard')"
-                    class="transition-colors hover:text-indigo-600"
+                    class="transition-colors hover:text-[var(--theme-primary)]"
                     >Dashboard</Link
                 >
-                <i class="pi pi-chevron-right text-[8px]"></i>
+                <i class="pi pi-chevron-right text-[8px] text-slate-600"></i>
                 <Link
                     :href="route('guru.classes.show', classroom.id)"
-                    class="transition-colors hover:text-indigo-600"
+                    class="transition-colors hover:text-[var(--theme-primary)]"
                     >{{ classroom.class_name }}</Link
                 >
-                <i class="pi pi-chevron-right text-[8px]"></i>
+                <i class="pi pi-chevron-right text-[8px] text-slate-600"></i>
                 <Link
                     :href="
                         route('guru.classes.topics.show', {
@@ -192,49 +194,55 @@ const stripHtml = (html: string | null | undefined): string => {
                             topic: topic.id,
                         })
                     "
-                    class="transition-colors hover:text-indigo-600"
+                    class="transition-colors hover:text-[var(--theme-primary)]"
                     >{{ topic.title }}</Link
                 >
-                <i class="pi pi-chevron-right text-[8px]"></i>
-                <span class="text-indigo-600">Rekap Jawaban</span>
+                <i class="pi pi-chevron-right text-[8px] text-slate-600"></i>
+                <span class="text-[var(--theme-primary)]">Rekap Jawaban</span>
             </div>
 
             <!-- Header Card -->
-            <Card class="mb-8 overflow-hidden border-none bg-white shadow-sm">
+            <Card
+                class="mb-8 overflow-hidden border border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md"
+            >
                 <div
-                    class="flex flex-col justify-between gap-4 bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-6 text-white md:flex-row md:items-center md:px-8"
+                    class="flex flex-col justify-between gap-4 border-b border-border/40 bg-slate-950/80 px-4 py-6 text-white md:flex-row md:items-center md:px-8"
                 >
                     <div>
                         <span
-                            class="mb-1 block text-[10px] font-black tracking-widest text-emerald-400 uppercase"
+                            class="mb-1 block text-[10px] font-black tracking-widest text-[var(--theme-primary)] uppercase"
                             >Rekap Jawaban Siswa</span
                         >
-                        <h1 class="text-2xl font-black">{{ phase.name }}</h1>
-                        <p class="mt-1 text-[13px] text-slate-300">
+                        <h1 class="text-2xl font-black text-slate-100">
+                            {{ phase.name }}
+                        </h1>
+                        <p class="mt-1 text-[13px] text-slate-400">
                             {{ topic.title }} · {{ classroom.class_name }}
                         </p>
                     </div>
                     <div class="flex items-center gap-4">
                         <div
-                            class="rounded-xl border border-slate-700 bg-slate-800 px-5 py-3 text-center shadow-inner"
+                            class="rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-center shadow-inner"
                         >
-                            <div class="text-2xl font-black text-emerald-400">
+                            <div
+                                class="text-2xl font-black text-[var(--theme-primary)]"
+                            >
                                 {{ totalStudents }}
                             </div>
                             <div
-                                class="text-[10px] font-bold tracking-wider text-slate-400 uppercase"
+                                class="text-slate-450 text-[10px] font-bold tracking-wider uppercase"
                             >
                                 Total Siswa
                             </div>
                         </div>
                         <div
-                            class="rounded-xl border border-slate-700 bg-slate-800 px-5 py-3 text-center shadow-inner"
+                            class="rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-center shadow-inner"
                         >
                             <div class="text-2xl font-black text-indigo-400">
                                 {{ phase.contents?.length || 0 }}
                             </div>
                             <div
-                                class="text-[10px] font-bold tracking-wider text-slate-400 uppercase"
+                                class="text-slate-450 text-[10px] font-bold tracking-wider uppercase"
                             >
                                 Soal / Tugas
                             </div>
@@ -246,17 +254,17 @@ const stripHtml = (html: string | null | undefined): string => {
             <!-- Empty State -->
             <div
                 v-if="!phase.contents || phase.contents.length === 0"
-                class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white py-20 text-center"
+                class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/40 bg-card/40 py-20 text-center"
             >
                 <div
-                    class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-50"
+                    class="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-border/40 bg-white/5 text-slate-400"
                 >
-                    <i class="pi pi-inbox text-3xl text-slate-300"></i>
+                    <i class="pi pi-inbox text-3xl text-slate-400"></i>
                 </div>
-                <h4 class="mb-1 text-[16px] font-bold text-slate-800">
+                <h4 class="mb-1 text-[16px] font-bold text-slate-200">
                     Tidak Ada Soal Evaluasi
                 </h4>
-                <p class="max-w-[350px] text-[13px] font-medium text-slate-500">
+                <p class="max-w-[350px] text-[13px] font-medium text-slate-400">
                     Fase ini belum memiliki blok evaluasi (soal). Tambahkan soal
                     terlebih dahulu di Builder Fase.
                 </p>
@@ -269,16 +277,16 @@ const stripHtml = (html: string | null | undefined): string => {
                     :key="content.id"
                 >
                     <Card
-                        class="overflow-hidden border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+                        class="overflow-hidden border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md transition-shadow hover:shadow-md"
                     >
                         <!-- Question Header (Clickable to expand) -->
                         <button
                             @click="toggleExpand(content.id)"
-                            class="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-slate-50/50 md:px-6 md:py-4"
+                            class="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-white/5 md:px-6 md:py-4"
                         >
                             <div class="flex items-center gap-4">
                                 <span
-                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-[13px] font-black text-slate-600"
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/40 bg-white/5 text-[13px] font-black text-[var(--theme-primary)]"
                                 >
                                     {{ cIdx + 1 }}
                                 </span>
@@ -292,13 +300,13 @@ const stripHtml = (html: string | null | undefined): string => {
                                             ]"
                                         ></i>
                                         <span
-                                            class="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold tracking-wider text-slate-500 uppercase"
+                                            class="rounded-md border border-white/5 bg-white/5 px-2 py-0.5 text-[10px] font-bold tracking-wider text-slate-400 uppercase"
                                         >
                                             {{ getTypeLabel(content.type) }}
                                         </span>
                                     </div>
                                     <h3
-                                        class="max-w-2xl text-[14px] font-bold text-slate-800"
+                                        class="max-w-2xl text-[14px] font-bold text-slate-100"
                                     >
                                         {{
                                             stripHtml(
@@ -320,8 +328,8 @@ const stripHtml = (html: string | null | undefined): string => {
                                     :class="
                                         getAnswersForContent(content.id)
                                             .length > 0
-                                            ? 'border-emerald-200 bg-emerald-50'
-                                            : 'border-slate-200 bg-slate-50'
+                                            ? 'border-emerald-500/20 bg-emerald-500/10'
+                                            : 'border-white/5 bg-white/5'
                                     "
                                 >
                                     <i
@@ -329,8 +337,8 @@ const stripHtml = (html: string | null | undefined): string => {
                                         :class="
                                             getAnswersForContent(content.id)
                                                 .length > 0
-                                                ? 'text-emerald-500'
-                                                : 'text-slate-400'
+                                                ? 'text-emerald-450'
+                                                : 'text-slate-500'
                                         "
                                     ></i>
                                     <span
@@ -338,8 +346,8 @@ const stripHtml = (html: string | null | undefined): string => {
                                         :class="
                                             getAnswersForContent(content.id)
                                                 .length > 0
-                                                ? 'text-emerald-700'
-                                                : 'text-slate-500'
+                                                ? 'text-emerald-400'
+                                                : 'text-slate-450'
                                         "
                                     >
                                         {{
@@ -363,7 +371,7 @@ const stripHtml = (html: string | null | undefined): string => {
                         <!-- Expanded Answer Table -->
                         <div
                             v-if="expandedContent[content.id]"
-                            class="animate-in border-t border-slate-100 duration-200 fade-in slide-in-from-top-1"
+                            class="animate-in border-t border-white/5 duration-200 fade-in slide-in-from-top-1"
                         >
                             <!-- No Answers State -->
                             <div
@@ -374,7 +382,7 @@ const stripHtml = (html: string | null | undefined): string => {
                                 class="flex flex-col items-center justify-center py-12 text-center"
                             >
                                 <i
-                                    class="pi pi-inbox mb-2 text-2xl text-slate-300"
+                                    class="pi pi-inbox text-slate-550 mb-2 text-2xl"
                                 ></i>
                                 <p class="text-[13px] font-bold text-slate-400">
                                     Belum ada siswa yang menjawab soal ini.
@@ -382,20 +390,20 @@ const stripHtml = (html: string | null | undefined): string => {
                             </div>
 
                             <!-- Answer List -->
-                            <div v-else class="divide-y divide-slate-100">
+                            <div v-else class="divide-y divide-white/5">
                                 <div
                                     v-for="(
                                         answer, aIdx
                                     ) in getAnswersForContent(content.id)"
                                     :key="answer.id"
-                                    class="flex gap-4 px-4 py-3 transition-colors hover:bg-slate-50/50 md:px-6 md:py-4"
+                                    class="flex gap-4 px-4 py-3 transition-colors hover:bg-white/5 md:px-6 md:py-4"
                                 >
                                     <!-- Student Avatar -->
                                     <div
                                         class="flex shrink-0 flex-col items-center gap-1 pt-0.5"
                                     >
                                         <div
-                                            class="flex h-9 w-9 items-center justify-center rounded-full border border-indigo-100 bg-indigo-50 text-[11px] font-black text-indigo-600 uppercase"
+                                            class="flex h-9 w-9 items-center justify-center rounded-full border border-indigo-500/20 bg-indigo-500/10 text-[11px] font-black text-indigo-400 uppercase"
                                         >
                                             {{
                                                 getInitials(
@@ -404,7 +412,7 @@ const stripHtml = (html: string | null | undefined): string => {
                                             }}
                                         </div>
                                         <span
-                                            class="text-[9px] font-bold text-slate-400"
+                                            class="text-[9px] font-bold text-slate-500"
                                         >
                                             #{{ aIdx + 1 }}
                                         </span>
@@ -416,14 +424,14 @@ const stripHtml = (html: string | null | undefined): string => {
                                             class="mb-1.5 flex items-center gap-2"
                                         >
                                             <span
-                                                class="text-[13px] font-bold text-slate-800"
+                                                class="text-[13px] font-bold text-slate-200"
                                                 >{{
                                                     answer.user?.name ||
                                                     'Siswa Terhapus'
                                                 }}</span
                                             >
                                             <span
-                                                class="text-[10px] text-slate-400"
+                                                class="text-slate-450 text-[10px]"
                                                 >{{ answer.user?.email }}</span
                                             >
                                             <span
@@ -442,7 +450,7 @@ const stripHtml = (html: string | null | undefined): string => {
 
                                         <!-- Answer Body -->
                                         <div
-                                            class="rounded-xl border border-slate-100 bg-slate-50 px-4 py-3"
+                                            class="rounded-xl border border-white/5 bg-white/5 px-4 py-3"
                                         >
                                             <!-- File Upload Answer -->
                                             <div
@@ -466,7 +474,7 @@ const stripHtml = (html: string | null | undefined): string => {
                                                     v-else
                                                     :href="answer.answer_data"
                                                     target="_blank"
-                                                    class="inline-flex items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-[12px] font-bold text-indigo-600 transition-colors hover:bg-indigo-100"
+                                                    class="inline-flex items-center gap-2 rounded-lg border border-indigo-500/20 bg-indigo-500/5 px-3 py-2 text-[12px] font-bold text-indigo-400 transition-colors hover:bg-indigo-500/10"
                                                 >
                                                     <i class="pi pi-file"></i>
                                                     Lihat File
@@ -475,7 +483,7 @@ const stripHtml = (html: string | null | undefined): string => {
                                             <!-- Text Answer (Diperbaiki di sini) -->
                                             <div
                                                 v-else
-                                                class="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed text-slate-700"
+                                                class="prose prose-sm prose-invert max-w-none text-[13px] leading-relaxed text-slate-300"
                                                 v-html="
                                                     formatAnswer(
                                                         answer.answer_data,
@@ -488,21 +496,21 @@ const stripHtml = (html: string | null | undefined): string => {
                                         <!-- AI Feedback -->
                                         <div
                                             v-if="answer.ai_feedback"
-                                            class="mt-2 rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 to-purple-50/50 px-4 py-3"
+                                            class="mt-2 rounded-xl border border-indigo-500/10 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 px-4 py-3"
                                         >
                                             <div
                                                 class="mb-1.5 flex items-center gap-1.5"
                                             >
                                                 <i
-                                                    class="pi pi-sparkles text-[10px] text-indigo-500"
+                                                    class="pi pi-sparkles text-[10px] text-indigo-400"
                                                 ></i>
                                                 <span
-                                                    class="text-[10px] font-black tracking-widest text-indigo-600 uppercase"
+                                                    class="text-[10px] font-black tracking-widest text-indigo-400 uppercase"
                                                     >Feedback AI</span
                                                 >
                                             </div>
                                             <div
-                                                class="prose prose-sm prose-slate max-w-none text-[12px] leading-relaxed"
+                                                class="prose prose-sm prose-invert text-slate-350 max-w-none text-[12px] leading-relaxed"
                                                 v-html="
                                                     renderMarkdown(
                                                         answer.ai_feedback,
@@ -530,7 +538,7 @@ const stripHtml = (html: string | null | undefined): string => {
                 >
                     <Button
                         variant="outline"
-                        class="h-10 border-slate-200 px-6 text-[13px] font-bold text-slate-600 hover:bg-slate-50"
+                        class="h-10 border-border/40 bg-white/5 px-6 text-[13px] font-bold text-slate-200 hover:bg-white/10 hover:text-white"
                     >
                         <i class="pi pi-arrow-left mr-2 text-[10px]"></i>
                         Kembali ke Topik

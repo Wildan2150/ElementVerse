@@ -1,17 +1,24 @@
 <script setup lang="ts">
-import { h } from 'vue';
 import { Form, Head, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
+import { h } from 'vue';
 import { computed } from 'vue';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/DeleteUser.vue';
 import InputError from '@/components/InputError.vue';
-import AppLayout from '@/layouts/AppLayout.vue';
-import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import AppLayout from '@/layouts/AppLayout.vue';
+import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 
@@ -27,7 +34,7 @@ defineOptions({
                     },
                 ],
             },
-            () => h(SettingsLayout, null, () => page)
+            () => h(SettingsLayout, null, () => page),
         );
     },
 });
@@ -84,7 +91,12 @@ const user = computed(() => page.props.auth.user);
                         <InputError class="mt-2" :message="errors.email" />
                     </div>
 
-                    <div v-if="page.props.mustVerifyEmail && !user.email_verified_at">
+                    <div
+                        v-if="
+                            page.props.mustVerifyEmail &&
+                            !user.email_verified_at
+                        "
+                    >
                         <p class="-mt-2 text-sm text-muted-foreground">
                             Your email address is unverified.
                             <Link
@@ -97,16 +109,24 @@ const user = computed(() => page.props.auth.user);
                         </p>
 
                         <div
-                            v-if="page.props.status === 'verification-link-sent'"
+                            v-if="
+                                page.props.status === 'verification-link-sent'
+                            "
                             class="mt-2 text-sm font-medium text-green-600"
                         >
-                            A new verification link has been sent to your email address.
+                            A new verification link has been sent to your email
+                            address.
                         </div>
                     </div>
                 </CardContent>
 
-                <CardFooter class="border-t bg-muted/10 px-6 py-4 flex items-center justify-end">
-                    <Button :disabled="processing" data-test="update-profile-button">
+                <CardFooter
+                    class="flex items-center justify-end border-t bg-muted/10 px-6 py-4"
+                >
+                    <Button
+                        :disabled="processing"
+                        data-test="update-profile-button"
+                    >
                         Save
                     </Button>
                 </CardFooter>

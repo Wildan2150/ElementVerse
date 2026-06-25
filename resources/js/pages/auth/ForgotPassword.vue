@@ -6,15 +6,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import AuthLayout from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
-import AuthLayout from '@/layouts/AuthLayout.vue';
 
 defineOptions({
-    layout: (h, page) => h(AuthLayout, {
-        title: 'Lupa Password',
-        description: 'Masukkan email Anda untuk mengajukan reset password ke Admin',
-    }, () => page),
+    layout: (h, page) =>
+        h(
+            AuthLayout,
+            {
+                title: 'Lupa Password',
+                description:
+                    'Masukkan email Anda untuk mengajukan reset password ke Admin',
+            },
+            () => page,
+        ),
 });
 
 defineProps<{
@@ -27,7 +33,7 @@ defineProps<{
 
     <div
         v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600 bg-green-50 border border-green-100 rounded-xl py-2 px-3"
+        class="mb-4 rounded-xl border border-green-100 bg-green-50 px-3 py-2 text-center text-sm font-medium text-green-600"
     >
         {{ status }}
     </div>
@@ -50,7 +56,7 @@ defineProps<{
 
             <div class="my-6 flex items-center justify-start">
                 <Button
-                    class="w-full h-11 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all"
+                    class="h-11 w-full rounded-xl bg-blue-600 font-bold text-white transition-all hover:bg-blue-700"
                     :disabled="processing"
                     data-test="email-password-reset-link-button"
                 >
@@ -66,4 +72,3 @@ defineProps<{
         </div>
     </div>
 </template>
-

@@ -1,24 +1,17 @@
 import { ref, onMounted } from 'vue';
 
-export type Theme = 'elegan' | 'genz' | 'classic';
+export type Theme = 'elementverse';
 
-const theme = ref<Theme>('elegan');
+const theme = ref<Theme>('elementverse');
 
 export function useTheme() {
     onMounted(() => {
-        const savedTheme = localStorage.getItem('app-theme') as Theme | null;
-        if (savedTheme) {
-            theme.value = savedTheme;
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        } else {
-            document.documentElement.setAttribute('data-theme', 'elegan');
-        }
+        document.documentElement.setAttribute('data-theme', 'elementverse');
     });
 
     const updateTheme = (newTheme: Theme) => {
-        theme.value = newTheme;
-        localStorage.setItem('app-theme', newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
+        theme.value = 'elementverse';
+        document.documentElement.setAttribute('data-theme', 'elementverse');
     };
 
     return {

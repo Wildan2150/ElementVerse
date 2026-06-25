@@ -54,18 +54,18 @@ const formatTime = (dateString: string) => {
     const diffMins = Math.floor(diffMs / 60000);
 
     if (diffMins < 1) {
-return 'Baru saja';
-}
+        return 'Baru saja';
+    }
 
     if (diffMins < 60) {
-return `${diffMins} menit lalu`;
-}
+        return `${diffMins} menit lalu`;
+    }
 
     const diffHours = Math.floor(diffMins / 60);
 
     if (diffHours < 24) {
-return `${diffHours} jam lalu`;
-}
+        return `${diffHours} jam lalu`;
+    }
 
     const diffDays = Math.floor(diffHours / 24);
 
@@ -104,8 +104,8 @@ watch(
 
 const toggleAI = () => {
     if (isTogglingAI.value) {
-return;
-}
+        return;
+    }
 
     isTogglingAI.value = true;
     localAisEnabled.value = !localAisEnabled.value;
@@ -150,8 +150,8 @@ watch(
 
 const toggleChatbot = () => {
     if (isTogglingChatbot.value) {
-return;
-}
+        return;
+    }
 
     isTogglingChatbot.value = true;
     localChatbotEnabled.value = !localChatbotEnabled.value;
@@ -221,15 +221,27 @@ watch(
             }
 
             // Inisialisasi struktur JSON sesuai Tipe Komponen
-            if (c.type === 'text' && (c.content_data.body === undefined || c.content_data.body === null)) {
+            if (
+                c.type === 'text' &&
+                (c.content_data.body === undefined ||
+                    c.content_data.body === null)
+            ) {
                 c.content_data.body = '';
             }
 
-            if (c.type === 'image' && (c.content_data.url === undefined || c.content_data.url === null)) {
+            if (
+                c.type === 'image' &&
+                (c.content_data.url === undefined ||
+                    c.content_data.url === null)
+            ) {
                 c.content_data.url = '';
             }
 
-            if (c.type === 'h5p' && (c.content_data.path === undefined || c.content_data.path === null)) {
+            if (
+                c.type === 'h5p' &&
+                (c.content_data.path === undefined ||
+                    c.content_data.path === null)
+            ) {
                 c.content_data.path = '';
             }
 
@@ -240,13 +252,17 @@ watch(
 
             if (
                 ['eval_essay', 'eval_short', 'eval_file'].includes(c.type) &&
-                (c.content_data.question === undefined || c.content_data.question === null)
+                (c.content_data.question === undefined ||
+                    c.content_data.question === null)
             ) {
                 c.content_data.question = c.content_data.label || ''; // Support legacy label
             }
 
             if (['eval_mcq', 'eval_cmcq'].includes(c.type)) {
-                if (c.content_data.question === undefined || c.content_data.question === null) {
+                if (
+                    c.content_data.question === undefined ||
+                    c.content_data.question === null
+                ) {
                     c.content_data.question = c.content_data.label || '';
                 }
 
@@ -258,7 +274,8 @@ watch(
             // Inisialisasi untuk Forum Diskusi
             if (
                 c.type === 'discussion' &&
-                (c.content_data.topic === undefined || c.content_data.topic === null)
+                (c.content_data.topic === undefined ||
+                    c.content_data.topic === null)
             ) {
                 c.content_data.topic = '';
             }
@@ -339,19 +356,24 @@ const closeDeleteContentModal = () => {
 
 const executeDeleteContent = () => {
     if (contentIdToDelete.value) {
-        router.delete(route('guru.contents.destroy', { content: contentIdToDelete.value }), {
-            preserveScroll: true,
-            onSuccess: () => {
-                closeDeleteContentModal();
-                toast.success('Blok dihapus.');
+        router.delete(
+            route('guru.contents.destroy', {
+                content: contentIdToDelete.value,
+            }),
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    closeDeleteContentModal();
+                    toast.success('Blok dihapus.');
+                },
+                onError: () => {
+                    closeDeleteContentModal();
+                    toast.error('Gagal Menghapus', {
+                        description: 'Terjadi kesalahan saat menghapus blok.',
+                    });
+                },
             },
-            onError: () => {
-                closeDeleteContentModal();
-                toast.error('Gagal Menghapus', {
-                    description: 'Terjadi kesalahan saat menghapus blok.',
-                });
-            }
-        });
+        );
     }
 };
 
@@ -362,11 +384,18 @@ const addOption = (content: any) => {
 
 const removeOption = (content: any, index: number) => {
     content.content_data.options.splice(index, 1);
+
     if (content.correct_answers && Array.isArray(content.correct_answers)) {
         content.correct_answers = content.correct_answers
             .map((val: number) => {
-                if (val === index) return null;
-                if (val > index) return val - 1;
+                if (val === index) {
+                    return null;
+                }
+
+                if (val > index) {
+                    return val - 1;
+                }
+
                 return val;
             })
             .filter((val: any) => val !== null);
@@ -377,7 +406,9 @@ const toggleCorrectAnswer = (content: any, index: number) => {
     if (!content.correct_answers) {
         content.correct_answers = [];
     }
+
     const idx = content.correct_answers.indexOf(index);
+
     if (idx > -1) {
         content.correct_answers.splice(idx, 1);
     } else {
@@ -389,17 +420,25 @@ const toggleCorrectAnswer = (content: any, index: number) => {
 <template>
     <Head :title="`Builder: ${phase.name}`" />
 
-    <div class="min-h-screen bg-[#F8FAFC] px-4 py-6 font-sans md:px-8 lg:px-10">
+    <div
+        class="min-h-screen bg-transparent px-4 py-6 font-sans md:px-8 lg:px-10"
+    >
         <div class="mx-auto max-w-4xl">
             <div
-                class="mb-6 flex items-center gap-2 text-[12px] font-bold text-slate-500"
+                class="mb-6 flex items-center gap-2 text-[12px] font-bold text-slate-400"
             >
                 <Link
+                    :href="route('guru.dashboard')"
+                    class="transition-colors hover:text-[var(--theme-primary)]"
+                    >Dashboard</Link
+                >
+                <i class="pi pi-chevron-right text-[8px] text-slate-600"></i>
+                <Link
                     :href="route('guru.classes.show', classroom.id)"
-                    class="transition-colors hover:text-indigo-600"
+                    class="transition-colors hover:text-[var(--theme-primary)]"
                     >{{ classroom.class_name }}</Link
                 >
-                <i class="pi pi-chevron-right text-[8px]"></i>
+                <i class="pi pi-chevron-right text-[8px] text-slate-600"></i>
                 <Link
                     :href="
                         route('guru.classes.topics.show', {
@@ -407,32 +446,34 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                             topic: topic.id,
                         })
                     "
-                    class="transition-colors hover:text-indigo-600"
+                    class="transition-colors hover:text-[var(--theme-primary)]"
                     >{{ topic.title }}</Link
                 >
-                <i class="pi pi-chevron-right text-[8px]"></i>
-                <span class="text-indigo-600"
+                <i class="pi pi-chevron-right text-[8px] text-slate-600"></i>
+                <span class="text-[var(--theme-primary)]"
                     >Builder Fase: {{ phase.name }}</span
                 >
             </div>
 
             <Card
-                class="mb-8 overflow-hidden rounded-2xl border-none bg-white shadow-sm"
+                class="mb-8 overflow-hidden rounded-2xl border border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md"
             >
                 <div
-                    class="flex flex-col justify-between gap-4 bg-slate-900 px-8 py-6 text-white md:flex-row md:items-center"
+                    class="flex flex-col justify-between gap-4 border-b border-border/40 bg-slate-950/80 px-8 py-6 text-white md:flex-row md:items-center"
                 >
                     <div>
                         <span
-                            class="mb-1 block text-[10px] font-black tracking-widest text-indigo-400 uppercase"
-                            >Siklus LC5E</span
+                            class="mb-1 block text-[10px] font-black tracking-widest text-[var(--theme-primary)] uppercase"
+                            >Siklus POE</span
                         >
-                        <h1 class="text-2xl font-black">{{ phase.name }}</h1>
+                        <h1 class="text-2xl font-black text-slate-100">
+                            {{ phase.name }}
+                        </h1>
                     </div>
                     <div class="flex flex-wrap items-center gap-4">
                         <!-- AI Assistant Feedback Toggle -->
                         <div
-                            class="flex items-center gap-4 rounded-xl border border-slate-700 bg-slate-800 px-5 py-3 shadow-inner"
+                            class="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 px-5 py-3 shadow-inner"
                         >
                             <div class="flex flex-col">
                                 <span
@@ -447,18 +488,22 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 class="ml-2 cursor-pointer"
                                 @click.prevent="toggleAI"
                             >
-                                 <Switch
-                                     :checked="localAisEnabled"
-                                     :disabled="isTogglingAI"
-                                     class="pointer-events-none"
-                                     :class="localAisEnabled ? '!bg-indigo-500' : '!bg-slate-600'"
-                                 />
+                                <Switch
+                                    :checked="localAisEnabled"
+                                    :disabled="isTogglingAI"
+                                    class="pointer-events-none"
+                                    :class="
+                                        localAisEnabled
+                                            ? '!bg-indigo-500'
+                                            : '!bg-slate-700'
+                                    "
+                                />
                             </div>
                         </div>
 
                         <!-- Chatbot AI Toggle -->
                         <div
-                            class="flex items-center gap-4 rounded-xl border border-slate-700 bg-slate-800 px-5 py-3 shadow-inner"
+                            class="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 px-5 py-3 shadow-inner"
                         >
                             <div class="flex flex-col">
                                 <span
@@ -473,12 +518,16 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 class="ml-2 cursor-pointer"
                                 @click.prevent="toggleChatbot"
                             >
-                                 <Switch
-                                     :checked="localChatbotEnabled"
-                                     :disabled="isTogglingChatbot"
-                                     class="pointer-events-none"
-                                     :class="localChatbotEnabled ? '!bg-sky-500' : '!bg-slate-600'"
-                                 />
+                                <Switch
+                                    :checked="localChatbotEnabled"
+                                    :disabled="isTogglingChatbot"
+                                    class="pointer-events-none"
+                                    :class="
+                                        localChatbotEnabled
+                                            ? '!bg-sky-500'
+                                            : '!bg-slate-700'
+                                    "
+                                />
                             </div>
                         </div>
                     </div>
@@ -486,15 +535,15 @@ const toggleCorrectAnswer = (content: any, index: number) => {
 
                 <div
                     v-if="localAisEnabled"
-                    class="animate-in border-b border-indigo-50 bg-indigo-50/50 p-4 md:p-8 duration-300 fade-in"
+                    class="animate-in border-b border-white/5 bg-indigo-500/5 p-4 duration-300 fade-in md:p-8"
                 >
                     <label
-                        class="mb-2 flex items-center gap-2 text-[12px] font-black tracking-widest text-indigo-600 uppercase"
+                        class="mb-2 flex items-center gap-2 text-[12px] font-black tracking-widest text-indigo-400 uppercase"
                     >
                         <i class="pi pi-sparkles"></i> Prompt Instruksi AI
                         (Opsional)
                     </label>
-                    <p class="mb-4 text-[12px] text-slate-500">
+                    <p class="mb-4 text-[12px] text-slate-400">
                         Atur bagaimana AI harus mengevaluasi jawaban siswa pada
                         fase ini. Contoh:
                         <i
@@ -506,41 +555,45 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                         v-model="phase.ai_prompt_setting"
                         @blur="saveAIPrompt"
                         placeholder="Ketik instruksi evaluator AI di sini..."
-                        class="min-h-[100px] w-full resize-y rounded-xl border border-indigo-200 bg-white p-4 text-[14px] text-slate-700 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+                        class="min-h-[100px] w-full resize-y rounded-xl border border-white/10 bg-white/5 p-4 text-[14px] text-slate-100 placeholder-slate-500 shadow-sm focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none"
                     ></textarea>
                 </div>
 
                 <!-- Prompt Instruksi Chatbot AI -->
                 <div
                     v-if="localChatbotEnabled"
-                    class="animate-in border-b border-indigo-50 bg-sky-50/20 p-4 md:p-8 duration-300 fade-in"
+                    class="animate-in bg-sky-500/5 p-4 duration-300 fade-in md:p-8"
                 >
                     <label
-                        class="mb-2 flex items-center gap-2 text-[12px] font-black tracking-widest text-sky-600 uppercase"
+                        class="mb-2 flex items-center gap-2 text-[12px] font-black tracking-widest text-sky-400 uppercase"
                     >
-                        <i class="pi pi-comments"></i> Prompt Instruksi Chatbot AI (Opsional)
+                        <i class="pi pi-comments"></i> Prompt Instruksi Chatbot
+                        AI (Opsional)
                     </label>
-                    <p class="mb-4 text-[12px] text-slate-500">
-                        Atur kepribadian, gaya bahasa, atau materi khusus untuk Chatbot AI siswa pada fase ini. Contoh:
+                    <p class="mb-4 text-[12px] text-slate-400">
+                        Atur kepribadian, gaya bahasa, atau materi khusus untuk
+                        Chatbot AI siswa pada fase ini. Contoh:
                         <i
-                            >"Bantu siswa memahami konsep grafik laju reaksi dengan memberikan contoh analogi kendaraan bermotor, jangan berikan jawaban langsung."</i
+                            >"Bantu siswa memahami konsep tren jari-jari atom
+                            dalam sistem periodik unsur dengan memberikan contoh
+                            analogi, jangan berikan jawaban langsung."</i
                         >
                     </p>
                     <textarea
                         v-model="phase.chatbot_prompt_setting"
                         @blur="saveAIPrompt"
                         placeholder="Ketik instruksi khusus chatbot AI di sini..."
-                        class="min-h-[100px] w-full resize-y rounded-xl border border-sky-200 bg-white p-4 text-[14px] text-slate-700 shadow-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
+                        class="min-h-[100px] w-full resize-y rounded-xl border border-white/10 bg-white/5 p-4 text-[14px] text-slate-100 placeholder-slate-500 shadow-sm focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none"
                     ></textarea>
                 </div>
             </Card>
 
             <div class="mb-6 flex items-center justify-between">
-                <h2 class="text-lg font-extrabold text-slate-900">
+                <h2 class="text-lg font-extrabold text-slate-100">
                     Konstruksi Lembar Kerja Siswa
                 </h2>
                 <span
-                    class="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-bold text-slate-400 shadow-sm"
+                    class="rounded-full border border-border/40 bg-white/5 px-3 py-1 text-[11px] font-bold text-slate-400 shadow-sm"
                 >
                     <i class="pi pi-cloud-upload mr-1"></i> Auto-Save
                 </span>
@@ -551,18 +604,18 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                     <div
                         v-for="(content, index) in localContents"
                         :key="content.id"
-                        class="group relative animate-in rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 slide-in-from-bottom-2 hover:border-indigo-300 hover:shadow-md"
+                        class="group relative animate-in rounded-2xl border border-border/40 bg-card/60 shadow-sm backdrop-blur-md transition-all duration-300 slide-in-from-bottom-2 hover:border-[var(--theme-primary)]/40 hover:shadow-[0_0_20px_rgba(210,255,0,0.08)]"
                     >
                         <div
-                            class="flex items-center justify-between rounded-t-2xl border-b border-slate-100 bg-slate-50/50 px-6 py-4"
+                            class="flex items-center justify-between rounded-t-2xl border-b border-white/5 bg-white/5 px-6 py-4"
                         >
                             <div class="flex items-center gap-3">
                                 <span
-                                    class="flex h-7 w-7 items-center justify-center rounded-xl bg-indigo-100 text-[11px] font-black text-indigo-700"
+                                    class="flex h-7 w-7 items-center justify-center rounded-xl border border-border/40 bg-white/10 text-[11px] font-black text-[var(--theme-primary)]"
                                     >{{ index + 1 }}</span
                                 >
                                 <span
-                                    class="text-[12px] font-bold tracking-wider text-slate-600 uppercase"
+                                    class="text-[12px] font-bold tracking-wider text-slate-300 uppercase"
                                 >
                                     <i
                                         class="pi pi-align-left mr-1 text-slate-400"
@@ -577,15 +630,15 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                         v-if="content.type === 'image'"
                                     ></i>
                                     <i
-                                        class="pi pi-check-circle mr-1 text-emerald-500"
+                                        class="pi pi-check-circle text-emerald-450 mr-1"
                                         v-if="content.type === 'eval_mcq'"
                                     ></i>
                                     <i
-                                        class="pi pi-list mr-1 text-emerald-500"
+                                        class="pi pi-list text-emerald-455 mr-1"
                                         v-if="content.type === 'eval_cmcq'"
                                     ></i>
                                     <i
-                                        class="pi pi-pencil mr-1 text-amber-500"
+                                        class="pi pi-pencil mr-1 text-amber-400"
                                         v-if="
                                             [
                                                 'eval_short',
@@ -594,11 +647,11 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                         "
                                     ></i>
                                     <i
-                                        class="pi pi-upload mr-1 text-pink-500"
+                                        class="pi pi-upload mr-1 text-pink-400"
                                         v-if="content.type === 'eval_file'"
                                     ></i>
                                     <i
-                                        class="pi pi-comments mr-1 text-sky-500"
+                                        class="pi pi-comments mr-1 text-sky-400"
                                         v-if="content.type === 'discussion'"
                                     ></i>
                                     Blok {{ content.type.replace('eval_', '') }}
@@ -606,14 +659,14 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                             </div>
                             <button
                                 @click="removeContent(content.id)"
-                                class="text-slate-300 transition-colors hover:text-rose-500"
+                                class="text-slate-400 transition-colors hover:text-rose-400"
                                 title="Hapus Blok"
                             >
                                 <i class="pi pi-trash"></i>
                             </button>
                         </div>
 
-                        <div class="p-4 md:p-6">
+                        <div class="p-4 text-slate-100 md:p-6">
                             <div v-if="content.type === 'text'">
                                 <RichTextEditor
                                     v-model="content.content_data.body"
@@ -623,7 +676,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     <Button
                                         @click="saveContent(content)"
                                         size="sm"
-                                        class="bg-slate-800 text-white"
+                                        class="border border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
                                         >Simpan Teks</Button
                                     >
                                 </div>
@@ -637,11 +690,11 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     v-model="content.content_data.url"
                                     @blur="saveContent(content)"
                                     placeholder="Paste URL Link Gambar di sini (https://...)"
-                                    class="bg-slate-50"
+                                    class="border-border/40 bg-white/5 text-slate-100 placeholder-slate-500 focus:border-[var(--theme-primary)] focus:outline-none focus-visible:border-[var(--theme-primary)] focus-visible:ring-[var(--theme-primary)]/20"
                                 />
                                 <div
                                     v-if="content.content_data.url"
-                                    class="flex justify-center rounded-xl border border-slate-100 bg-slate-50 p-4"
+                                    class="flex justify-center rounded-xl border border-white/5 bg-white/5 p-4"
                                 >
                                     <img
                                         :src="content.content_data.url"
@@ -655,11 +708,11 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     v-model="content.content_data.path"
                                     @blur="saveContent(content)"
                                     placeholder="Paste Link Embed H5P/Video Interaktif di sini..."
-                                    class="mb-3 bg-slate-50"
+                                    class="mb-3 border-border/40 bg-white/5 text-slate-100 placeholder-slate-500 focus:border-[var(--theme-primary)] focus:outline-none focus-visible:border-[var(--theme-primary)] focus-visible:ring-[var(--theme-primary)]/20"
                                 />
                                 <div
                                     v-if="content.content_data.path"
-                                    class="aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-900"
+                                    class="aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-slate-900"
                                 >
                                     <iframe
                                         :src="content.content_data.path"
@@ -678,7 +731,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                             >
                                 <div>
                                     <label
-                                        class="mb-2 block text-[12px] font-bold text-slate-700"
+                                        class="mb-2 block text-[12px] font-bold text-slate-300"
                                         >Pertanyaan Soal</label
                                     >
                                     <RichTextEditor
@@ -687,11 +740,12 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     />
                                 </div>
                                 <div
-                                    class="rounded-xl border border-slate-200 bg-slate-50 p-5"
+                                    class="rounded-xl border border-white/5 bg-white/5 p-5"
                                 >
-                                                      <label
-                                        class="mb-3 block text-[12px] font-bold text-slate-700"
-                                        >Pilihan Jawaban (Tandai Jawaban yang Benar)</label
+                                    <label
+                                        class="mb-3 block text-[12px] font-bold text-slate-300"
+                                        >Pilihan Jawaban (Tandai Jawaban yang
+                                        Benar)</label
                                     >
                                     <div class="mb-4 space-y-3">
                                         <div
@@ -700,33 +754,62 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                             :key="oIdx"
                                             class="flex items-center gap-3"
                                         >
-                                            <div class="flex items-center justify-center">
+                                            <div
+                                                class="flex items-center justify-center"
+                                            >
                                                 <!-- PG Biasa (Radio) -->
                                                 <input
-                                                    v-if="content.type === 'eval_mcq'"
+                                                    v-if="
+                                                        content.type ===
+                                                        'eval_mcq'
+                                                    "
                                                     type="radio"
-                                                    :name="'correct_answer_' + content.id"
-                                                    :checked="content.correct_answers && content.correct_answers.includes(oIdx)"
-                                                    @change="content.correct_answers = [oIdx]"
-                                                    class="h-4 w-4 border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                    :name="
+                                                        'correct_answer_' +
+                                                        content.id
+                                                    "
+                                                    :checked="
+                                                        content.correct_answers &&
+                                                        content.correct_answers.includes(
+                                                            oIdx,
+                                                        )
+                                                    "
+                                                    @change="
+                                                        content.correct_answers =
+                                                            [oIdx]
+                                                    "
+                                                    class="h-4 w-4 cursor-pointer border-white/20 bg-white/5 text-[var(--theme-primary)] accent-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20"
                                                     title="Tandai sebagai jawaban benar"
                                                 />
                                                 <!-- PG Kompleks (Checkbox) -->
                                                 <input
-                                                    v-if="content.type === 'eval_cmcq'"
+                                                    v-if="
+                                                        content.type ===
+                                                        'eval_cmcq'
+                                                    "
                                                     type="checkbox"
-                                                    :checked="content.correct_answers && content.correct_answers.includes(oIdx)"
-                                                    @change="toggleCorrectAnswer(content, oIdx)"
-                                                    class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                    :checked="
+                                                        content.correct_answers &&
+                                                        content.correct_answers.includes(
+                                                            oIdx,
+                                                        )
+                                                    "
+                                                    @change="
+                                                        toggleCorrectAnswer(
+                                                            content,
+                                                            oIdx,
+                                                        )
+                                                    "
+                                                    class="h-4 w-4 cursor-pointer rounded border-white/20 bg-white/5 text-[var(--theme-primary)] accent-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20"
                                                     title="Tandai sebagai jawaban benar"
                                                 />
                                             </div>
                                             <span
-                                                class="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-slate-200 text-[11px] font-black text-slate-500"
+                                                class="flex h-6 w-6 shrink-0 items-center justify-center rounded border border-white/5 bg-white/10 text-[11px] font-black text-slate-300"
                                                 >{{
                                                     String.fromCharCode(
                                                         65 + oIdx,
-                                                     )
+                                                    )
                                                 }}</span
                                             >
                                             <Input
@@ -734,7 +817,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                                     content.content_data
                                                         .options[oIdx]
                                                 "
-                                                class="flex-1 border-slate-200 bg-white"
+                                                class="flex-1 border-border/40 bg-white/5 text-slate-100 placeholder-slate-500 focus:outline-none focus-visible:border-[var(--theme-primary)] focus-visible:ring-[var(--theme-primary)]/20"
                                                 placeholder="Ketik opsi jawaban..."
                                             />
                                             <button
@@ -751,7 +834,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                         @click="addOption(content)"
                                         type="button"
                                         variant="outline"
-                                        class="h-8 border-dashed border-slate-300 text-[11px] text-slate-600"
+                                        class="h-8 border-dashed border-white/20 bg-white/5 text-[11px] text-slate-300 hover:bg-white/10"
                                         ><i class="pi pi-plus mr-1"></i> Tambah
                                         Opsi</Button
                                     >
@@ -760,7 +843,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     <Button
                                         @click="saveContent(content)"
                                         size="sm"
-                                        class="bg-indigo-600 text-white hover:bg-indigo-700"
+                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
                                         >Simpan Pertanyaan</Button
                                     >
                                 </div>
@@ -775,7 +858,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 class="space-y-4"
                             >
                                 <label
-                                    class="block text-[12px] font-bold text-slate-700"
+                                    class="block text-[12px] font-bold text-slate-300"
                                     >Pertanyaan / Instruksi Kerja</label
                                 >
                                 <RichTextEditor
@@ -786,7 +869,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     <Button
                                         @click="saveContent(content)"
                                         size="sm"
-                                        class="bg-amber-600 text-white hover:bg-amber-700"
+                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
                                         >Simpan Evaluasi</Button
                                     >
                                 </div>
@@ -797,7 +880,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 class="space-y-4"
                             >
                                 <label
-                                    class="block text-[12px] font-bold text-slate-700"
+                                    class="block text-[12px] font-bold text-slate-300"
                                     >Instruksi Upload File (Opsional)</label
                                 >
                                 <RichTextEditor
@@ -806,12 +889,12 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 />
 
                                 <div
-                                    class="mt-4 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 text-center opacity-70"
+                                    class="mt-4 rounded-xl border-2 border-dashed border-white/10 bg-white/5 p-6 text-center opacity-70"
                                 >
                                     <i
                                         class="pi pi-cloud-upload mb-2 text-3xl text-slate-400"
                                     ></i>
-                                    <p class="text-sm font-bold text-slate-600">
+                                    <p class="text-slate-350 text-sm font-bold">
                                         Area Upload Siswa
                                     </p>
                                     <p class="text-[11px] text-slate-500">
@@ -823,7 +906,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     <Button
                                         @click="saveContent(content)"
                                         size="sm"
-                                        class="bg-pink-600 text-white hover:bg-pink-700"
+                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
                                         >Simpan Instruksi</Button
                                     >
                                 </div>
@@ -834,7 +917,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 class="space-y-4"
                             >
                                 <label
-                                    class="block text-[12px] font-bold text-slate-700"
+                                    class="block text-[12px] font-bold text-slate-300"
                                     >Topik / Pemantik Diskusi</label
                                 >
                                 <RichTextEditor
@@ -843,52 +926,177 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                 />
 
                                 <!-- Live Discussion Feed -->
-                                <div class="mt-4 rounded-xl border border-slate-200 bg-white">
-                                    <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+                                <div
+                                    class="mt-4 rounded-xl border border-white/10 bg-slate-950/80"
+                                >
+                                    <div
+                                        class="flex items-center justify-between border-b border-white/5 px-4 py-3"
+                                    >
                                         <div class="flex items-center gap-2">
-                                            <i class="pi pi-comments text-sky-500"></i>
-                                            <span class="text-[12px] font-bold text-slate-700">Forum Diskusi Kelas (Live)</span>
-                                            <span v-if="discussions && discussions.length > 0" class="rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-black text-sky-600">
-                                                {{ discussions.length }} komentar
+                                            <i
+                                                class="pi pi-comments text-sky-400"
+                                            ></i>
+                                            <span
+                                                class="text-[12px] font-bold text-slate-300"
+                                                >Forum Diskusi Kelas
+                                                (Live)</span
+                                            >
+                                            <span
+                                                v-if="
+                                                    discussions &&
+                                                    discussions.length > 0
+                                                "
+                                                class="border-sky-550/20 rounded-full border bg-sky-500/10 px-2 py-0.5 text-[10px] font-black text-sky-400"
+                                            >
+                                                {{ discussions.length }}
+                                                komentar
                                             </span>
                                         </div>
-                                        <button @click="refreshDiscussions" class="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-bold text-slate-500 transition-colors hover:bg-sky-50 hover:text-sky-600">
-                                            <i class="pi pi-refresh text-[10px]"></i> Refresh
+                                        <button
+                                            @click="refreshDiscussions"
+                                            class="flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold text-slate-300 transition-colors hover:bg-sky-500/10 hover:text-sky-400"
+                                        >
+                                            <i
+                                                class="pi pi-refresh text-[10px]"
+                                            ></i>
+                                            Refresh
                                         </button>
                                     </div>
 
-                                    <div class="max-h-72 min-h-[120px] overflow-y-auto p-4">
+                                    <div
+                                        class="max-h-72 min-h-[120px] overflow-y-auto p-4"
+                                    >
                                         <!-- Kosong -->
-                                        <div v-if="!discussions || discussions.length === 0" class="flex flex-col items-center justify-center py-8 text-center">
-                                            <i class="pi pi-inbox mb-2 text-2xl text-slate-300"></i>
-                                            <p class="text-[12px] font-bold text-slate-400">Belum ada komentar dari siswa.</p>
-                                            <p class="text-[10px] text-slate-400">Komentar akan muncul di sini setelah siswa berdiskusi.</p>
+                                        <div
+                                            v-if="
+                                                !discussions ||
+                                                discussions.length === 0
+                                            "
+                                            class="flex flex-col items-center justify-center py-8 text-center"
+                                        >
+                                            <i
+                                                class="pi pi-inbox mb-2 text-2xl text-slate-500"
+                                            ></i>
+                                            <p
+                                                class="text-[12px] font-bold text-slate-400"
+                                            >
+                                                Belum ada komentar dari siswa.
+                                            </p>
+                                            <p
+                                                class="text-[10px] text-slate-500"
+                                            >
+                                                Komentar akan muncul di sini
+                                                setelah siswa berdiskusi.
+                                            </p>
                                         </div>
 
                                         <!-- Daftar Komentar -->
                                         <div v-else class="space-y-3">
-                                            <div v-for="discussion in discussions" :key="discussion.id" class="flex gap-2.5">
-                                                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-400 text-[9px] font-black text-white">
-                                                    {{ discussion.user ? getInitials(discussion.user.name) : '??' }}
+                                            <div
+                                                v-for="discussion in discussions"
+                                                :key="discussion.id"
+                                                class="flex gap-2.5"
+                                            >
+                                                <div
+                                                    class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-500 text-[9px] font-black text-white"
+                                                >
+                                                    {{
+                                                        discussion.user
+                                                            ? getInitials(
+                                                                  discussion
+                                                                      .user
+                                                                      .name,
+                                                              )
+                                                            : '??'
+                                                    }}
                                                 </div>
                                                 <div class="flex-1">
-                                                    <div class="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
-                                                        <div class="mb-0.5 flex items-center gap-2">
-                                                            <span class="text-[11px] font-bold text-slate-800">{{ discussion.user?.name || 'Anonim' }}</span>
-                                                            <span class="text-[9px] text-slate-400">{{ formatTime(discussion.created_at) }}</span>
+                                                    <div
+                                                        class="rounded-lg border border-white/5 bg-white/5 px-3 py-2"
+                                                    >
+                                                        <div
+                                                            class="mb-0.5 flex items-center gap-2"
+                                                        >
+                                                            <span
+                                                                class="text-[11px] font-bold text-slate-200"
+                                                                >{{
+                                                                    discussion
+                                                                        .user
+                                                                        ?.name ||
+                                                                    'Anonim'
+                                                                }}</span
+                                                            >
+                                                            <span
+                                                                class="text-slate-550 text-[9px]"
+                                                                >{{
+                                                                    formatTime(
+                                                                        discussion.created_at,
+                                                                    )
+                                                                }}</span
+                                                            >
                                                         </div>
-                                                        <p class="text-[12px] leading-relaxed text-slate-600">{{ discussion.message }}</p>
+                                                        <p
+                                                            class="text-[12px] leading-relaxed text-slate-300"
+                                                        >
+                                                            {{
+                                                                discussion.message
+                                                            }}
+                                                        </p>
                                                     </div>
                                                     <!-- Replies -->
-                                                    <div v-if="discussion.replies && discussion.replies.length > 0" class="mt-1.5 space-y-1.5 border-l-2 border-sky-100 pl-3">
-                                                        <div v-for="reply in discussion.replies" :key="reply.id" class="flex gap-2">
-                                                            <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-400 text-[7px] font-black text-white">
-                                                                {{ reply.user ? getInitials(reply.user.name) : '??' }}
+                                                    <div
+                                                        v-if="
+                                                            discussion.replies &&
+                                                            discussion.replies
+                                                                .length > 0
+                                                        "
+                                                        class="mt-1.5 space-y-1.5 border-l-2 border-sky-900 pl-3"
+                                                    >
+                                                        <div
+                                                            v-for="reply in discussion.replies"
+                                                            :key="reply.id"
+                                                            class="flex gap-2"
+                                                        >
+                                                            <div
+                                                                class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-600 text-[7px] font-black text-white"
+                                                            >
+                                                                {{
+                                                                    reply.user
+                                                                        ? getInitials(
+                                                                              reply
+                                                                                  .user
+                                                                                  .name,
+                                                                          )
+                                                                        : '??'
+                                                                }}
                                                             </div>
-                                                            <div class="rounded-md bg-white px-2.5 py-1.5">
-                                                                <span class="text-[10px] font-bold text-slate-700">{{ reply.user?.name || 'Anonim' }}</span>
-                                                                <span class="ml-1 text-[8px] text-slate-400">{{ formatTime(reply.created_at) }}</span>
-                                                                <p class="text-[11px] text-slate-600">{{ reply.message }}</p>
+                                                            <div
+                                                                class="rounded-md border border-white/5 bg-white/5 px-2.5 py-1.5"
+                                                            >
+                                                                <span
+                                                                    class="text-[10px] font-bold text-slate-300"
+                                                                    >{{
+                                                                        reply
+                                                                            .user
+                                                                            ?.name ||
+                                                                        'Anonim'
+                                                                    }}</span
+                                                                >
+                                                                <span
+                                                                    class="text-slate-550 ml-1 text-[8px]"
+                                                                    >{{
+                                                                        formatTime(
+                                                                            reply.created_at,
+                                                                        )
+                                                                    }}</span
+                                                                >
+                                                                <p
+                                                                    class="text-slate-350 text-[11px]"
+                                                                >
+                                                                    {{
+                                                                        reply.message
+                                                                    }}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -901,7 +1109,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     <Button
                                         @click="saveContent(content)"
                                         size="sm"
-                                        class="bg-sky-600 text-white hover:bg-sky-700"
+                                        class="h-10 border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110"
                                         >Simpan Forum Diskusi</Button
                                     >
                                 </div>
@@ -912,95 +1120,97 @@ const toggleCorrectAnswer = (content: any, index: number) => {
 
                 <div
                     v-else
-                    class="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-300 bg-white/50 py-16 text-center"
+                    class="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-border/40 bg-card/40 py-16 text-center"
                 >
                     <div
-                        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-50 text-indigo-400"
+                        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-border/40 bg-white/5 text-[var(--theme-primary)]"
                     >
                         <i class="pi pi-th-large text-3xl"></i>
                     </div>
-                    <h3 class="text-[16px] font-bold text-slate-800">
+                    <h3 class="text-[16px] font-bold text-slate-200">
                         Lembar Kerja Kosong
                     </h3>
-                    <p class="mt-1 text-[13px] text-slate-500">
+                    <p class="mt-1 text-[13px] text-slate-400">
                         Mulai susun modul Anda dengan menu di bawah ini.
                     </p>
                 </div>
             </div>
 
             <div
-                class="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4 md:p-6 text-center shadow-sm"
+                class="rounded-2xl border border-border/40 bg-card/60 p-4 text-center shadow-sm backdrop-blur-md md:p-6"
             >
-                <h3 class="mb-4 text-[13px] font-bold text-indigo-900">
-                    <i class="pi pi-plus-circle mr-1 text-indigo-500"></i>
+                <h3 class="mb-4 text-[13px] font-bold text-slate-200">
+                    <i
+                        class="pi pi-plus-circle mr-1 text-[var(--theme-primary)]"
+                    ></i>
                     Tambah Komponen Baru ke Fase Ini
                 </h3>
                 <div class="flex flex-wrap justify-center gap-3">
                     <Button
                         @click="addContent('text')"
                         variant="outline"
-                        class="border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
                         ><i class="pi pi-align-left mr-2 text-slate-400"></i>
                         Teks Materi</Button
                     >
                     <Button
                         @click="addContent('h5p')"
                         variant="outline"
-                        class="border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
                         ><i class="pi pi-video mr-2 text-indigo-400"></i> Media
                         H5P</Button
                     >
 
                     <div
-                        class="mx-1 hidden h-8 w-px bg-indigo-200 lg:block"
+                        class="mx-1 hidden h-8 w-px bg-white/10 lg:block"
                     ></div>
 
                     <Button
                         @click="addContent('eval_mcq')"
                         variant="outline"
-                        class="border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
                         ><i
-                            class="pi pi-check-circle mr-2 text-emerald-500"
+                            class="pi pi-check-circle text-emerald-450 mr-2"
                         ></i>
                         Pilihan Ganda</Button
                     >
                     <Button
                         @click="addContent('eval_cmcq')"
                         variant="outline"
-                        class="border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                        ><i class="pi pi-list mr-2 text-emerald-500"></i>
+                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                        ><i class="pi pi-list text-emerald-455 mr-2"></i>
                         Pilihan Kompleks</Button
                     >
                     <Button
                         @click="addContent('eval_short')"
                         variant="outline"
-                        class="border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                        ><i class="pi pi-minus mr-2 text-amber-500"></i> Jawaban
+                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                        ><i class="pi pi-minus mr-2 text-amber-400"></i> Jawaban
                         Singkat</Button
                     >
                     <Button
                         @click="addContent('eval_essay')"
                         variant="outline"
-                        class="border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                        ><i class="pi pi-align-justify mr-2 text-amber-500"></i>
+                        class="border-border/40 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white"
+                        ><i class="pi pi-align-justify mr-2 text-amber-400"></i>
                         Esai Panjang</Button
                     >
 
                     <div
-                        class="mx-1 hidden h-8 w-px bg-indigo-200 lg:block"
+                        class="mx-1 hidden h-8 w-px bg-white/10 lg:block"
                     ></div>
 
                     <Button
                         @click="addContent('eval_file')"
                         variant="outline"
-                        class="border-pink-200 bg-pink-50/50 text-pink-700 hover:bg-pink-100"
+                        class="border-pink-500/20 bg-pink-500/5 text-pink-400 hover:bg-pink-500/10 hover:text-pink-300"
                         ><i class="pi pi-upload mr-2 text-pink-500"></i> Upload
                         Gambar</Button
                     >
                     <Button
                         @click="addContent('discussion')"
                         variant="outline"
-                        class="border-sky-200 bg-sky-50/50 text-sky-700 hover:bg-sky-100"
+                        class="border-sky-500/20 bg-sky-500/5 text-sky-400 hover:bg-sky-500/10 hover:text-sky-300"
                         ><i class="pi pi-comments mr-2 text-sky-500"></i> Forum
                         Diskusi</Button
                     >
@@ -1012,25 +1222,23 @@ const toggleCorrectAnswer = (content: any, index: number) => {
     <Teleport to="body">
         <div
             v-if="isDeleteContentModalOpen"
-            class="fixed inset-0 z-[60] flex items-center justify-center bg-[#0b1e36]/40 dark:bg-black/60 px-4 backdrop-blur-[6px] transition-all"
+            class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 px-4 backdrop-blur-[6px] transition-all"
         >
             <div
-                class="w-full max-w-[400px] animate-in overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-100/80 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(245,158,11,0.08),_0_10px_30px_rgba(99,102,241,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] p-6 text-center duration-200 zoom-in-95 fade-in"
+                class="w-full max-w-[400px] animate-in overflow-hidden rounded-3xl border border-slate-800/50 bg-slate-950 p-6 text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] duration-200 zoom-in-95 fade-in"
             >
                 <div
-                    class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/30 text-amber-600 dark:text-amber-400 shadow-inner"
+                    class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-amber-900/30 bg-amber-950/30 text-amber-400 shadow-inner"
                 >
-                    <i
-                        class="pi pi-exclamation-triangle text-2xl"
-                    ></i>
+                    <i class="pi pi-exclamation-triangle text-2xl"></i>
                 </div>
                 <h3
-                    class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100"
+                    class="text-xl font-extrabold tracking-tight text-slate-100"
                 >
                     Hapus Blok Materi?
                 </h3>
                 <p
-                    class="mt-2 text-[14px] leading-relaxed font-medium text-slate-500 dark:text-slate-400"
+                    class="mt-2 text-[14px] leading-relaxed font-medium text-slate-400"
                 >
                     Yakin ingin menghapus blok materi ini secara permanen?
                 </p>
@@ -1041,14 +1249,14 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                         type="button"
                         variant="outline"
                         @click="closeDeleteContentModal"
-                        class="h-11 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 px-6 font-bold text-slate-600 dark:text-slate-300 text-[13px] w-full sm:w-auto"
+                        class="h-11 w-full rounded-xl border border-border/40 bg-white/5 px-6 text-[13px] font-bold text-slate-300 hover:bg-white/10 sm:w-auto"
                     >
                         Batalkan
                     </Button>
                     <Button
                         type="button"
                         @click="executeDeleteContent"
-                        class="h-11 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 px-6 font-bold text-white shadow-md shadow-rose-100 dark:shadow-none text-[13px] w-full sm:w-auto"
+                        class="h-11 w-full rounded-xl border-none bg-gradient-to-r from-rose-500 to-red-600 px-6 text-[13px] font-bold text-white shadow-[0_0_15px_rgba(239,68,68,0.2)] sm:w-auto"
                     >
                         Ya, Hapus Blok
                     </Button>

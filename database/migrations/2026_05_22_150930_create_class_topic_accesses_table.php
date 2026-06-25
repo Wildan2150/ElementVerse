@@ -19,6 +19,7 @@ return new class extends Migration
             
             // Status akses topik, default false (ditutup) saat kelas baru dibuat
             $table->boolean('is_open')->default(false);
+            $table->boolean('is_published')->default(true);
             
             $table->timestamps();
 

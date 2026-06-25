@@ -74,21 +74,27 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    if (pollInterval) clearInterval(pollInterval);
+    if (pollInterval) {
+        clearInterval(pollInterval);
+    }
 });
 </script>
 
 <template>
     <Head title="Dashboard Admin" />
 
-    <div class="min-h-screen px-4 py-6 font-sans md:px-8 lg:px-10">
+    <div
+        class="min-h-screen bg-transparent px-4 py-6 font-sans text-slate-100 md:px-8 lg:px-10"
+    >
         <!-- ===== PAGE HEADER — IDENTIK DENGAN GURU/SISWA ===== -->
         <div
             class="mx-auto mb-8 flex max-w-7xl flex-col items-start justify-between gap-4 md:flex-row md:items-center"
         >
             <div>
-                <h1 class="text-[26px] font-bold tracking-tight text-slate-900">
-                    EduChem LC5E System
+                <h1
+                    class="text-[26px] font-bold tracking-tight text-slate-900 dark:text-slate-100"
+                >
+                    ElementVerse System
                 </h1>
                 <p class="mt-1 text-[14px] font-medium text-slate-500">
                     Dashboard Administrasi &amp; Monitoring Sistem
@@ -99,13 +105,13 @@ onUnmounted(() => {
                 <Button
                     variant="outline"
                     size="icon"
-                    class="h-9 w-9 rounded-lg border-slate-200 bg-white shadow-sm transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+                    class="h-9 w-9 rounded-lg border-border/50 bg-card/60 shadow-sm transition-colors hover:bg-card hover:text-[var(--theme-primary)] dark:border-slate-800 dark:bg-slate-900"
                 >
                     <i class="pi pi-bell text-[14px]"></i>
                 </Button>
 
                 <div
-                    class="flex cursor-pointer items-center gap-3 rounded-full border border-slate-200 bg-white py-1.5 pr-4 pl-1.5 shadow-sm transition-colors hover:bg-slate-50"
+                    class="flex cursor-pointer items-center gap-3 rounded-full border border-border/40 bg-card/65 py-1.5 pr-4 pl-1.5 shadow-sm transition-colors hover:bg-card/90 dark:border-slate-800 dark:bg-slate-900"
                 >
                     <div
                         class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-[11px] font-bold text-white shadow-inner"
@@ -113,7 +119,8 @@ onUnmounted(() => {
                         <i class="pi pi-shield text-[10px]"></i>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-[13px] leading-none font-bold text-slate-800"
+                        <span
+                            class="text-[13px] leading-none font-bold text-slate-800 dark:text-slate-200"
                             >{{ authUser?.name || 'Admin' }}</span
                         >
                         <span
@@ -128,64 +135,75 @@ onUnmounted(() => {
         <div
             class="mx-auto mb-6 grid max-w-7xl grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
         >
-            <Card class="rounded-xl border-slate-200 bg-white shadow-sm">
+            <Card
+                class="rounded-xl border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md"
+            >
                 <CardContent class="p-6">
                     <div class="flex items-start justify-between">
                         <div>
                             <p
-                                class="mb-2 text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+                                class="mb-2 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                             >
                                 Total Users
                             </p>
-                            <h2 class="text-3xl font-extrabold text-slate-900">
+                            <h2
+                                class="dark:text-slate-105 text-3xl font-extrabold text-slate-900"
+                            >
                                 {{ stats.total_users }}
                             </h2>
                         </div>
                         <div
-                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600"
+                            class="dark:text-blue-450 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600"
                         >
                             <i class="pi pi-users text-lg"></i>
                         </div>
                     </div>
                     <div class="mt-4 flex items-center gap-2 text-[13px]">
                         <span
-                            class="flex items-center gap-1 rounded bg-indigo-50 px-1.5 py-0.5 font-semibold text-indigo-600"
+                            class="flex items-center gap-1 rounded bg-indigo-500/10 px-1.5 py-0.5 font-semibold text-indigo-600 dark:text-indigo-400"
                         >
-                            <i class="pi pi-user text-[9px]"></i> {{ stats.total_guru }} Guru
+                            <i class="pi pi-user text-[9px]"></i>
+                            {{ stats.total_guru }} Guru
                         </span>
                         <span
-                            class="flex items-center gap-1 rounded bg-sky-50 px-1.5 py-0.5 font-semibold text-sky-600"
+                            class="flex items-center gap-1 rounded bg-sky-500/10 px-1.5 py-0.5 font-semibold text-sky-600 dark:text-sky-400"
                         >
-                            <i class="pi pi-id-card text-[9px]"></i> {{ stats.total_siswa }} Siswa
+                            <i class="pi pi-id-card text-[9px]"></i>
+                            {{ stats.total_siswa }} Siswa
                         </span>
                     </div>
                 </CardContent>
             </Card>
 
-            <Card class="rounded-xl border-slate-200 bg-white shadow-sm">
+            <Card
+                class="rounded-xl border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md"
+            >
                 <CardContent class="p-6">
                     <div class="flex items-start justify-between">
                         <div>
                             <p
-                                class="mb-2 text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+                                class="mb-2 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                             >
                                 Total Kelas
                             </p>
-                            <h2 class="text-3xl font-extrabold text-slate-900">
+                            <h2
+                                class="dark:text-slate-105 text-3xl font-extrabold text-slate-900"
+                            >
                                 {{ stats.total_kelas }}
                             </h2>
                         </div>
                         <div
-                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"
+                            class="dark:text-emerald-450 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600"
                         >
                             <i class="pi pi-objects-column text-lg"></i>
                         </div>
                     </div>
                     <div class="mt-4 flex items-center gap-2 text-[13px]">
                         <span
-                            class="flex items-center gap-1 rounded bg-amber-50 px-1.5 py-0.5 font-semibold text-amber-600"
+                            class="flex items-center gap-1 rounded bg-amber-500/10 px-1.5 py-0.5 font-semibold text-amber-600 dark:text-amber-400"
                         >
-                            <i class="pi pi-book text-[9px]"></i> {{ stats.total_topik }} Topik
+                            <i class="pi pi-book text-[9px]"></i>
+                            {{ stats.total_topik }} Topik
                         </span>
                     </div>
                 </CardContent>
@@ -203,10 +221,14 @@ onUnmounted(() => {
                             <p
                                 class="mb-2 text-[11px] font-bold tracking-wider text-indigo-100 uppercase"
                             >
-                                AI LC5E Requests
+                                AI Request Logs
                             </p>
                             <h2 class="text-3xl font-extrabold text-white">
-                                {{ stats.total_ai_requests.toLocaleString('id-ID') }}
+                                {{
+                                    stats.total_ai_requests.toLocaleString(
+                                        'id-ID',
+                                    )
+                                }}
                             </h2>
                         </div>
                         <div
@@ -235,18 +257,19 @@ onUnmounted(() => {
             class="mx-auto mb-6 grid max-w-7xl grid-cols-1 gap-5 xl:grid-cols-3"
         >
             <Card
-                class="overflow-hidden rounded-xl border-slate-200 bg-white shadow-sm xl:col-span-2"
+                class="overflow-hidden rounded-xl border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md xl:col-span-2"
             >
                 <CardHeader
                     class="flex flex-row items-center justify-between border-b border-transparent p-6 pb-4"
                 >
-                    <CardTitle class="text-[17px] font-bold text-slate-800"
+                    <CardTitle
+                        class="text-[17px] font-bold text-slate-800 dark:text-slate-100"
                         >User Management Terbaru</CardTitle
                     >
                     <Link :href="route('admin.users.index')">
                         <Button
                             variant="link"
-                            class="h-auto p-0 font-semibold text-indigo-600 hover:text-indigo-700"
+                            class="text-indigo-650 h-auto p-0 font-semibold hover:text-indigo-700 dark:text-indigo-400"
                             >Lihat Semua</Button
                         >
                     </Link>
@@ -254,27 +277,27 @@ onUnmounted(() => {
                 <CardContent class="p-0">
                     <Table>
                         <TableHeader
-                            class="border-y border-slate-200 bg-slate-50/80"
+                            class="border-y border-border/40 bg-card/80"
                         >
                             <TableRow class="border-none hover:bg-transparent">
                                 <TableHead
-                                    class="h-11 px-6 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+                                    class="h-11 px-6 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                                     >Nama Lengkap</TableHead
                                 >
                                 <TableHead
-                                    class="h-11 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+                                    class="h-11 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                                     >Email</TableHead
                                 >
                                 <TableHead
-                                    class="h-11 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+                                    class="h-11 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                                     >Role</TableHead
                                 >
                                 <TableHead
-                                    class="h-11 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+                                    class="h-11 align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                                     >Status</TableHead
                                 >
                                 <TableHead
-                                    class="h-11 pr-6 text-right align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+                                    class="h-11 pr-6 text-right align-middle text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                                     >Bergabung</TableHead
                                 >
                             </TableRow>
@@ -283,14 +306,14 @@ onUnmounted(() => {
                             <TableRow
                                 v-for="user in stats.recent_users"
                                 :key="user.id"
-                                class="border-b border-slate-100 transition-colors hover:bg-slate-50/60"
+                                class="border-b border-border/30 transition-colors hover:bg-card/50"
                             >
                                 <TableCell
-                                    class="px-6 py-4 text-[14px] font-semibold text-slate-900"
+                                    class="px-6 py-4 text-[14px] font-semibold text-slate-900 dark:text-slate-100"
                                     >{{ user.name }}</TableCell
                                 >
                                 <TableCell
-                                    class="text-[13px] font-medium text-slate-600"
+                                    class="text-[13px] font-medium text-slate-600 dark:text-slate-300"
                                     >{{ user.email }}</TableCell
                                 >
                                 <TableCell>
@@ -298,10 +321,10 @@ onUnmounted(() => {
                                         variant="outline"
                                         :class="
                                             user.role === 'GURU'
-                                                ? 'border-indigo-200 bg-indigo-50 text-indigo-700'
+                                                ? 'border-indigo-200 bg-indigo-50/10 text-indigo-400'
                                                 : user.role === 'ADMIN'
-                                                    ? 'border-rose-200 bg-rose-50 text-rose-700'
-                                                    : 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                                                  ? 'border-rose-200 bg-rose-50/10 text-rose-400'
+                                                  : 'border-emerald-200 bg-emerald-50/10 text-[#d2ff00]'
                                         "
                                         class="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase"
                                     >
@@ -310,26 +333,34 @@ onUnmounted(() => {
                                 </TableCell>
                                 <TableCell>
                                     <span
-                                        class="flex items-center gap-1.5 text-[13px] font-medium text-slate-600"
+                                        class="flex items-center gap-1.5 text-[13px] font-medium text-slate-600 dark:text-slate-300"
                                     >
                                         <span
                                             class="h-1.5 w-1.5 rounded-full"
                                             :class="
                                                 user.status === 'Active'
                                                     ? 'bg-emerald-500'
-                                                    : 'bg-slate-300'
+                                                    : 'bg-slate-500'
                                             "
                                         ></span>
                                         {{ user.status }}
                                     </span>
                                 </TableCell>
                                 <TableCell
-                                    class="pr-6 text-right text-[13px] font-medium text-slate-500"
+                                    class="pr-6 text-right text-[13px] font-medium text-slate-500 dark:text-slate-400"
                                     >{{ user.created_at }}</TableCell
                                 >
                             </TableRow>
-                            <TableRow v-if="!stats.recent_users || stats.recent_users.length === 0">
-                                <TableCell colspan="5" class="py-8 text-center text-sm text-slate-400">
+                            <TableRow
+                                v-if="
+                                    !stats.recent_users ||
+                                    stats.recent_users.length === 0
+                                "
+                            >
+                                <TableCell
+                                    colspan="5"
+                                    class="py-8 text-center text-sm text-slate-400"
+                                >
                                     Belum ada pengguna terdaftar.
                                 </TableCell>
                             </TableRow>
@@ -339,9 +370,12 @@ onUnmounted(() => {
             </Card>
 
             <div class="flex flex-col gap-5">
-                <Card class="rounded-xl border-slate-200 bg-white shadow-sm">
-                    <CardHeader class="border-b border-slate-50 pb-4">
-                        <CardTitle class="text-[16px] font-bold text-slate-800"
+                <Card
+                    class="rounded-xl border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md"
+                >
+                    <CardHeader class="border-b border-border/20 pb-4">
+                        <CardTitle
+                            class="text-[16px] font-bold text-slate-800 dark:text-slate-100"
                             >System Health</CardTitle
                         >
                     </CardHeader>
@@ -350,73 +384,109 @@ onUnmounted(() => {
                             <div class="flex items-center gap-3">
                                 <div
                                     class="flex h-8 w-8 items-center justify-center rounded-lg"
-                                    :class="stats.system_health.db === 'online' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'"
+                                    :class="
+                                        stats.system_health.db === 'online'
+                                            ? 'bg-emerald-500/10 text-[#d2ff00]'
+                                            : 'bg-rose-500/10 text-rose-500'
+                                    "
                                 >
                                     <i class="pi pi-database text-[14px]"></i>
                                 </div>
                                 <span
-                                    class="text-[13px] font-semibold text-slate-700"
-                                    >PostgreSQL</span
+                                    class="text-[13px] font-semibold text-slate-700 dark:text-slate-300"
+                                    >PostgreSQL / MySQL</span
                                 >
                             </div>
                             <Badge
                                 variant="outline"
-                                :class="stats.system_health.db === 'online'
-                                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                                    : 'border-rose-200 bg-rose-50 text-rose-700'"
+                                :class="
+                                    stats.system_health.db === 'online'
+                                        ? 'border-emerald-250 bg-emerald-500/15 text-[#d2ff00]'
+                                        : 'border-rose-200 bg-rose-50/15 text-rose-700'
+                                "
                                 class="text-[9px] font-bold tracking-wider uppercase"
-                            >{{ stats.system_health.db === 'online' ? 'Online' : 'Offline' }}</Badge>
+                                >{{
+                                    stats.system_health.db === 'online'
+                                        ? 'Online'
+                                        : 'Offline'
+                                }}</Badge
+                            >
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div
                                     class="flex h-8 w-8 items-center justify-center rounded-lg"
-                                    :class="stats.system_health.queue === 'online' ? 'bg-emerald-50 text-emerald-600' : stats.system_health.queue === 'warning' ? 'bg-orange-50 text-orange-600' : 'bg-rose-50 text-rose-600'"
+                                    :class="
+                                        stats.system_health.queue === 'online'
+                                            ? 'bg-emerald-500/10 text-[#d2ff00]'
+                                            : stats.system_health.queue ===
+                                                'warning'
+                                              ? 'bg-orange-500/10 text-orange-500'
+                                              : 'bg-rose-500/10 text-rose-500'
+                                    "
                                 >
                                     <i class="pi pi-bolt text-[14px]"></i>
                                 </div>
                                 <span
-                                    class="text-[13px] font-semibold text-slate-700"
+                                    class="text-[13px] font-semibold text-slate-700 dark:text-slate-300"
                                     >Job Queue</span
                                 >
                             </div>
                             <Badge
                                 variant="outline"
-                                :class="stats.system_health.queue === 'online'
-                                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                                    : stats.system_health.queue === 'warning'
-                                        ? 'border-orange-200 bg-orange-50 text-orange-700'
-                                        : 'border-rose-200 bg-rose-50 text-rose-700'"
+                                :class="
+                                    stats.system_health.queue === 'online'
+                                        ? 'border-emerald-250 bg-emerald-500/15 text-[#d2ff00]'
+                                        : stats.system_health.queue ===
+                                            'warning'
+                                          ? 'border-orange-200 bg-orange-50/15 text-orange-400'
+                                          : 'border-rose-200 bg-rose-50/15 text-rose-700'
+                                "
                                 class="text-[9px] font-bold tracking-wider uppercase"
-                            >{{ stats.system_health.queue === 'online' ? 'Online' : stats.system_health.queue === 'warning' ? 'Warning' : 'Offline' }}</Badge>
+                                >{{
+                                    stats.system_health.queue === 'online'
+                                        ? 'Online'
+                                        : stats.system_health.queue ===
+                                            'warning'
+                                          ? 'Warning'
+                                          : 'Offline'
+                                }}</Badge
+                            >
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600"
+                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400"
                                 >
                                     <i
                                         class="pi pi-microchip-ai text-[14px]"
                                     ></i>
                                 </div>
                                 <span
-                                    class="text-[13px] font-semibold text-slate-700"
+                                    class="text-[13px] font-semibold text-slate-700 dark:text-slate-300"
                                     >Gemini API</span
                                 >
                             </div>
                             <Badge
                                 variant="outline"
-                                :class="stats.total_ai_requests > 0
-                                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                                    : 'border-slate-200 bg-slate-50 text-slate-500'"
+                                :class="
+                                    stats.total_ai_requests > 0
+                                        ? 'border-emerald-250 bg-emerald-500/15 text-[#d2ff00]'
+                                        : 'border-slate-200 bg-slate-50 text-slate-500'
+                                "
                                 class="text-[9px] font-bold tracking-wider uppercase"
-                            >{{ stats.total_ai_requests > 0 ? 'Connected' : 'No Data' }}</Badge>
+                                >{{
+                                    stats.total_ai_requests > 0
+                                        ? 'Connected'
+                                        : 'No Data'
+                                }}</Badge
+                            >
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card
-                    class="rounded-xl border-slate-800 bg-slate-900 text-white shadow-sm"
+                    class="rounded-xl border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md"
                 >
                     <CardContent class="p-6">
                         <h3
@@ -435,12 +505,16 @@ onUnmounted(() => {
                         </div>
                         <Progress
                             :model-value="stats.ai_success_rate"
-                            class="h-2 bg-slate-800"
+                            class="h-2 bg-slate-800 dark:bg-slate-950"
                             indicator-class="bg-indigo-500"
                         />
                         <p class="mt-4 text-[12px] font-medium text-slate-400">
-                            {{ (100 - stats.ai_success_rate).toFixed(1) }}% failed dari
-                            {{ stats.total_ai_requests.toLocaleString('id-ID') }} total requests
+                            {{ (100 - stats.ai_success_rate).toFixed(1) }}%
+                            failed dari
+                            {{
+                                stats.total_ai_requests.toLocaleString('id-ID')
+                            }}
+                            total requests
                         </p>
                     </CardContent>
                 </Card>
@@ -448,10 +522,13 @@ onUnmounted(() => {
         </div>
 
         <div class="mx-auto max-w-7xl">
-            <Card class="rounded-xl border-slate-200 bg-white shadow-sm">
+            <Card
+                class="rounded-xl border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md"
+            >
                 <CardHeader class="border-b border-transparent pb-4">
-                    <CardTitle class="text-[17px] font-bold text-slate-800"
-                        >Class Monitoring (LC5E Progress)</CardTitle
+                    <CardTitle
+                        class="dark:text-slate-105 text-[17px] font-bold text-slate-800"
+                        >Class Monitoring (POE Progress)</CardTitle
                     >
                 </CardHeader>
                 <CardContent class="pt-2">
@@ -459,12 +536,12 @@ onUnmounted(() => {
                         <div
                             v-for="cls in stats.active_classes"
                             :key="cls.id"
-                            class="rounded-xl border border-slate-100 bg-slate-50/50 p-5 transition-colors hover:bg-slate-50"
+                            class="rounded-xl border border-border/30 bg-card/45 p-5 transition-all hover:border-[var(--theme-primary)]/40 hover:bg-card/85 hover:shadow-[0_0_15px_rgba(210,255,0,0.04)]"
                         >
                             <div class="mb-4 flex items-start justify-between">
                                 <div>
                                     <h4
-                                        class="text-[15px] font-bold text-slate-900"
+                                        class="text-[15px] font-bold text-slate-900 dark:text-slate-100"
                                     >
                                         {{ cls.name }}
                                     </h4>
@@ -479,28 +556,40 @@ onUnmounted(() => {
                                 </div>
                                 <Badge
                                     variant="outline"
-                                    class="border-indigo-200 bg-indigo-50 px-2 py-0.5 text-[10px] font-bold tracking-wider text-indigo-700 uppercase"
-                                >{{ cls.code }}</Badge>
+                                    class="border-indigo-200/40 bg-indigo-500/10 px-2 py-0.5 text-[10px] font-bold tracking-wider text-indigo-400 uppercase"
+                                    >{{ cls.code }}</Badge
+                                >
                             </div>
                             <div
-                                class="flex gap-4 text-[12px] font-medium text-slate-600"
+                                class="flex gap-4 text-[12px] font-medium text-slate-600 dark:text-slate-400"
                             >
                                 <span class="flex items-center gap-1.5">
-                                    <i class="pi pi-users text-[10px] text-emerald-500"></i>
+                                    <i
+                                        class="pi pi-users text-[10px] text-emerald-500"
+                                    ></i>
                                     {{ cls.students }} Siswa
                                 </span>
                                 <span class="flex items-center gap-1.5">
-                                    <i class="pi pi-book text-[10px] text-amber-500"></i>
+                                    <i
+                                        class="pi pi-book text-[10px] text-amber-500"
+                                    ></i>
                                     {{ cls.topics }} Topik
                                 </span>
                             </div>
                         </div>
                         <div
-                            v-if="!stats.active_classes || stats.active_classes.length === 0"
-                            class="col-span-2 flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 p-8 text-center"
+                            v-if="
+                                !stats.active_classes ||
+                                stats.active_classes.length === 0
+                            "
+                            class="col-span-2 flex flex-col items-center justify-center rounded-xl border border-dashed border-border/50 bg-card/20 p-8 text-center"
                         >
-                            <i class="pi pi-inbox mb-3 text-3xl text-slate-300"></i>
-                            <p class="text-sm font-medium text-slate-400">Belum ada kelas yang dibuat.</p>
+                            <i
+                                class="pi pi-inbox mb-3 text-3xl text-slate-300"
+                            ></i>
+                            <p class="text-sm font-medium text-slate-400">
+                                Belum ada kelas yang dibuat.
+                            </p>
                         </div>
                     </div>
                 </CardContent>

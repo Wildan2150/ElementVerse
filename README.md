@@ -1,6 +1,6 @@
-# EduChem LMS 🧪
+# ElementVerse 🧪
 
-EduChem adalah sebuah Platform Learning Management System (LMS) interaktif yang dirancang khusus untuk pembelajaran Kimia menggunakan model pembelajaran **LC5E** (Learning Cycle dengan 5 fase). Sistem ini dilengkapi dengan _Dynamic Content Builder_ untuk Guru, antarmuka lembar kerja interaktif untuk Siswa, sistem evaluasi otomatis dengan AI, dan **AI Tutor Chatbot**.
+ElementVerse adalah sebuah Platform Learning Management System (LMS) interaktif yang dirancang khusus untuk pembelajaran Kimia menggunakan model pembelajaran **POE** (Predict, Observe, Explain). Sistem ini dilengkapi dengan _Dynamic Content Builder_ untuk Guru, antarmuka lembar kerja interaktif untuk Siswa, sistem evaluasi otomatis dengan AI, dan **AI Tutor Chatbot**.
 
 ## 📌 Gambaran Umum
 
@@ -63,8 +63,8 @@ Pastikan perangkat lunak berikut sudah terinstal di komputer Anda:
 Buka terminal dan jalankan perintah berikut:
 
 ```bash
-git clone https://github.com/Kimia-UM/educhem.git
-cd educhem
+git clone https://github.com/Kimia-UM/elementverse.git
+cd elementverse
 ```
 
 ### 2. Install Dependensi
@@ -199,7 +199,7 @@ pope/
 - `User` - Data pengguna dengan roles (admin, guru, siswa)
 - `Classroom` - Kelas pembelajaran
 - `Topic` - Topik/materi pembelajaran
-- `TopicPhase` - Fase pembelajaran (berdasarkan LC5E)
+- `TopicPhase` - Fase pembelajaran (berdasarkan POE)
 - `Question` - Soal latihan
 - `StudentAnswer` - Jawaban siswa terhadap soal
 - `ExerciseAttempt` - Tracking attempt latihan

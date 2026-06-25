@@ -5,8 +5,14 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
 const stripHtml = (html: string | null | undefined): string => {
-    if (!html) return '';
-    return html.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!html) {
+        return '';
+    }
+
+    return html
+        .replace(/<\/?[^>]+(>|$)/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
 };
 
 const props = defineProps<{
@@ -36,29 +42,31 @@ const submitJoinClass = () => {
 </script>
 
 <template>
-    <Head title="Kelas Saya - EduChem" />
+    <Head title="Kelas Saya - ElementVerse" />
 
     <main
-        class="relative flex min-h-screen w-full flex-1 flex-col bg-[#F8FAFC] font-sans"
+        class="relative flex min-h-screen w-full flex-1 flex-col bg-transparent font-sans"
     >
-        <div class="border-b border-slate-200 bg-white px-4 py-6 md:px-8 md:py-8">
+        <div
+            class="border-b border-border/40 bg-card/60 px-4 py-6 text-card-foreground backdrop-blur-md md:px-8 md:py-8"
+        >
             <div
                 class="mx-auto flex max-w-7xl flex-col justify-between gap-6 md:flex-row md:items-center"
             >
                 <div>
                     <h1
-                        class="text-[28px] font-black tracking-tight text-slate-900"
+                        class="text-[28px] font-black tracking-tight text-slate-100"
                     >
                         Kelas Saya
                     </h1>
-                    <p class="mt-1 text-[14px] font-medium text-slate-500">
+                    <p class="mt-1 text-[14px] font-medium text-slate-400">
                         Daftar kelas kimia yang sedang Anda ikuti.
                     </p>
                 </div>
 
                 <form
                     @submit.prevent="submitJoinClass"
-                    class="flex w-full flex-col items-stretch gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-2.5 shadow-sm sm:flex-row sm:items-center sm:p-1.5 md:w-auto"
+                    class="flex w-full flex-col items-stretch gap-2 rounded-2xl border border-border/40 bg-card/60 p-2.5 shadow-sm sm:flex-row sm:items-center sm:p-1.5 md:w-auto"
                 >
                     <div class="relative w-full sm:w-56">
                         <i
@@ -68,7 +76,7 @@ const submitJoinClass = () => {
                             v-model="form.class_code"
                             placeholder="Kode Kelas (6 Digit)"
                             maxlength="6"
-                            class="h-10 w-full border-none bg-transparent pr-3 pl-9 text-[13px] font-bold tracking-widest uppercase focus-visible:ring-0"
+                            class="h-10 w-full border-none bg-transparent pr-3 pl-9 text-[13px] font-bold tracking-widest text-slate-100 uppercase placeholder-slate-500 focus-visible:ring-0"
                         />
                     </div>
                     <Button
@@ -76,7 +84,7 @@ const submitJoinClass = () => {
                         :disabled="
                             form.processing || form.class_code.length !== 6
                         "
-                        class="h-10 w-full rounded-xl bg-indigo-600 px-6 text-[13px] font-bold text-white shadow-sm transition-colors hover:bg-indigo-700 disabled:opacity-50 sm:w-auto"
+                        class="h-10 w-full rounded-xl border-none bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-6 text-[13px] font-bold text-[#070814] shadow-[0_0_15px_rgba(210,255,0,0.25)] transition-all hover:brightness-110 disabled:opacity-50 sm:w-auto"
                     >
                         <span v-if="form.processing"
                             ><i class="pi pi-spin pi-spinner"></i
@@ -102,31 +110,31 @@ const submitJoinClass = () => {
                     <Card
                         v-for="kelas in classrooms"
                         :key="kelas.id"
-                        class="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border-slate-200/60 shadow-sm transition-all hover:shadow-md"
+                        class="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/40 bg-card/60 text-card-foreground shadow-sm backdrop-blur-md transition-all duration-200 hover:border-[var(--theme-primary)]/50 hover:shadow-[0_0_20px_rgba(210,255,0,0.08)]"
                     >
                         <div
-                            class="relative h-24 overflow-hidden bg-gradient-to-r from-indigo-500 to-blue-600 p-5"
+                            class="relative h-24 overflow-hidden border-b border-border/40 bg-gradient-to-r from-[#0c0d26]/80 to-[#10112b] p-5"
                         >
-                            <div class="absolute -top-4 -right-4 opacity-20">
+                            <div class="absolute -top-4 -right-4 opacity-10">
                                 <i
                                     class="pi pi-share-alt text-8xl text-white"
                                 ></i>
                             </div>
                             <h3
-                                class="relative z-10 truncate text-lg font-bold text-white"
+                                class="relative z-10 truncate text-lg font-bold text-slate-100 transition-colors group-hover:text-[var(--theme-primary)]"
                             >
                                 {{ kelas.class_name }}
                             </h3>
                             <p
-                                class="relative z-10 mt-1 text-[11px] font-semibold tracking-wider text-blue-100 uppercase"
+                                class="relative z-10 mt-1 text-[11px] font-semibold tracking-wider text-[var(--theme-primary)] uppercase"
                             >
                                 Kode: {{ kelas.class_code }}
                             </p>
                         </div>
 
-                        <div class="flex flex-1 flex-col bg-white p-5">
+                        <div class="flex flex-1 flex-col p-5">
                             <p
-                                class="mb-4 line-clamp-2 flex-1 text-[13px] text-slate-500"
+                                class="text-slate-350 mb-4 line-clamp-2 flex-1 text-[13px]"
                             >
                                 {{
                                     stripHtml(kelas.description) ||
@@ -136,21 +144,23 @@ const submitJoinClass = () => {
 
                             <div class="mt-auto space-y-2">
                                 <div
-                                    class="flex justify-between text-[11px] font-bold text-slate-500"
+                                    class="flex justify-between text-[11px] font-bold text-slate-400"
                                 >
                                     <span>Progress Pembelajaran</span>
-                                    <span class="text-indigo-600">0%</span>
+                                    <span class="text-[var(--theme-primary)]"
+                                        >0%</span
+                                    >
                                 </div>
                                 <div
-                                    class="h-2 w-full overflow-hidden rounded-full bg-slate-100"
+                                    class="h-2 w-full overflow-hidden rounded-full bg-white/10"
                                 >
                                     <div
-                                        class="h-full rounded-full bg-indigo-500"
+                                        class="h-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff]"
                                         style="width: 0%"
                                     ></div>
                                 </div>
                                 <p
-                                    class="pt-2 text-[11px] font-medium text-slate-400"
+                                    class="pt-2 text-[11px] font-medium text-slate-500"
                                 >
                                     <i class="pi pi-book mr-1"></i>
                                     {{ kelas.topics_count }} Topik Materi
@@ -159,10 +169,10 @@ const submitJoinClass = () => {
                             </div>
                         </div>
 
-                        <div class="border-t border-slate-100 bg-slate-50 p-4">
+                        <div class="border-t border-white/5 bg-white/5 p-4">
                             <Link
                                 :href="route('siswa.classes.show', kelas.id)"
-                                class="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-[13px] font-bold text-slate-700 shadow-sm transition-colors hover:border-indigo-200 hover:text-indigo-600"
+                                class="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-border/40 bg-white/5 text-[13px] font-bold text-slate-200 shadow-sm transition-all hover:bg-white/10 hover:text-white"
                             >
                                 Masuk ke Kelas
                                 <i class="pi pi-arrow-right text-[11px]"></i>
@@ -173,19 +183,19 @@ const submitJoinClass = () => {
 
                 <div
                     v-else
-                    class="flex flex-col items-center justify-center py-20 text-center"
+                    class="flex flex-col items-center justify-center rounded-3xl border border-dashed border-border/40 bg-card/45 py-20 text-center"
                 >
                     <div
-                        class="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-slate-100"
+                        class="mb-6 flex h-24 w-24 items-center justify-center rounded-full border border-border/40 bg-white/5 text-slate-400"
                     >
                         <i
-                            class="pi pi-folder-open text-4xl text-slate-300"
+                            class="pi pi-folder-open text-4xl text-slate-400"
                         ></i>
                     </div>
-                    <h2 class="text-xl font-bold text-slate-800">
+                    <h2 class="text-xl font-bold text-slate-200">
                         Belum Ada Kelas
                     </h2>
-                    <p class="mt-2 max-w-md text-[14px] text-slate-500">
+                    <p class="mt-2 max-w-md text-[14px] text-slate-400">
                         Anda belum bergabung ke kelas mana pun. Silakan masukkan
                         6 digit kode kelas yang diberikan oleh Guru Anda pada
                         kolom di atas.

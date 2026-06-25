@@ -21,7 +21,7 @@ class RoleAndAdminSeeder extends Seeder
 
         // 3. Buat akun Admin Default
         $admin = User::firstOrCreate(
-            ['email' => 'educhem.ai@gmail.com'],
+            ['email' => 'elementverse.ai@gmail.com'],
             [
                 'name' => 'Super Admin',
                 'password' => Hash::make('adminedu123_'), // Ganti dengan password yang lebih aman di production

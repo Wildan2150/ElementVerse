@@ -26,16 +26,16 @@ const props = defineProps<{
 </script>
 
 <template>
-    <Head :title="classroom.class_name + ' - EduChem'" />
+    <Head :title="classroom.class_name + ' - ElementVerse'" />
 
     <main
-        class="relative flex min-h-screen w-full flex-1 flex-col bg-[#F8FAFC] font-sans"
+        class="relative flex min-h-screen w-full flex-1 flex-col bg-transparent font-sans"
     >
         <div
-            class="relative overflow-hidden bg-gradient-to-r from-[#0B1E36] to-indigo-900 px-4 py-8 md:px-8 md:py-12"
+            class="relative overflow-hidden border-b border-white/5 bg-gradient-to-r from-[#070814]/90 to-[#0e1026]/90 px-4 py-8 md:px-8 md:py-12"
         >
             <div
-                class="absolute inset-0 opacity-10"
+                class="absolute inset-0 opacity-5"
                 style="
                     background-image: radial-gradient(
                         circle at 2px 2px,
@@ -51,47 +51,48 @@ const props = defineProps<{
                 <div class="text-white">
                     <Link
                         :href="route('siswa.classes.index')"
-                        class="mb-4 flex items-center gap-2 text-[13px] font-bold text-blue-300 transition-colors hover:text-white"
+                        class="mb-4 flex items-center gap-2 text-[13px] font-bold text-[var(--theme-primary)] transition-colors hover:text-white"
                     >
                         <i class="pi pi-arrow-left"></i> Kembali ke Kelas Saya
                     </Link>
                     <div
-                        class="mb-3 inline-block rounded-full border border-blue-400/30 bg-blue-500/20 px-3 py-1 text-[11px] font-bold tracking-wider text-blue-200 uppercase"
+                        class="mb-3 inline-block rounded-full border border-[var(--theme-primary)]/20 bg-[var(--theme-primary)]/10 px-3 py-1 text-[11px] font-bold tracking-wider text-[var(--theme-primary)] uppercase"
                     >
                         KODE: {{ classroom.class_code }}
                     </div>
                     <h1
-                        class="mb-2 text-3xl font-black tracking-tight md:text-4xl"
+                        class="mb-2 text-3xl font-black tracking-tight text-slate-100 md:text-4xl"
                     >
                         {{ classroom.class_name }}
                     </h1>
                     <div
                         v-if="classroom.description"
                         v-html="classroom.description"
-                        class="max-w-2xl text-[14px] leading-relaxed text-blue-100/80 rich-text-content"
+                        class="rich-text-content max-w-2xl text-[14px] leading-relaxed text-slate-300"
                     ></div>
                     <p
                         v-else
-                        class="max-w-2xl text-[14px] leading-relaxed text-blue-100/80"
+                        class="max-w-2xl text-[14px] leading-relaxed text-slate-400"
                     >
-                        Selamat datang di kelas ini. Mari belajar kimia dengan pendekatan LC5E!
+                        Selamat datang di kelas ini. Mari belajar kimia dengan
+                        pendekatan POE!
                     </p>
                 </div>
                 <div
-                    class="flex min-w-[200px] items-center gap-4 rounded-2xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur-md"
+                    class="flex min-w-[200px] items-center gap-4 rounded-2xl border border-border/40 bg-card/60 p-4 text-white backdrop-blur-md"
                 >
                     <div
-                        class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-lg font-bold"
+                        class="flex h-12 w-12 items-center justify-center rounded-full border border-border/40 bg-[var(--theme-primary)]/10 text-lg font-bold text-[var(--theme-primary)]"
                     >
                         {{ classroom.teacher.name.charAt(0) }}
                     </div>
                     <div>
                         <p
-                            class="text-[11px] font-bold tracking-wider text-blue-200 uppercase"
+                            class="text-[11px] font-bold tracking-wider text-slate-400 uppercase"
                         >
                             Pengajar
                         </p>
-                        <p class="text-[14px] font-bold">
+                        <p class="text-[14px] font-bold text-slate-200">
                             {{ classroom.teacher.name }}
                         </p>
                     </div>
@@ -99,21 +100,29 @@ const props = defineProps<{
             </div>
         </div>
 
-        <div class="flex border-b border-slate-200 bg-white px-4 md:px-8">
+        <div class="flex border-b border-white/5 bg-slate-950/80 px-4 md:px-8">
             <div class="mx-auto flex w-full max-w-5xl gap-6">
                 <Link
                     :href="route('siswa.classes.show', classroom.id)"
-                    class="relative pb-3 pt-4 text-[14px] font-bold text-indigo-600"
+                    class="relative pt-4 pb-3 text-[14px] font-bold text-[var(--theme-primary)]"
                 >
                     <i class="pi pi-book mr-1.5 text-[12px]"></i> Modul Materi
-                    <div class="absolute bottom-0 left-0 h-0.5 w-full rounded-t-full bg-indigo-600"></div>
+                    <div
+                        class="absolute bottom-0 left-0 h-0.5 w-full rounded-t-full bg-[var(--theme-primary)]"
+                    ></div>
                 </Link>
                 <Link
-                    :href="route('siswa.classes.evaluation-result', classroom.id)"
-                    class="relative pb-3 pt-4 text-[14px] font-bold text-slate-500 transition-colors hover:text-slate-700"
+                    :href="
+                        route('siswa.classes.evaluation-result', classroom.id)
+                    "
+                    class="hover:text-slate-250 relative pt-4 pb-3 text-[14px] font-bold text-slate-400 transition-colors"
                 >
-                    <i class="pi pi-chart-line mr-1.5 text-[12px]"></i> Hasil Penilaian
-                    <span v-if="isEvaluationSent" class="ml-2 inline-flex items-center rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">
+                    <i class="pi pi-chart-line mr-1.5 text-[12px]"></i> Hasil
+                    Penilaian
+                    <span
+                        v-if="isEvaluationSent"
+                        class="ml-2 inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-bold text-emerald-400"
+                    >
                         Baru
                     </span>
                 </Link>
@@ -123,11 +132,11 @@ const props = defineProps<{
         <div class="flex-1 overflow-y-auto p-4 md:p-8">
             <div class="mx-auto max-w-5xl">
                 <div class="mb-6 flex items-center justify-between">
-                    <h2 class="text-xl font-extrabold text-slate-800">
+                    <h2 class="text-xl font-extrabold text-slate-100">
                         Daftar Modul Materi
                     </h2>
                     <span
-                        class="rounded-lg border border-slate-200 bg-white px-3 py-1 text-[13px] font-bold text-slate-500 shadow-sm"
+                        class="rounded-lg border border-border/40 bg-white/5 px-3 py-1 text-[13px] font-bold text-slate-400 shadow-sm"
                     >
                         {{ classroom.topics.length }} Topik Tersedia
                     </span>
@@ -137,37 +146,37 @@ const props = defineProps<{
                     <Card
                         v-for="(topic, index) in classroom.topics"
                         :key="topic.id"
-                        class="flex flex-col gap-5 rounded-2xl border-slate-200 bg-white p-6 transition-all hover:border-indigo-300 hover:shadow-md"
+                        class="flex flex-col gap-5 rounded-2xl border-border/40 bg-card/60 p-6 backdrop-blur-md transition-all hover:border-[var(--theme-primary)]/50 hover:shadow-[0_0_20px_rgba(210,255,0,0.08)]"
                     >
                         <div class="flex items-start gap-4">
                             <div
-                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50 text-xl font-black text-indigo-600"
+                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border/40 bg-white/5 text-xl font-black text-[var(--theme-primary)]"
                             >
                                 {{ index + 1 }}
                             </div>
-                            <div class="flex-1">
-                                <h3 class="text-lg font-bold text-slate-900">
+                            <div class="flex-1 text-slate-100">
+                                <h3 class="text-lg font-bold text-slate-100">
                                     {{ topic.title }}
                                 </h3>
                                 <div
                                     v-if="topic.description"
                                     v-html="topic.description"
-                                    class="mt-1 text-[13px] text-slate-500 rich-text-content"
+                                    class="text-slate-350 rich-text-content mt-1 text-[13px]"
                                 ></div>
                                 <p
                                     v-else
-                                    class="mt-1 text-[13px] text-slate-500"
+                                    class="mt-1 text-[13px] text-slate-400"
                                 >
                                     Pilih fase di bawah ini untuk mulai belajar.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="h-px w-full bg-slate-100"></div>
+                        <div class="h-px w-full bg-white/5"></div>
 
                         <div>
                             <h4
-                                class="mb-3 text-[11px] font-bold tracking-wider text-slate-400 uppercase"
+                                class="text-slate-450 mb-3 text-[11px] font-bold tracking-wider uppercase"
                             >
                                 Pilih Tahapan Pembelajaran:
                             </h4>
@@ -188,22 +197,22 @@ const props = defineProps<{
                                     "
                                 >
                                     <div
-                                        class="group flex cursor-pointer items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 shadow-sm transition-all hover:border-indigo-600 hover:bg-indigo-600"
+                                        class="group flex cursor-pointer items-center justify-between rounded-xl border border-border/40 bg-white/5 p-3 shadow-sm transition-all hover:border-[var(--theme-primary)] hover:bg-[var(--theme-primary)]"
                                     >
                                         <div class="flex items-center gap-3">
                                             <span
-                                                class="flex h-6 w-6 items-center justify-center rounded-full bg-white text-[11px] font-bold text-slate-600 transition-colors group-hover:text-indigo-600"
+                                                class="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-[11px] font-bold text-slate-300 transition-colors group-hover:bg-[#070814]/15 group-hover:text-[#070814]"
                                             >
                                                 {{ pIndex + 1 }}
                                             </span>
                                             <span
-                                                class="text-[13px] font-bold text-slate-700 transition-colors group-hover:text-white"
+                                                class="text-[13px] font-bold text-slate-200 transition-colors group-hover:text-[#070814]"
                                             >
                                                 {{ phase.name }}
                                             </span>
                                         </div>
                                         <i
-                                            class="pi pi-arrow-right text-[11px] text-slate-400 transition-colors group-hover:text-indigo-200"
+                                            class="pi pi-arrow-right text-[11px] text-slate-500 transition-colors group-hover:text-[#070814]/70"
                                         ></i>
                                     </div>
                                 </Link>
@@ -211,11 +220,11 @@ const props = defineProps<{
 
                             <div
                                 v-else
-                                class="inline-block rounded-xl border border-amber-100 bg-amber-50 p-3 text-[12px] font-medium text-amber-600"
+                                class="inline-block rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 text-[12px] font-medium text-amber-400"
                             >
                                 <i class="pi pi-info-circle mr-1"></i> Guru
                                 belum menambahkan fase pembelajaran
-                                (Engage/Explore/Explain/Elaborate/Evaluate) ke dalam topik ini.
+                                (Predict/Observe/Explain) ke dalam topik ini.
                             </div>
                         </div>
                     </Card>
@@ -223,17 +232,17 @@ const props = defineProps<{
 
                 <div
                     v-else
-                    class="rounded-3xl border border-dashed border-slate-200 bg-white py-16 text-center"
+                    class="rounded-3xl border border-dashed border-border/40 bg-card/45 py-16 text-center"
                 >
                     <div
-                        class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-50"
+                        class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full border border-border/40 bg-white/5 text-[var(--theme-primary)]"
                     >
-                        <i class="pi pi-box text-3xl text-slate-300"></i>
+                        <i class="pi pi-box text-3xl"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-800">
+                    <h3 class="text-lg font-bold text-slate-200">
                         Belum Ada Materi Tersedia
                     </h3>
-                    <p class="mt-1 text-[13px] text-slate-500">
+                    <p class="text-slate-450 mt-1 text-[13px]">
                         Guru belum merilis topik pembelajaran untuk kelas ini.
                     </p>
                 </div>
