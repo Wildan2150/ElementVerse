@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # 1. Arahkan semua trafik langsung ke folder /public
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L,QSA]
+    
+    # 2. Blokir paksa akses ke file sensitif (berjaga-jaga)
+    <FilesMatch "^\.env|composer\.json|composer\.lock|package\.json">
+        Require all denied
+    </FilesMatch>
+    
+    # 3. Matikan directory indexing
+    Options -Indexes
+</IfModule>
