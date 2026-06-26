@@ -24,7 +24,7 @@ createInertiaApp({
         const pages = import.meta.glob('./pages/**/*.vue', { eager: true });
         const page: any = await resolvePageComponent(
             `./pages/${name}.vue`,
-            pages,
+            pages as any,
         );
 
         // PASANG LAYOUT SECARA OTOMATIS
@@ -66,7 +66,7 @@ createInertiaApp({
 
         // SOLUSI SSR 2: Daftarkan ZiggyVue dengan menyuapkan objek Ziggy
         // Ini yang membuat route() bisa dibaca oleh server NodeJS!
-        app.use(ZiggyVue, Ziggy);
+        app.use(ZiggyVue, Ziggy as any);
 
         // Mount aplikasi HANYA jika elemen DOM (el) tersedia di browser
         if (el) {
