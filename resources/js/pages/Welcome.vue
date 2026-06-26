@@ -396,114 +396,140 @@ const features = [
 
             <!-- Content -->
             <div
-                class="relative z-10 mx-auto max-w-4xl px-6 text-center lg:px-12"
+                class="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-12 lg:px-12"
             >
+                <!-- Left Column: Copy & Actions -->
                 <div
-                    data-aos="fade-up"
-                    class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#d2ff00]/20 bg-[#d2ff00]/5 px-4 py-1.5 text-xs font-semibold text-[#d2ff00] shadow-[0_0_15px_rgba(210,255,0,0.1)] backdrop-blur-sm"
+                    class="flex flex-col items-center text-center lg:col-span-7 lg:items-start lg:text-left"
                 >
-                    <span
-                        class="flex h-2 w-2 animate-pulse rounded-full bg-[#d2ff00]"
-                    ></span>
-                    Platform LMS Interaktif & Adaptif
-                </div>
-
-                <h1
-                    class="mb-6 text-4xl leading-tight font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
-                    data-aos="fade-up"
-                    data-aos-delay="100"
-                >
-                    Selamat Datang di
-                    <span
-                        class="animate-text-glow mt-2 block bg-gradient-to-r from-[#d2ff00] via-white to-[#00ffff] bg-clip-text pb-2 text-transparent"
+                    <div
+                        data-aos="fade-up"
+                        class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#d2ff00]/20 bg-[#d2ff00]/5 px-4 py-1.5 text-xs font-semibold text-[#d2ff00] shadow-[0_0_15px_rgba(210,255,0,0.1)] backdrop-blur-sm"
                     >
-                        ElementVerse
-                        <Sparkles
-                            class="relative -top-1 ml-1 inline-block h-8 w-8 animate-pulse align-middle text-[#00ffff]"
-                        />
-                    </span>
-                </h1>
+                        <span
+                            class="flex h-2 w-2 animate-pulse rounded-full bg-[#d2ff00]"
+                        ></span>
+                        Platform LMS Interaktif & Adaptif
+                    </div>
 
-                <p
-                    class="mx-auto mb-10 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg"
-                    data-aos="fade-up"
+                    <h1
+                        class="mb-6 text-4xl leading-tight font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
+                        data-aos="fade-up"
+                        data-aos-delay="100"
+                    >
+                        Selamat Datang di
+                        <span
+                            class="animate-text-glow mt-2 block bg-gradient-to-r from-[#d2ff00] via-white to-[#00ffff] bg-clip-text pb-2 text-transparent"
+                        >
+                            ElementVerse
+                            <Sparkles
+                                class="relative -top-1 ml-1 inline-block h-8 w-8 animate-pulse align-middle text-[#00ffff]"
+                            />
+                        </span>
+                    </h1>
+
+                    <p
+                        class="mb-10 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg lg:mx-0"
+                        data-aos="fade-up"
+                        data-aos-delay="200"
+                    >
+                        Tingkatkan pemahaman konsep
+                        <strong class="font-bold text-[#d2ff00]"
+                            >Sistem Periodik Unsur</strong
+                        >
+                        melalui pendekatan
+                        <strong class="font-bold text-[#00ffff]"
+                            >Predict, Observe, Explain (POE)</strong
+                        >. Belajar lebih interaktif, mendalam, dan menyenangkan
+                        bersama AI Tutor.
+                    </p>
+
+                    <div
+                        class="flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row lg:justify-start"
+                        data-aos="fade-up"
+                        data-aos-delay="300"
+                    >
+                        <Link
+                            v-if="$page.props.auth?.user"
+                            :href="route('dashboard')"
+                            class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-center text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.3)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
+                        >
+                            Lanjutkan Belajar &rarr;
+                        </Link>
+                        <template v-else>
+                            <Link
+                                :href="route('register')"
+                                class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-center text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.3)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
+                            >
+                                Mulai Sekarang &rarr;
+                            </Link>
+                            <Link
+                                :href="route('login')"
+                                class="w-full rounded-full border border-white/10 bg-white/5 px-8 py-3.5 text-center text-sm font-bold text-slate-200 backdrop-blur-sm transition-all duration-200 hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:bg-white/5 sm:w-auto"
+                            >
+                                Sudah punya akun? Masuk
+                            </Link>
+                        </template>
+                    </div>
+                </div>
+                <!-- Right Column: Animated Logomark without Card -->
+                <div
+                    class="flex w-full justify-center lg:col-span-5 lg:justify-end"
+                    data-aos="fade-left"
                     data-aos-delay="200"
                 >
-                    Tingkatkan pemahaman konsep
-                    <strong class="font-bold text-[#d2ff00]"
-                        >Sistem Periodik Unsur</strong
+                    <div
+                        class="relative flex aspect-square w-full max-w-[380px] items-center justify-center select-none"
                     >
-                    melalui pendekatan
-                    <strong class="font-bold text-[#00ffff]"
-                        >Predict, Observe, Explain (POE)</strong
-                    >. Belajar lebih interaktif, mendalam, dan menyenangkan
-                    bersama AI Tutor.
-                </p>
+                        <!-- SVG Orbit Animation -->
+                        <svg
+                            class="animate-spin-slow pointer-events-none absolute h-full w-full opacity-70"
+                            viewBox="0 0 200 200"
+                        >
+                            <ellipse
+                                cx="100"
+                                cy="100"
+                                rx="95"
+                                ry="35"
+                                fill="none"
+                                stroke="#00ffff"
+                                stroke-width="1"
+                                stroke-dasharray="6 6"
+                                class="origin-center rotate-45"
+                            />
+                            <ellipse
+                                cx="100"
+                                cy="100"
+                                rx="95"
+                                ry="35"
+                                fill="none"
+                                stroke="#d2ff00"
+                                stroke-width="1"
+                                stroke-dasharray="6 6"
+                                class="origin-center -rotate-45"
+                            />
+                            <circle
+                                cx="5"
+                                cy="100"
+                                r="5"
+                                fill="#00ffff"
+                                class="animate-pulse"
+                            />
+                            <circle
+                                cx="195"
+                                cy="100"
+                                r="5"
+                                fill="#d2ff00"
+                                class="animate-pulse"
+                            />
+                        </svg>
 
-                <div
-                    class="flex flex-col items-center justify-center gap-4 sm:flex-row"
-                    data-aos="fade-up"
-                    data-aos-delay="300"
-                >
-                    <Link
-                        v-if="$page.props.auth?.user"
-                        :href="route('dashboard')"
-                        class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.3)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
-                    >
-                        Lanjutkan Belajar &rarr;
-                    </Link>
-                    <template v-else>
-                        <Link
-                            :href="route('register')"
-                            class="w-full rounded-full bg-gradient-to-r from-[#d2ff00] to-[#00ffff] px-8 py-3.5 text-sm font-extrabold text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.3)] transition-all duration-200 hover:shadow-[0_0_28px_rgba(210,255,0,0.45)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[#d2ff00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:brightness-95 sm:w-auto"
-                        >
-                            Mulai Sekarang &rarr;
-                        </Link>
-                        <Link
-                            :href="route('login')"
-                            class="w-full rounded-full border border-white/10 bg-white/5 px-8 py-3.5 text-sm font-bold text-slate-200 backdrop-blur-sm transition-all duration-200 hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08091a] focus-visible:outline-none active:scale-[0.97] active:bg-white/5 sm:w-auto"
-                        >
-                            Sudah punya akun? Masuk
-                        </Link>
-                    </template>
-                </div>
-
-                <div
-                    class="mt-14 flex justify-center gap-10 border-t border-white/5 pt-8 sm:gap-16"
-                    data-aos="fade-up"
-                    data-aos-delay="400"
-                >
-                    <div class="text-center">
-                        <p class="text-3xl font-extrabold text-white">3</p>
-                        <p
-                            class="mt-1 text-xs font-medium text-slate-400 sm:text-sm"
-                        >
-                            Tahapan Belajar
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <p
-                            class="text-3xl font-extrabold text-[#d2ff00] drop-shadow-[0_0_8px_rgba(210,255,0,0.3)]"
-                        >
-                            AI
-                        </p>
-                        <p
-                            class="mt-1 text-xs font-medium text-slate-400 sm:text-sm"
-                        >
-                            Tutor Interaktif
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <p
-                            class="text-3xl font-extrabold text-[#00ffff] drop-shadow-[0_0_8px_rgba(0,255,255,0.3)]"
-                        >
-                            SMA
-                        </p>
-                        <p
-                            class="mt-1 text-xs font-medium text-slate-400 sm:text-sm"
-                        >
-                            Sistem Periodik Unsur
-                        </p>
+                        <!-- Logomark Core -->
+                        <img
+                            src="/assets/images/logomark_elementverse.png"
+                            alt="ElementVerse Logomark"
+                            class="animate-float pointer-events-none relative z-10 h-52 w-52 object-contain drop-shadow-[0_0_35px_rgba(0,255,255,0.45)] transition-all duration-500 hover:scale-110"
+                        />
                     </div>
                 </div>
             </div>
