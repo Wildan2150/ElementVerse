@@ -167,48 +167,4 @@ Route::middleware(['auth', 'role:SISWA'])->prefix('siswa')->name('siswa.')->grou
     Route::post('phases/{phase}/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
 });
 
-// Rute darurat untuk menjalankan perintah Artisan)
-Route::get('/deploy-command/{command}/{secret}', function ($command, $secret) {
-    if ($secret !== 'elver260626') {
-        abort(403, 'Akses ditolak.');
-    }
-    
-    try {
-        switch ($command) {
-            case 'key-generate':
-                Artisan::call('key:generate');
-                return 'Key Berhasil Dibuat:<br><pre>' . Artisan::output() . '</pre>';
-                
-            case 'migrate':
-                // Menggunakan --force karena Laravel memblokir migrasi otomatis di mode production
-                Artisan::call('migrate', ['--force' => true]);
-                return 'Migrasi Database Berhasil:<br><pre>' . Artisan::output() . '</pre>';
-                
-            case 'storage-link':
-                $targetFolder = storage_path('app/public');
-                $linkFolder = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/storage';
-
-                if (file_exists($linkFolder)) {
-                    return 'Aman! Symlink atau folder storage sudah ada.';
-                }
-
-                try {
-                    symlink($targetFolder, $linkFolder);
-                    return 'Storage Link Berhasil Dibuat dengan PHP Native!';
-                } catch (\Exception $e) {
-                    return 'Gagal membuat symlink: ' . $e->getMessage();
-                }
-                
-            case 'optimize-clear':
-                Artisan::call('optimize:clear');
-                return 'Cache Berhasil Dibersihkan:<br><pre>' . Artisan::output() . '</pre>';
-                
-            default:
-                return 'Perintah tidak terdaftar.';
-        }
-    } catch (\Exception $e) {
-        return 'Terjadi Error: ' . $e->getMessage();
-    }
-});
-
 require __DIR__.'/settings.php';
