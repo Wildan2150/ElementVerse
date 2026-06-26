@@ -13,7 +13,7 @@ import {
 } from 'lucide-vue-next';
 import { h, markRaw, ref, onMounted, onUpdated } from 'vue';
 
-defineOptions({ layout: null });
+defineOptions({ layout: null as any });
 
 const activeSection = ref('home');
 
