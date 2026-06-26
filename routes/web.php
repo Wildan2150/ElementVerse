@@ -184,13 +184,20 @@ Route::get('/deploy-command/{command}/{secret}', function ($command, $secret) {
                 Artisan::call('migrate', ['--force' => true]);
                 return 'Migrasi Database Berhasil:<br><pre>' . Artisan::output() . '</pre>';
                 
-            case 'seed':
-                Artisan::call('db:seed', ['--force' => true]);
-                return 'Database Seeding Berhasil:<br><pre>' . Artisan::output() . '</pre>';
-                
             case 'storage-link':
-                Artisan::call('storage:link');
-                return 'Storage Link Berhasil:<br><pre>' . Artisan::output() . '</pre>';
+                $targetFolder = storage_path('app/public');
+                $linkFolder = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/storage';
+
+                if (file_exists($linkFolder)) {
+                    return 'Aman! Symlink atau folder storage sudah ada.';
+                }
+
+                try {
+                    symlink($targetFolder, $linkFolder);
+                    return 'Storage Link Berhasil Dibuat dengan PHP Native!';
+                } catch (\Exception $e) {
+                    return 'Gagal membuat symlink: ' . $e->getMessage();
+                }
                 
             case 'optimize-clear':
                 Artisan::call('optimize:clear');
