@@ -35,13 +35,13 @@ const submit = () => {
     <div class="min-h-screen bg-transparent px-6 py-8 font-sans lg:px-10">
         <div class="mx-auto max-w-3xl">
             <div class="mb-6 flex items-center justify-between">
-                <h2 class="text-2xl font-bold text-slate-900">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
                     Ubah Role Pengguna
                 </h2>
                 <Link :href="route('admin.users.index')">
                     <Button
                         variant="outline"
-                        class="h-9 border-slate-200 bg-white shadow-sm"
+                        class="h-9 border-slate-200 bg-white text-slate-800 shadow-sm dark:border-slate-800 dark:bg-[#070814]/80 dark:text-slate-200"
                     >
                         <i class="pi pi-arrow-left mr-2 text-xs"></i> Kembali
                     </Button>
@@ -49,12 +49,13 @@ const submit = () => {
             </div>
 
             <Card
-                class="overflow-hidden rounded-xl border-slate-200 bg-white shadow-sm"
+                class="overflow-hidden rounded-xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b0c16]/50 dark:backdrop-blur-md"
             >
                 <CardHeader
-                    class="border-b border-slate-100 bg-slate-50/50 p-6"
+                    class="border-b border-slate-100 bg-slate-50/50 p-6 dark:border-slate-800 dark:bg-slate-900/20"
                 >
-                    <CardTitle class="text-lg font-bold text-slate-800"
+                    <CardTitle
+                        class="text-lg font-bold text-slate-800 dark:text-white"
                         >Detail Pengguna</CardTitle
                     >
                     <CardDescription
@@ -67,40 +68,42 @@ const submit = () => {
                     <form @submit.prevent="submit" class="space-y-5">
                         <div>
                             <label
-                                class="mb-1.5 block text-sm font-medium text-slate-700"
+                                class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                font-medium
+                                text-slate-700
                                 >Nama Lengkap</label
                             >
                             <input
                                 type="text"
                                 :value="user.name"
                                 disabled
-                                class="w-full cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-500"
+                                class="w-full cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-400"
                             />
                         </div>
 
                         <div>
                             <label
-                                class="mb-1.5 block text-sm font-medium text-slate-700"
+                                class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
                                 >Email</label
                             >
                             <input
                                 type="text"
                                 :value="user.email"
                                 disabled
-                                class="w-full cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-500"
+                                class="w-full cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-400"
                             />
                         </div>
 
                         <div>
                             <label
-                                class="mb-1.5 block text-sm font-medium text-slate-700"
+                                class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
                                 >Pilih Role Baru
                                 <span class="text-rose-500">*</span></label
                             >
                             <select
                                 v-model="form.role"
                                 required
-                                class="w-full cursor-pointer rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm text-slate-800 shadow-sm transition-colors outline-none focus:border-indigo-500 focus:ring-indigo-500"
+                                class="border-slate-305 w-full cursor-pointer rounded-lg border bg-white px-4 py-2 text-sm text-slate-800 shadow-sm transition-colors outline-none focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-800 dark:bg-[#070814]/80 dark:text-slate-200"
                             >
                                 <option
                                     v-for="role in roles"

@@ -29,7 +29,9 @@ const table = useVueTable({
 <template>
     <div class="w-full overflow-auto">
         <Table>
-            <TableHeader class="border-y border-slate-200 bg-slate-50/80">
+            <TableHeader
+                class="border-y border-slate-200 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-900/60"
+            >
                 <TableRow
                     v-for="headerGroup in table.getHeaderGroups()"
                     :key="headerGroup.id"
@@ -49,7 +51,7 @@ const table = useVueTable({
                 </TableRow>
             </TableHeader>
 
-            <TableBody class="bg-white">
+            <TableBody class="bg-white dark:bg-transparent">
                 <template v-if="table.getRowModel().rows?.length">
                     <TableRow
                         v-for="row in table.getRowModel().rows"
@@ -57,7 +59,7 @@ const table = useVueTable({
                         :data-state="
                             row.getIsSelected() ? 'selected' : undefined
                         "
-                        class="border-b border-slate-100 transition-colors duration-150 hover:bg-slate-50/60"
+                        class="border-b border-slate-100 transition-colors duration-150 hover:bg-slate-50/60 dark:border-slate-800/60 dark:hover:bg-slate-800/30"
                     >
                         <TableCell
                             v-for="cell in row.getVisibleCells()"
@@ -81,7 +83,7 @@ const table = useVueTable({
                                 class="flex flex-col items-center justify-center gap-3"
                             >
                                 <div
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100"
+                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800"
                                 >
                                     <i
                                         class="pi pi-inbox text-xl text-slate-400"

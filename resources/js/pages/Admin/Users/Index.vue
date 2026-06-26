@@ -94,7 +94,9 @@ const columns: ColumnDef<User>[] = [
         cell: ({ row }) =>
             h(
                 'div',
-                { class: 'font-semibold text-slate-900 text-[14px]' },
+                {
+                    class: 'font-semibold text-slate-900 dark:text-slate-100 text-[14px]',
+                },
                 row.getValue('name'),
             ),
     },
@@ -104,7 +106,9 @@ const columns: ColumnDef<User>[] = [
         cell: ({ row }) =>
             h(
                 'div',
-                { class: 'text-slate-500 text-[13px] font-medium' },
+                {
+                    class: 'text-slate-500 dark:text-slate-400 text-[13px] font-medium',
+                },
                 row.getValue('email'),
             ),
     },
@@ -119,21 +123,21 @@ const columns: ColumnDef<User>[] = [
                 { class: 'flex flex-wrap gap-1.5' },
                 roles.map((role) => {
                     let badgeClass =
-                        'bg-slate-100 text-slate-700 border-slate-200';
+                        'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-900 dark:text-slate-355 dark:border-slate-805';
 
                     if (role.name === 'ADMIN') {
                         badgeClass =
-                            'bg-purple-50 text-purple-700 border-purple-200';
+                            'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/30 dark:text-purple-400 dark:border-purple-800';
                     }
 
                     if (role.name === 'GURU') {
                         badgeClass =
-                            'bg-indigo-50 text-indigo-700 border-indigo-200';
+                            'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/30 dark:text-indigo-400 dark:border-indigo-800';
                     }
 
                     if (role.name === 'SISWA') {
                         badgeClass =
-                            'bg-emerald-50 text-emerald-700 border-emerald-200';
+                            'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800';
                     }
 
                     return h(
@@ -160,7 +164,7 @@ const columns: ColumnDef<User>[] = [
                     {
                         size: 'icon',
                         variant: 'outline',
-                        class: 'h-8 w-8 bg-white border-slate-200 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 shadow-sm transition-all',
+                        class: 'h-8 w-8 bg-white dark:bg-[#070814]/80 border-slate-200 dark:border-slate-805 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-955/50 hover:text-indigo-700 dark:hover:text-indigo-300 hover:border-indigo-202 dark:hover:border-indigo-800 shadow-sm transition-all',
                         onClick: () => editRole(user.id),
                         title: 'Ubah Role',
                     },
@@ -173,7 +177,7 @@ const columns: ColumnDef<User>[] = [
                     {
                         size: 'icon',
                         variant: 'outline',
-                        class: 'h-8 w-8 bg-white border-slate-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 shadow-sm transition-all',
+                        class: 'h-8 w-8 bg-white dark:bg-[#070814]/80 border-slate-202 dark:border-slate-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-955/50 hover:text-rose-707 dark:hover:text-rose-350 hover:border-rose-202 dark:hover:border-rose-800 shadow-sm transition-all',
                         onClick: () => confirmDeleteUser(user.id),
                         disabled: form.processing,
                         title: 'Hapus Akun',
@@ -197,7 +201,9 @@ const authUser = computed(() => page.props.auth?.user);
             class="mx-auto mb-8 flex max-w-7xl flex-col items-start justify-between gap-4 md:flex-row md:items-center"
         >
             <div>
-                <h1 class="text-[26px] font-bold tracking-tight text-slate-900">
+                <h1
+                    class="text-[26px] font-bold tracking-tight text-slate-900 dark:text-white"
+                >
                     Manajemen Pengguna
                 </h1>
                 <p class="mt-1 text-[14px] font-medium text-slate-500">
@@ -210,13 +216,13 @@ const authUser = computed(() => page.props.auth?.user);
                 <Button
                     variant="outline"
                     size="icon"
-                    class="h-9 w-9 rounded-lg border-slate-200 bg-white shadow-sm transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+                    class="h-9 w-9 rounded-lg border-slate-200 bg-white text-slate-800 shadow-sm transition-colors hover:bg-indigo-50 hover:text-indigo-600 dark:border-slate-800 dark:bg-[#0b0c16]/80 dark:text-slate-300 dark:hover:bg-indigo-950/50 dark:hover:text-indigo-400"
                 >
                     <i class="pi pi-bell text-[14px]"></i>
                 </Button>
 
                 <div
-                    class="flex cursor-pointer items-center gap-3 rounded-full border border-slate-200 bg-white py-1.5 pr-4 pl-1.5 shadow-sm transition-colors hover:bg-slate-50"
+                    class="flex cursor-pointer items-center gap-3 rounded-full border border-slate-200 bg-white py-1.5 pr-4 pl-1.5 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-[#0b0c16]/80 dark:hover:bg-slate-900/50"
                 >
                     <div
                         class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-[11px] font-bold text-white shadow-inner"
@@ -225,7 +231,7 @@ const authUser = computed(() => page.props.auth?.user);
                     </div>
                     <div class="flex flex-col">
                         <span
-                            class="text-[13px] leading-none font-bold text-slate-800"
+                            class="text-[13px] leading-none font-bold text-slate-800 dark:text-slate-200"
                             >{{ authUser?.name || 'Admin' }}</span
                         >
                         <span
@@ -239,27 +245,30 @@ const authUser = computed(() => page.props.auth?.user);
 
         <div class="mx-auto max-w-7xl">
             <Card
-                class="overflow-hidden rounded-xl border-slate-200 bg-white shadow-sm"
+                class="overflow-hidden rounded-xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b0c16]/50 dark:backdrop-blur-md"
             >
                 <CardHeader
                     class="flex flex-col justify-between gap-4 border-b border-transparent p-6 sm:flex-row sm:items-center"
                 >
                     <div>
-                        <CardTitle class="text-[17px] font-bold text-slate-800"
+                        <CardTitle
+                            class="text-[17px] font-bold text-slate-800 dark:text-white"
                             >Daftar Pengguna</CardTitle
                         >
                         <CardDescription
                             class="mt-1 text-[13px] font-medium text-slate-500"
                         >
                             Menampilkan
-                            <span class="font-semibold text-slate-700"
+                            <span
+                                class="font-semibold text-slate-700 dark:text-slate-300"
                                 >{{ users.from || 0 }} -
                                 {{ users.to || 0 }}</span
                             >
                             dari
-                            <span class="font-semibold text-slate-700">{{
-                                users.total || 0
-                            }}</span>
+                            <span
+                                class="font-semibold text-slate-700 dark:text-slate-300"
+                                >{{ users.total || 0 }}</span
+                            >
                         </CardDescription>
                     </div>
 
@@ -271,7 +280,7 @@ const authUser = computed(() => page.props.auth?.user);
                             v-model="searchQuery"
                             type="text"
                             placeholder="Cari nama atau email..."
-                            class="h-9 w-full rounded-lg border-slate-200 bg-white pl-9 text-[13px] shadow-sm placeholder:text-slate-400 focus-visible:ring-indigo-500"
+                            class="h-9 w-full rounded-lg border-slate-200 bg-white pl-9 text-[13px] text-slate-900 shadow-sm placeholder:text-slate-400 focus-visible:ring-indigo-500 dark:border-slate-800 dark:bg-[#070814]/60 dark:text-white dark:placeholder:text-slate-500"
                         />
                     </div>
                 </CardHeader>
@@ -282,28 +291,36 @@ const authUser = computed(() => page.props.auth?.user);
 
                 <div
                     v-if="users.links && users.links.length > 3"
-                    class="flex items-center justify-between border-t border-slate-200 bg-slate-50/50 p-4 px-6"
+                    class="flex items-center justify-between border-t border-slate-200 bg-slate-50/50 p-4 px-6 dark:border-slate-800 dark:bg-slate-900/20"
                 >
                     <span
                         class="hidden text-[13px] font-medium text-slate-500 sm:block"
                         >Paginasi Halaman</span
                     >
                     <div class="flex items-center gap-1">
-                        <Component
-                            :is="link.url ? Link : 'span'"
+                        <template
                             v-for="(link, index) in users.links"
                             :key="index"
-                            :href="link.url"
-                            v-html="link.label"
-                            class="rounded-md px-3 py-1.5 text-[13px] font-semibold transition-colors"
-                            :class="
-                                link.active
-                                    ? 'border border-slate-200 bg-white text-slate-900 shadow-sm'
-                                    : link.url
-                                      ? 'text-slate-600 hover:bg-slate-200/50'
-                                      : 'cursor-not-allowed text-slate-300'
-                            "
-                        ></Component>
+                        >
+                            <Link
+                                v-if="link.url"
+                                :href="link.url"
+                                class="rounded-md px-3 py-1.5 text-[13px] font-semibold transition-colors"
+                                :class="
+                                    link.active
+                                        ? 'border border-slate-200 bg-white text-slate-900 shadow-sm dark:border-slate-800 dark:bg-[#070814] dark:text-white'
+                                        : 'dark:hover:bg-slate-850 text-slate-600 hover:bg-slate-200/50 dark:text-slate-400'
+                                "
+                            >
+                                <span v-html="link.label"></span>
+                            </Link>
+                            <span
+                                v-else
+                                class="cursor-not-allowed rounded-md px-3 py-1.5 text-[13px] font-semibold text-slate-300 transition-colors dark:text-slate-600"
+                            >
+                                <span v-html="link.label"></span>
+                            </span>
+                        </template>
                     </div>
                 </div>
             </Card>

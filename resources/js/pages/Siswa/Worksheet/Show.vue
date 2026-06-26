@@ -90,9 +90,8 @@ const startPollingAI = (contentId: number) => {
                     isWaitingForAI.value[contentId] = false;
                     expandedAIFeedbacks.value[contentId] = true; // Auto-expand when AI finishes
                     toast.success('Evaluasi AI Selesai!', { icon: '✨' });
-                }
-                // Jika sudah 15 kali percobaan (45 detik) tapi AI belum jawab (Timeout/Error API)
-                else if (pollAttempts[contentId] >= 15) {
+                } else if (pollAttempts[contentId] >= 15) {
+                    // Jika sudah 15 kali percobaan (45 detik) tapi AI belum jawab (Timeout/Error API)
                     clearInterval(pollIntervals[contentId]);
                     isWaitingForAI.value[contentId] = false;
                     toast.error(
@@ -109,7 +108,7 @@ onMounted(() => {
         for (const [key, value] of Object.entries(props.studentAnswers)) {
             try {
                 answers.value[Number(key)] = JSON.parse(value);
-            } catch (e) {
+            } catch {
                 answers.value[Number(key)] = value;
             }
         }
@@ -164,6 +163,7 @@ const saveAnswer = (contentId: number) => {
 
                 // Hapus feedback lama dari layar
                 if (props.aiFeedbacks) {
+                    /* eslint-disable-next-line vue/no-mutating-props */
                     props.aiFeedbacks[contentId] = '';
                 }
 
@@ -361,7 +361,6 @@ const postMessage = (contentId: number) => {
 const refreshDiscussions = () => {
     router.reload({
         only: ['discussions'],
-        preserveScroll: true,
         onSuccess: () => {
             toast.success('Diskusi diperbarui', { icon: '🔄' });
         },
@@ -471,7 +470,7 @@ const refreshDiscussions = () => {
                                 overflow-y: hidden;
                             "
                             scrolling="no"
-                            allowfullscreen="allowfullscreen"
+                            allowfullscreen
                             allow="
                                 geolocation *;
                                 microphone *;
@@ -664,22 +663,23 @@ const refreshDiscussions = () => {
                         <!-- 1. State Loading Berjalan (Animasi) -->
                         <div
                             v-if="isWaitingForAI[content.id]"
-                            class="relative flex animate-in items-center gap-4 overflow-hidden rounded-2xl border border-indigo-100 bg-white px-6 py-5 shadow-sm duration-500 fade-in slide-in-from-bottom-2"
+                            class="relative flex animate-in items-center gap-4 overflow-hidden rounded-2xl border border-border/40 bg-card px-6 py-5 shadow-sm duration-500 fade-in slide-in-from-bottom-2"
                         >
                             <div
-                                class="absolute inset-0 animate-pulse bg-gradient-to-r from-indigo-50 to-purple-50 opacity-50"
+                                class="absolute inset-0 animate-pulse bg-gradient-to-r from-indigo-500/5 to-purple-500/5 opacity-50"
                             ></div>
                             <i
-                                class="pi pi-sparkles animate-spin text-2xl text-indigo-500"
+                                class="pi pi-sparkles animate-spin text-2xl text-[var(--theme-primary)]"
                                 style="animation-duration: 3s"
                             ></i>
                             <div class="relative z-10 flex flex-col">
                                 <span
-                                    class="text-[14px] font-bold text-indigo-800"
+                                    class="text-[14px] font-bold text-indigo-800 dark:text-indigo-300"
                                     >Guru AI sedang menganalisis
                                     jawabanmu...</span
                                 >
-                                <span class="text-[12px] text-indigo-500"
+                                <span
+                                    class="text-[12px] text-indigo-500 dark:text-indigo-400"
                                     >Tunggu sebentar, sedang menyusun
                                     feedback.</span
                                 >
@@ -689,7 +689,7 @@ const refreshDiscussions = () => {
                         <!-- 2. State Tampil Hasil AI -->
                         <div
                             v-else-if="aiFeedbacks && aiFeedbacks[content.id]"
-                            class="relative animate-in rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-sm transition-all duration-300 zoom-in-95"
+                            class="relative animate-in rounded-2xl border border-[#00ffff]/20 bg-gradient-to-br from-[#00ffff]/5 to-purple-500/5 text-card-foreground shadow-[0_0_15px_rgba(0,255,255,0.05)] transition-all duration-300 zoom-in-95"
                             :class="
                                 isAIFeedbackExpanded(content.id)
                                     ? 'p-6'
@@ -697,20 +697,20 @@ const refreshDiscussions = () => {
                             "
                         >
                             <div
-                                class="absolute -top-3 left-6 flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white px-3 py-1 shadow-sm"
+                                class="absolute -top-3 left-6 flex items-center gap-1.5 rounded-full border border-border/40 bg-card px-3 py-1 shadow-sm"
                             >
                                 <i
-                                    class="pi pi-sparkles text-[10px] text-indigo-500"
+                                    class="pi pi-sparkles text-[10px] text-[var(--theme-primary)]"
                                 ></i>
                                 <span
-                                    class="text-[10px] font-black tracking-widest text-indigo-600 uppercase"
+                                    class="text-[10px] font-black tracking-widest text-[var(--theme-primary)] uppercase"
                                     >Feedback Guru AI</span
                                 >
                             </div>
                             <button
                                 type="button"
                                 @click="toggleAIFeedback(content.id)"
-                                class="absolute -top-3 right-6 flex items-center gap-1 rounded-full border border-indigo-200 bg-white px-3 py-1 text-[10px] font-bold text-indigo-600 shadow-sm transition-all hover:bg-indigo-50 active:scale-95"
+                                class="absolute -top-3 right-6 flex items-center gap-1 rounded-full border border-border/40 bg-card px-3 py-1 text-[10px] font-bold text-[var(--theme-primary)] shadow-sm transition-all hover:bg-slate-100 active:scale-95 dark:hover:bg-slate-900"
                             >
                                 <i
                                     class="pi text-[8px]"
@@ -728,7 +728,7 @@ const refreshDiscussions = () => {
                             </button>
                             <div
                                 v-show="isAIFeedbackExpanded(content.id)"
-                                class="prose prose-sm prose-slate rich-text-content mt-3 max-w-none animate-in leading-relaxed duration-200 fade-in"
+                                class="prose prose-sm prose-slate rich-text-content mt-3 max-w-none animate-in leading-relaxed text-slate-700 duration-200 fade-in dark:text-slate-300"
                                 v-html="renderMarkdown(aiFeedbacks[content.id])"
                             ></div>
                         </div>

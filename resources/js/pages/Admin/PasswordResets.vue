@@ -33,7 +33,7 @@ type ResetRequest = {
     created_at: string;
 };
 
-const props = defineProps<{
+defineProps<{
     resetRequests: {
         data: ResetRequest[];
         links: Array<{ url: string | null; label: string; active: boolean }>;
@@ -87,10 +87,10 @@ const getRoleBadgeClass = (roles: Array<{ name: string }>) => {
     const roleName = roles[0]?.name || 'SISWA';
 
     if (roleName === 'GURU') {
-        return 'border-indigo-200 bg-indigo-50 text-indigo-700';
+        return 'border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-400';
     }
 
-    return 'border-emerald-200 bg-emerald-50 text-emerald-700';
+    return 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400';
 };
 
 const getStatusBadge = (status: string) => {
@@ -98,27 +98,27 @@ const getStatusBadge = (status: string) => {
         case 'pending':
             return {
                 label: 'Menunggu Persetujuan',
-                class: 'border-yellow-200 bg-yellow-50 text-yellow-700 animate-pulse',
+                class: 'border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-950/30 text-yellow-700 dark:text-yellow-400 animate-pulse',
             };
         case 'approved':
             return {
                 label: 'Disetujui (Menunggu User)',
-                class: 'border-blue-200 bg-blue-50 text-blue-700',
+                class: 'border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400',
             };
         case 'completed':
             return {
                 label: 'Selesai',
-                class: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+                class: 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400',
             };
         case 'rejected':
             return {
                 label: 'Ditolak / Kedaluwarsa',
-                class: 'border-rose-200 bg-rose-50 text-rose-700',
+                class: 'border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400',
             };
         default:
             return {
                 label: status,
-                class: 'border-slate-200 bg-slate-50 text-slate-700',
+                class: 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-355',
             };
     }
 };
@@ -144,7 +144,9 @@ const authUser = computed(() => page.props.auth?.user);
             class="mx-auto mb-8 flex max-w-7xl flex-col items-start justify-between gap-4 md:flex-row md:items-center"
         >
             <div>
-                <h1 class="text-[26px] font-bold tracking-tight text-slate-900">
+                <h1
+                    class="text-[26px] font-bold tracking-tight text-slate-900 dark:text-white"
+                >
                     Kelola Reset Password
                 </h1>
                 <p class="mt-1 text-[14px] font-medium text-slate-500">
@@ -157,13 +159,13 @@ const authUser = computed(() => page.props.auth?.user);
                 <Button
                     variant="outline"
                     size="icon"
-                    class="h-9 w-9 rounded-lg border-slate-200 bg-white shadow-sm transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+                    class="h-9 w-9 rounded-lg border-slate-200 bg-white text-slate-800 shadow-sm transition-colors hover:bg-indigo-50 hover:text-indigo-600 dark:border-slate-800 dark:bg-[#0b0c16]/80 dark:text-slate-300 dark:hover:bg-indigo-950/50 dark:hover:text-indigo-400"
                 >
                     <i class="pi pi-bell text-[14px]"></i>
                 </Button>
 
                 <div
-                    class="flex cursor-pointer items-center gap-3 rounded-full border border-slate-200 bg-white py-1.5 pr-4 pl-1.5 shadow-sm transition-colors hover:bg-slate-50"
+                    class="flex cursor-pointer items-center gap-3 rounded-full border border-slate-200 bg-white py-1.5 pr-4 pl-1.5 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-[#0b0c16]/80 dark:hover:bg-slate-900/50"
                 >
                     <div
                         class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-[11px] font-bold text-white shadow-inner"
@@ -172,7 +174,7 @@ const authUser = computed(() => page.props.auth?.user);
                     </div>
                     <div class="flex flex-col">
                         <span
-                            class="text-[13px] leading-none font-bold text-slate-800"
+                            class="text-[13px] leading-none font-bold text-slate-800 dark:text-slate-200"
                             >{{ authUser?.name || 'Admin' }}</span
                         >
                         <span
@@ -186,25 +188,28 @@ const authUser = computed(() => page.props.auth?.user);
 
         <div class="mx-auto max-w-7xl">
             <Card
-                class="overflow-hidden rounded-xl border-slate-200 bg-white shadow-sm"
+                class="overflow-hidden rounded-xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-[#0b0c16]/50 dark:backdrop-blur-md"
             >
                 <CardHeader class="border-b border-transparent p-6">
                     <div>
-                        <CardTitle class="text-[17px] font-bold text-slate-800"
+                        <CardTitle
+                            class="text-[17px] font-bold text-slate-800 dark:text-white"
                             >Daftar Pengajuan Reset</CardTitle
                         >
                         <CardDescription
                             class="mt-1 text-[13px] font-medium text-slate-500"
                         >
                             Menampilkan
-                            <span class="font-semibold text-slate-700"
+                            <span
+                                class="font-semibold text-slate-700 dark:text-slate-300"
                                 >{{ resetRequests.from || 0 }} -
                                 {{ resetRequests.to || 0 }}</span
                             >
                             dari
-                            <span class="font-semibold text-slate-700">{{
-                                resetRequests.total || 0
-                            }}</span>
+                            <span
+                                class="font-semibold text-slate-700 dark:text-slate-300"
+                                >{{ resetRequests.total || 0 }}</span
+                            >
                             pengajuan
                         </CardDescription>
                     </div>
@@ -213,7 +218,7 @@ const authUser = computed(() => page.props.auth?.user);
                 <CardContent class="p-0">
                     <Table>
                         <TableHeader
-                            class="border-y border-slate-200 bg-slate-50/80"
+                            class="border-y border-slate-200 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-900/60"
                         >
                             <TableRow class="border-none hover:bg-transparent">
                                 <TableHead
@@ -238,16 +243,16 @@ const authUser = computed(() => page.props.auth?.user);
                                 >
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody class="dark:bg-transparent">
                             <TableRow
                                 v-for="req in resetRequests.data"
                                 :key="req.id"
-                                class="border-b border-slate-100 transition-colors hover:bg-slate-50/60"
+                                class="border-b border-slate-100 transition-colors hover:bg-slate-50/60 dark:border-slate-800/60 dark:hover:bg-slate-800/30"
                             >
                                 <TableCell class="px-6 py-4">
                                     <div class="flex flex-col">
                                         <span
-                                            class="text-[14px] font-semibold text-slate-900"
+                                            class="text-[14px] font-semibold text-slate-900 dark:text-slate-100"
                                             >{{
                                                 req.user
                                                     ? req.user.name
@@ -255,7 +260,7 @@ const authUser = computed(() => page.props.auth?.user);
                                             }}</span
                                         >
                                         <span
-                                            class="text-[12px] font-medium text-slate-500"
+                                            class="text-[12px] font-medium text-slate-500 dark:text-slate-400"
                                             >{{
                                                 req.user ? req.user.email : '-'
                                             }}</span
@@ -267,15 +272,19 @@ const authUser = computed(() => page.props.auth?.user);
                                         v-if="req.user"
                                         variant="outline"
                                         :class="
-                                            getRoleBadgeClass(req.user.roles)
+                                            getRoleBadgeClass(
+                                                req.user?.roles || [],
+                                            )
                                         "
                                         class="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase"
                                     >
-                                        {{ req.user.roles[0]?.name || 'SISWA' }}
+                                        {{
+                                            req.user?.roles[0]?.name || 'SISWA'
+                                        }}
                                     </Badge>
                                 </TableCell>
                                 <TableCell
-                                    class="text-[13px] font-medium text-slate-600"
+                                    class="text-[13px] font-medium text-slate-600 dark:text-slate-400"
                                 >
                                     {{ formatDateTime(req.created_at) }}
                                 </TableCell>
@@ -306,7 +315,7 @@ const authUser = computed(() => page.props.auth?.user);
                                         <Button
                                             size="sm"
                                             variant="outline"
-                                            class="h-8 rounded-lg border-slate-200 px-3 text-[11px] font-bold text-rose-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+                                            class="dark:hover:text-rose-350 h-8 rounded-lg border-slate-200 px-3 text-[11px] font-bold text-rose-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 dark:border-slate-800 dark:text-rose-400 dark:hover:border-rose-900 dark:hover:bg-rose-950/30"
                                             :disabled="isProcessing[req.id]"
                                             @click="handleReject(req.id)"
                                         >
@@ -320,7 +329,7 @@ const authUser = computed(() => page.props.auth?.user);
                                         <Button
                                             size="sm"
                                             variant="outline"
-                                            class="h-8 rounded-lg border-slate-200 px-3 text-[11px] font-bold text-rose-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+                                            class="dark:hover:text-rose-350 h-8 rounded-lg border-slate-200 px-3 text-[11px] font-bold text-rose-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 dark:border-slate-800 dark:text-rose-400 dark:hover:border-rose-900 dark:hover:bg-rose-950/30"
                                             :disabled="isProcessing[req.id]"
                                             @click="handleReject(req.id)"
                                         >
@@ -329,7 +338,7 @@ const authUser = computed(() => page.props.auth?.user);
                                     </div>
                                     <span
                                         v-else
-                                        class="text-[12px] font-medium text-slate-400"
+                                        class="text-[12px] font-medium text-slate-400 dark:text-slate-500"
                                         >-</span
                                     >
                                 </TableCell>
@@ -342,7 +351,7 @@ const authUser = computed(() => page.props.auth?.user);
                             >
                                 <TableCell
                                     colspan="5"
-                                    class="py-8 text-center text-sm text-slate-400"
+                                    class="py-8 text-center text-sm text-slate-400 dark:text-slate-500"
                                 >
                                     Tidak ada riwayat pengajuan reset password.
                                 </TableCell>
@@ -353,28 +362,36 @@ const authUser = computed(() => page.props.auth?.user);
 
                 <div
                     v-if="resetRequests.links && resetRequests.links.length > 3"
-                    class="flex items-center justify-between border-t border-slate-200 bg-slate-50/50 p-4 px-6"
+                    class="flex items-center justify-between border-t border-slate-200 bg-slate-50/50 p-4 px-6 dark:border-slate-800 dark:bg-slate-900/20"
                 >
                     <span
                         class="hidden text-[13px] font-medium text-slate-500 sm:block"
                         >Paginasi Halaman</span
                     >
                     <div class="flex items-center gap-1">
-                        <Component
-                            :is="link.url ? Link : 'span'"
+                        <template
                             v-for="(link, index) in resetRequests.links"
                             :key="index"
-                            :href="link.url"
-                            v-html="link.label"
-                            class="rounded-md px-3 py-1.5 text-[13px] font-semibold transition-colors"
-                            :class="
-                                link.active
-                                    ? 'border border-slate-200 bg-white text-slate-900 shadow-sm'
-                                    : link.url
-                                      ? 'text-slate-600 hover:bg-slate-200/50'
-                                      : 'cursor-not-allowed text-slate-300'
-                            "
-                        ></Component>
+                        >
+                            <Link
+                                v-if="link.url"
+                                :href="link.url"
+                                class="rounded-md px-3 py-1.5 text-[13px] font-semibold transition-colors"
+                                :class="
+                                    link.active
+                                        ? 'border border-slate-200 bg-white text-slate-900 shadow-sm dark:border-slate-800 dark:bg-[#070814] dark:text-white'
+                                        : 'dark:hover:bg-slate-855 text-slate-600 hover:bg-slate-200/50 dark:text-slate-400'
+                                "
+                            >
+                                <span v-html="link.label"></span>
+                            </Link>
+                            <span
+                                v-else
+                                class="cursor-not-allowed rounded-md px-3 py-1.5 text-[13px] font-semibold text-slate-300 transition-colors dark:text-slate-600"
+                            >
+                                <span v-html="link.label"></span>
+                            </span>
+                        </template>
                     </div>
                 </div>
             </Card>
