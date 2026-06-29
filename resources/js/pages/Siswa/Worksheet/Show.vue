@@ -452,24 +452,18 @@ const refreshDiscussions = () => {
                         </a>
                     </div>
                     <div
-                        class="w-full rounded-xl bg-slate-900"
-                        style="
-                            max-height: 85vh;
-                            overflow-y: auto;
-                            -webkit-overflow-scrolling: touch;
-                        "
+                        class="w-full overflow-hidden rounded-xl bg-slate-900"
+                        style="height: 600px; max-height: 75vh"
                     >
                         <iframe
                             :src="content.content_data.path"
                             class="w-full border-0"
                             style="
-                                height: 1000px;
+                                height: 125%;
                                 width: 125%;
                                 transform: scale(0.8);
                                 transform-origin: top left;
-                                overflow-y: hidden;
                             "
-                            scrolling="no"
                             allowfullscreen
                             allow="
                                 geolocation *;
