@@ -78,6 +78,19 @@ class PhaseController extends Controller
         return back();
     }
 
+    public function reorderPhases(Request $request, Classroom $classroom, Topic $topic)
+    {
+        if ($classroom->teacher_id !== $request->user()->id) { abort(403, 'Akses ditolak.'); }
+
+        $request->validate([
+            'phase_ids' => 'required|array',
+            'phase_ids.*' => 'required|exists:topic_phases,id',
+        ]);
+
+        $this->phaseService->reorderPhases($topic, $request->phase_ids);
+        return back();
+    }
+
     // ==========================================
     // MANAJEMEN KONTEN FASE (BUILDER BLOK)
     // ==========================================

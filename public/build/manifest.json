@@ -312,7 +312,7 @@
     "src": "node_modules/primeicons/fonts/primeicons.woff2"
   },
   "node_modules/quill/quill.js": {
-    "file": "assets/quill-BUrQYXt-.js",
+    "file": "assets/quill-Cy8cSHN3.js",
     "name": "quill",
     "src": "node_modules/quill/quill.js",
     "isDynamicEntry": true,
@@ -321,7 +321,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-_2wdWQmN.css",
+    "file": "assets/app-CBgjdP65.css",
     "name": "app",
     "names": [
       "app.css"
@@ -330,7 +330,7 @@
     "isEntry": true
   },
   "resources/js/app.ts": {
-    "file": "assets/app-CEIWzoM4.js",
+    "file": "assets/app-Df5fDoQT.js",
     "name": "app",
     "src": "resources/js/app.ts",
     "isEntry": true,

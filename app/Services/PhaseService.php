@@ -58,4 +58,13 @@ class PhaseService
                 ->update(['order' => $index + 1]);
         }
     }
+
+    public function reorderPhases(Topic $topic, array $phaseIds)
+    {
+        foreach ($phaseIds as $index => $id) {
+            TopicPhase::where('id', $id)
+                ->where('topic_id', $topic->id)
+                ->update(['order' => $index + 1]);
+        }
+    }
 }

@@ -6,7 +6,6 @@ import RichTextEditor from '@/components/RichTextEditor.vue';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
 
 const props = defineProps<{
     classroom: {
@@ -195,6 +194,50 @@ const submitCreatePhase = () => {
 // ==========================================
 // 5. LOGIKA UPDATE & HAPUS FASE
 // ==========================================
+const localPhases = ref([...props.topic.phases]);
+
+watch(
+    () => props.topic.phases,
+    (newPhases) => {
+        localPhases.value = [...newPhases];
+    },
+    { deep: true },
+);
+
+const movePhase = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) {
+        return;
+    }
+
+    if (direction === 'down' && index === localPhases.value.length - 1) {
+        return;
+    }
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+
+    const updated = [...localPhases.value];
+    const temp = updated[index];
+    updated[index] = updated[targetIndex];
+    updated[targetIndex] = temp;
+    localPhases.value = updated;
+
+    const phaseIds = localPhases.value.map((p: any) => p.id);
+    router.post(
+        route('guru.phases.reorder', {
+            classroom: props.classroom.id,
+            topic: props.topic.id,
+        }),
+        { phase_ids: phaseIds },
+        {
+            preserveScroll: true,
+            onSuccess: () =>
+                toast.success('Urutan sesi diperbarui', {
+                    icon: '🔄',
+                }),
+        },
+    );
+};
+
 const updatePhase = (phase: any) => {
     // Dipicu saat input field fase kehilangan fokus (blur)
     router.put(
@@ -438,7 +481,7 @@ const executeDeletePhase = () => {
 
             <div class="space-y-4">
                 <div
-                    v-for="(phase, pIdx) in topic.phases"
+                    v-for="(phase, pIdx) in localPhases"
                     :key="phase.id"
                     class="relative"
                 >
@@ -446,6 +489,30 @@ const executeDeletePhase = () => {
                         class="flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border-border/40 bg-card/60 p-4 shadow-sm backdrop-blur-md transition-all hover:border-[var(--theme-primary)]/50 hover:shadow-[0_0_20px_rgba(210,255,0,0.08)] md:flex-row md:items-center md:p-5"
                     >
                         <div class="flex flex-1 items-center gap-4">
+                            <!-- Tombol Reorder Sesi -->
+                            <div
+                                class="flex shrink-0 flex-col items-center gap-1.5"
+                            >
+                                <button
+                                    type="button"
+                                    @click="movePhase(pIdx, 'up')"
+                                    :disabled="pIdx === 0"
+                                    class="text-slate-400 transition-colors hover:text-[var(--theme-primary)] disabled:cursor-not-allowed disabled:opacity-20"
+                                    title="Pindahkan Ke Atas"
+                                >
+                                    <i class="pi pi-chevron-up text-xs"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="movePhase(pIdx, 'down')"
+                                    :disabled="pIdx === localPhases.length - 1"
+                                    class="text-slate-400 transition-colors hover:text-[var(--theme-primary)] disabled:cursor-not-allowed disabled:opacity-20"
+                                    title="Pindahkan Ke Bawah"
+                                >
+                                    <i class="pi pi-chevron-down text-xs"></i>
+                                </button>
+                            </div>
+
                             <span
                                 class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border/40 bg-white/5 text-[16px] font-black text-[var(--theme-primary)]"
                             >
@@ -543,7 +610,7 @@ const executeDeletePhase = () => {
             </div>
 
             <div
-                v-if="topic.phases.length === 0"
+                v-if="localPhases.length === 0"
                 class="mt-8 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-border/40 bg-card/40 py-24 text-center shadow-sm"
             >
                 <div

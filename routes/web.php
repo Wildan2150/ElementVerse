@@ -107,6 +107,7 @@ Route::middleware(['auth', 'role:GURU'])->prefix('guru')->name('guru.')->group(f
 
     // Manajemen Fase (Phase) menggunakan PhaseController
     Route::post('classes/{classroom}/topics/{topic}/phases', [PhaseController::class, 'store'])->name('phases.store');
+    Route::post('classes/{classroom}/topics/{topic}/phases/reorder', [PhaseController::class, 'reorderPhases'])->name('phases.reorder');
     Route::get('classes/{classroom}/topics/{topic}/phases/{phase}', [PhaseController::class, 'show'])->name('phases.show');
     Route::put('phases/{phase}', [PhaseController::class, 'update'])->name('phases.update');
     Route::delete('phases/{phase}', [PhaseController::class, 'destroy'])->name('phases.destroy');
