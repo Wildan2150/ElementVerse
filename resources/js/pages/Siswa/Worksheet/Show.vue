@@ -735,13 +735,13 @@ const refreshDiscussions = () => {
                         content.type === 'eval_essay' ||
                         content.type === 'input_text'
                     "
-                    class="relative overflow-hidden rounded-2xl border border-indigo-100 bg-indigo-50/50 p-6 shadow-sm"
+                    class="relative overflow-hidden rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-6 shadow-sm"
                 >
                     <div
                         class="absolute top-0 left-0 h-full w-1.5 bg-indigo-500"
                     ></div>
                     <label
-                        class="mb-3 block flex items-center gap-2 text-[14px] font-extrabold text-slate-800"
+                        class="mb-3 block flex items-center gap-2 text-[14px] font-extrabold text-slate-200 dark:text-white"
                     >
                         <i class="pi pi-align-left text-indigo-500"></i>
                         <span
@@ -757,14 +757,14 @@ const refreshDiscussions = () => {
                     <!-- Tampilan Read-Only saat phase terkunci (jawaban sudah dikirim) -->
                     <div
                         v-if="props.isLocked && answers[content.id]"
-                        class="rich-text-content ql-editor-readonly min-h-[80px] rounded-xl border border-slate-200 bg-slate-50 px-[18px] py-[14px] text-[14px] leading-relaxed text-slate-800"
+                        class="rich-text-content ql-editor-readonly min-h-[80px] rounded-xl border border-white/5 bg-white/5 px-[18px] py-[14px] text-[14px] leading-relaxed text-slate-300 dark:text-slate-200"
                         v-html="answers[content.id]"
                     ></div>
 
                     <!-- Pesan kosong jika terkunci tapi belum ada jawaban -->
                     <div
                         v-else-if="props.isLocked && !answers[content.id]"
-                        class="flex min-h-[80px] items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-[13px] text-slate-400"
+                        class="flex min-h-[80px] items-center justify-center rounded-xl border border-dashed border-white/5 bg-white/5 text-[13px] text-slate-400"
                     >
                         <i class="pi pi-minus-circle mr-2 text-slate-300"></i>
                         Tidak ada jawaban yang dikirimkan.
