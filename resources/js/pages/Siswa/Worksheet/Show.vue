@@ -245,7 +245,7 @@ const executeFinish = () => {
         {},
         {
             onSuccess: () => {
-                toast.success('Fase pembelajaran selesai!', { icon: '✅' });
+                toast.success('Sesi pembelajaran selesai!', { icon: '✅' });
             },
         },
     );
@@ -1239,12 +1239,12 @@ const refreshDiscussions = () => {
                 <h3
                     class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100"
                 >
-                    Selesaikan Fase?
+                    Selesaikan Sesi?
                 </h3>
                 <p
                     class="mt-2 text-[14px] leading-relaxed font-medium text-slate-500 dark:text-slate-400"
                 >
-                    Apakah Anda yakin ingin menyelesaikan fase ini? Setelah
+                    Apakah Anda yakin ingin menyelesaikan sesi ini? Setelah
                     diselesaikan, jawaban Anda tidak dapat diubah lagi.
                 </p>
                 <div

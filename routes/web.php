@@ -113,6 +113,7 @@ Route::middleware(['auth', 'role:GURU'])->prefix('guru')->name('guru.')->group(f
 
     // Manajemen Konten (Content) menggunakan PhaseController
     Route::post('phases/{phase}/contents', [PhaseController::class, 'storeContent'])->name('contents.store');
+    Route::post('phases/{phase}/contents/reorder', [PhaseController::class, 'reorderContents'])->name('contents.reorder');
     Route::put('contents/{content}', [PhaseController::class, 'updateContent'])->name('contents.update');
     Route::delete('contents/{content}', [PhaseController::class, 'destroyContent'])->name('contents.destroy');
 

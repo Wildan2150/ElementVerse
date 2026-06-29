@@ -105,4 +105,15 @@ class PhaseController extends Controller
         $this->phaseService->deleteContent($content);
         return back();
     }
+
+    public function reorderContents(Request $request, TopicPhase $phase)
+    {
+        $request->validate([
+            'content_ids' => 'required|array',
+            'content_ids.*' => 'required|exists:phase_contents,id',
+        ]);
+
+        $this->phaseService->reorderContents($phase, $request->content_ids);
+        return back();
+    }
 }

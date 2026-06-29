@@ -49,4 +49,13 @@ class PhaseService
     {
         return $content->delete();
     }
+
+    public function reorderContents(TopicPhase $phase, array $contentIds)
+    {
+        foreach ($contentIds as $index => $id) {
+            PhaseContent::where('id', $id)
+                ->where('topic_phase_id', $phase->id)
+                ->update(['order' => $index + 1]);
+        }
+    }
 }

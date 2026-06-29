@@ -183,8 +183,8 @@ const submitCreatePhase = () => {
             preserveScroll: true,
             onSuccess: () => {
                 closeCreatePhaseModal();
-                toast.success('Fase Berhasil Dibuat', {
-                    description: 'Fase baru telah ditambahkan ke dalam topik.',
+                toast.success('Sesi Berhasil Dibuat', {
+                    description: 'Sesi baru telah ditambahkan ke dalam topik.',
                     icon: '✨',
                 });
             },
@@ -207,7 +207,7 @@ const updatePhase = (phase: any) => {
         {
             preserveScroll: true,
             onSuccess: () =>
-                toast.success('Nama fase diperbarui', {
+                toast.success('Nama sesi diperbarui', {
                     description: `Perubahan tersimpan otomatis.`,
                 }),
         },
@@ -235,12 +235,12 @@ const executeDeletePhase = () => {
                 preserveScroll: true,
                 onSuccess: () => {
                     closeDeletePhaseModal();
-                    toast.success('Fase Dihapus');
+                    toast.success('Sesi Dihapus');
                 },
                 onError: () => {
                     closeDeletePhaseModal();
                     toast.error('Gagal Menghapus', {
-                        description: 'Terjadi kesalahan saat menghapus fase.',
+                        description: 'Terjadi kesalahan saat menghapus sesi.',
                     });
                 },
             },
@@ -425,15 +425,14 @@ const executeDeletePhase = () => {
             <div class="mb-6 flex items-center justify-between">
                 <div>
                     <h2 class="text-lg font-extrabold text-slate-100">
-                        Daftar Fase Pembelajaran (POE)
+                        Daftar sesi pembelajaran.
                     </h2>
                     <p class="text-[13px] text-slate-400">
-                        Buat alur tahapan pembelajaran Model POE: Predict,
-                        Observe, dan Explain.
+                        Buat alur tahapan pembelajaran.
                     </p>
                 </div>
                 <Button @click="openCreatePhaseModal" class="h-10 font-bold">
-                    <i class="pi pi-plus mr-2"></i> Tambah Fase Baru
+                    <i class="pi pi-plus mr-2"></i> Tambah Sesi Baru
                 </Button>
             </div>
 
@@ -458,7 +457,7 @@ const executeDeletePhase = () => {
                                     @blur="updatePhase(phase)"
                                     @keyup.enter="$event.target.blur()"
                                     class="w-full border-none bg-transparent p-0 text-[16px] font-extrabold text-slate-100 placeholder:text-slate-500 focus:ring-0 focus:outline-none"
-                                    placeholder="Ketik Nama Fase... (contoh: Tahap Predict)"
+                                    placeholder="Ketik nama sesi pembelajaran..."
                                 />
                                 <div
                                     class="mt-1 flex items-center gap-2 text-[11px] font-bold text-slate-400"
@@ -534,7 +533,7 @@ const executeDeletePhase = () => {
                             <button
                                 @click="deletePhase(phase.id)"
                                 class="text-rose-455 hover:text-rose-350 flex h-10 w-10 items-center justify-center rounded-lg border border-rose-500/20 bg-rose-500/5 transition-colors hover:bg-rose-500/10"
-                                title="Hapus Fase"
+                                title="Hapus Sesi"
                             >
                                 <i class="pi pi-trash text-sm"></i>
                             </button>
@@ -553,25 +552,19 @@ const executeDeletePhase = () => {
                     <i class="pi pi-sitemap text-4xl text-slate-400"></i>
                 </div>
                 <h4 class="mb-2 text-[18px] font-extrabold text-slate-200">
-                    Belum Ada Fase Pembelajaran
+                    Belum Ada Sesi Pembelajaran
                 </h4>
                 <p
                     class="mb-6 max-w-[420px] text-[14px] leading-relaxed font-medium text-slate-400"
                 >
-                    Mulai bangun alur belajar siswa Anda. Tambahkan materi/fase
-                    seperti
-                    <strong class="text-[var(--theme-primary)]">Predict</strong
-                    >,
-                    <strong class="text-[var(--theme-primary)]">Observe</strong
-                    >, atau
-                    <strong class="text-[var(--theme-primary)]">Explain</strong>
-                    secara fleksibel sesuai model POE.
+                    Mulai bangun alur belajar siswa Anda. Tambahkan sesi secara
+                    fleksibel.
                 </p>
                 <Button
                     @click="openCreatePhaseModal"
                     class="h-11 px-6 text-[13px] font-bold"
                 >
-                    <i class="pi pi-plus mr-2"></i> Buat Fase Pertama
+                    <i class="pi pi-plus mr-2"></i> Buat Sesi Pertama
                 </Button>
             </div>
         </div>
@@ -595,7 +588,7 @@ const executeDeletePhase = () => {
                             <i class="pi pi-layer-group text-[15px]"></i>
                         </div>
                         <span class="text-base font-extrabold text-slate-100"
-                            >Buat Fase Pembelajaran</span
+                            >Buat Sesi Pembelajaran</span
                         >
                     </div>
                     <button
@@ -610,14 +603,14 @@ const executeDeletePhase = () => {
                         <div>
                             <label
                                 class="mb-2 block text-[12px] font-bold tracking-wider text-slate-300 uppercase"
-                                >Nama Fase (Siklus POE)
+                                >Sesi Pembelajaran
                                 <span class="text-rose-500">*</span></label
                             >
                             <Input
                                 v-model="createPhaseForm.name"
                                 type="text"
                                 required
-                                placeholder="Contoh: Predict (Prediksi), Observe (Observasi), Explain (Penjelasan)..."
+                                placeholder=""
                                 class="h-11 rounded-xl border-border/40 bg-white/5 text-[14px] text-slate-100 shadow-sm focus:border-[var(--theme-primary)] focus:outline-none focus-visible:border-[var(--theme-primary)] focus-visible:ring-[var(--theme-primary)]/20"
                             />
                         </div>
@@ -639,7 +632,7 @@ const executeDeletePhase = () => {
                                 v-if="createPhaseForm.processing"
                                 class="pi pi-spinner pi-spin mr-2"
                             ></i>
-                            <span v-else>Simpan Fase</span>
+                            <span v-else>Simpan Sesi</span>
                         </Button>
                     </div>
                 </form>
@@ -748,7 +741,7 @@ const executeDeletePhase = () => {
                     class="mt-2 text-[14px] leading-relaxed font-medium text-slate-400"
                 >
                     Anda yakin ingin menghapus topik ini secara permanen?
-                    Seluruh Fase & Konten di dalamnya akan ikut terhapus dan
+                    Seluruh Sesi & Konten di dalamnya akan ikut terhapus dan
                     tidak bisa dikembalikan.
                 </p>
                 <div
@@ -796,12 +789,12 @@ const executeDeletePhase = () => {
                 <h3
                     class="text-xl font-extrabold tracking-tight text-slate-100"
                 >
-                    Hapus Fase Ini?
+                    Hapus Sesi Ini?
                 </h3>
                 <p
                     class="mt-2 text-[14px] leading-relaxed font-medium text-slate-400"
                 >
-                    Hapus fase ini? Seluruh isi materi dan pertanyaan di
+                    Hapus sesi ini? Seluruh isi materi dan pertanyaan di
                     dalamnya akan ikut terhapus permanen.
                 </p>
                 <div
@@ -820,7 +813,7 @@ const executeDeletePhase = () => {
                         @click="executeDeletePhase"
                         class="to-red-650 h-11 w-full rounded-xl border-none bg-gradient-to-r from-rose-500 px-6 text-[13px] font-bold text-white shadow-[0_0_15px_rgba(239,68,68,0.2)] sm:w-auto"
                     >
-                        Ya, Hapus Fase
+                        Ya, Hapus Sesi
                     </Button>
                 </div>
             </div>

@@ -192,8 +192,8 @@ const isImage = (url: string | null) => {
                         v-else
                         class="max-w-2xl text-[14px] leading-relaxed text-slate-400"
                     >
-                        Selamat datang di kelas ini. Mari belajar kimia dengan
-                        pendekatan POE!
+                        Selamat datang di kelas ini. Mari belajar dengan
+                        ELEMENTVERSE!
                     </p>
                 </div>
                 <div

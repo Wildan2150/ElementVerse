@@ -341,6 +341,30 @@ const saveContent = (content: any) => {
     );
 };
 
+const moveContent = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === localContents.value.length - 1)
+        return;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+
+    const updated = [...localContents.value];
+    const temp = updated[index];
+    updated[index] = updated[targetIndex];
+    updated[targetIndex] = temp;
+    localContents.value = updated;
+
+    const contentIds = localContents.value.map((c: any) => c.id);
+    router.post(
+        route('guru.contents.reorder', { phase: props.phase.id }),
+        { content_ids: contentIds },
+        {
+            preserveScroll: true,
+            onSuccess: () => toast.success('Urutan diperbarui'),
+        },
+    );
+};
+
 const isDeleteContentModalOpen = ref(false);
 const contentIdToDelete = ref<number | null>(null);
 
@@ -451,7 +475,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                 >
                 <i class="pi pi-chevron-right text-[8px] text-slate-600"></i>
                 <span class="text-[var(--theme-primary)]"
-                    >Builder Fase: {{ phase.name }}</span
+                    >Builder Sesi: {{ phase.name }}</span
                 >
             </div>
 
@@ -464,7 +488,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                     <div>
                         <span
                             class="mb-1 block text-[10px] font-black tracking-widest text-[var(--theme-primary)] uppercase"
-                            >Siklus POE</span
+                            >Sesi Pembelajaran</span
                         >
                         <h1 class="text-2xl font-black text-slate-100">
                             {{ phase.name }}
@@ -545,7 +569,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                     </label>
                     <p class="mb-4 text-[12px] text-slate-400">
                         Atur bagaimana AI harus mengevaluasi jawaban siswa pada
-                        fase ini. Contoh:
+                        sesi ini. Contoh:
                         <i
                             >"Jika siswa salah, berikan clue terkait ciri atom
                             karbon, jangan langsung beritahu jawabannya."</i
@@ -572,7 +596,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                     </label>
                     <p class="mb-4 text-[12px] text-slate-400">
                         Atur kepribadian, gaya bahasa, atau materi khusus untuk
-                        Chatbot AI siswa pada fase ini. Contoh:
+                        Chatbot AI siswa pada sesi ini. Contoh:
                         <i
                             >"Bantu siswa memahami konsep tren jari-jari atom
                             dalam sistem periodik unsur dengan memberikan contoh
@@ -657,13 +681,36 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                     Blok {{ content.type.replace('eval_', '') }}
                                 </span>
                             </div>
-                            <button
-                                @click="removeContent(content.id)"
-                                class="text-slate-400 transition-colors hover:text-rose-400"
-                                title="Hapus Blok"
-                            >
-                                <i class="pi pi-trash"></i>
-                            </button>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    @click="moveContent(index, 'up')"
+                                    :disabled="index === 0"
+                                    class="text-slate-400 transition-colors hover:text-[var(--theme-primary)] disabled:cursor-not-allowed disabled:opacity-30"
+                                    title="Pindahkan Ke Atas"
+                                >
+                                    <i class="pi pi-arrow-up text-sm"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="moveContent(index, 'down')"
+                                    :disabled="
+                                        index === localContents.length - 1
+                                    "
+                                    class="text-slate-400 transition-colors hover:text-[var(--theme-primary)] disabled:cursor-not-allowed disabled:opacity-30"
+                                    title="Pindahkan Ke Bawah"
+                                >
+                                    <i class="pi pi-arrow-down text-sm"></i>
+                                </button>
+                                <div class="mx-1 h-4 w-px bg-white/10"></div>
+                                <button
+                                    @click="removeContent(content.id)"
+                                    class="text-slate-400 transition-colors hover:text-rose-400"
+                                    title="Hapus Blok"
+                                >
+                                    <i class="pi pi-trash"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="p-4 text-slate-100 md:p-6">
@@ -1138,7 +1185,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                     <i
                         class="pi pi-plus-circle mr-1 text-[var(--theme-primary)]"
                     ></i>
-                    Tambah Komponen Baru ke Fase Ini
+                    Tambah Komponen Baru ke Sesi Ini
                 </h3>
                 <div class="flex flex-wrap justify-center gap-3">
                     <Button @click="addContent('text')" variant="outline"

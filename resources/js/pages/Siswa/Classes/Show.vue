@@ -74,8 +74,8 @@ const props = defineProps<{
                         v-else
                         class="max-w-2xl text-[14px] leading-relaxed text-slate-400"
                     >
-                        Selamat datang di kelas ini. Mari belajar kimia dengan
-                        pendekatan POE!
+                        Selamat datang di kelas ini. Mari belajar dengan
+                        ELEMENTVERSE!
                     </p>
                 </div>
                 <div
@@ -167,7 +167,7 @@ const props = defineProps<{
                                     v-else
                                     class="mt-1 text-[13px] text-slate-400"
                                 >
-                                    Pilih fase di bawah ini untuk mulai belajar.
+                                    Pilih sesi di bawah ini untuk mulai belajar.
                                 </p>
                             </div>
                         </div>
@@ -223,8 +223,8 @@ const props = defineProps<{
                                 class="inline-block rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 text-[12px] font-medium text-amber-400"
                             >
                                 <i class="pi pi-info-circle mr-1"></i> Guru
-                                belum menambahkan fase pembelajaran
-                                (Predict/Observe/Explain) ke dalam topik ini.
+                                belum menambahkan sesi pembelajaran ke dalam
+                                topik ini.
                             </div>
                         </div>
                     </Card>

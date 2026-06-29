@@ -109,8 +109,8 @@ const stats = computed(
                     Workspace Guru
                 </h1>
                 <p class="mt-1 text-[14px] font-medium text-slate-400">
-                    Kelola kelas, pantau progress metode POE
-                    (Predict-Observe-Explain), dan evaluasi siswa Anda.
+                    Kelola kelas, pantau progress belajar, dan evaluasi siswa
+                    Anda.
                 </p>
             </div>
 
@@ -212,7 +212,7 @@ const stats = computed(
                             <p
                                 class="mb-2 text-[11px] font-bold tracking-wider text-emerald-100 uppercase"
                             >
-                                Perlu Evaluasi (POE)
+                                Perlu Evaluasi
                             </p>
                             <h2 class="text-3xl font-extrabold text-white">
                                 {{ stats.pending_reviews }}

@@ -574,7 +574,7 @@ const saveScores = (studentId: number) => {
                                     <Button
                                         class="h-10 px-5 text-[13px] font-bold"
                                     >
-                                        Kelola Fase POE
+                                        Kelola Sesi
                                         <i
                                             class="pi pi-arrow-right ml-2 text-[11px]"
                                         ></i>
@@ -601,7 +601,7 @@ const saveScores = (studentId: number) => {
                         class="mb-5 max-w-[350px] text-[13px] font-medium text-slate-400"
                     >
                         Topik berfungsi sebagai folder/bab untuk mengelompokkan
-                        materi dan tugas siklus POE Anda.
+                        materi dan tugas pembelajaran Anda.
                     </p>
                     <Button
                         @click="openTopicModal"
