@@ -10,12 +10,25 @@ import {
     TrendingUp,
     Smartphone,
     Sparkles,
+    GraduationCap,
+    UserCheck,
+    Bot,
+    FileText,
+    CheckCircle2,
+    Zap,
+    Download,
+    HelpCircle,
+    Layers,
+    Sliders,
+    Award,
+    ShieldCheck,
 } from 'lucide-vue-next';
 import { h, markRaw, ref, onMounted, onUpdated } from 'vue';
 
 defineOptions({ layout: null as any });
 
 const activeSection = ref('home');
+const activeGuideTab = ref<'siswa' | 'guru'>('siswa');
 
 onMounted(() => {
     const observer = new IntersectionObserver(
@@ -29,7 +42,7 @@ onMounted(() => {
         { rootMargin: '-100px 0px -60% 0px' },
     );
 
-    ['home', 'stages', 'features', 'about'].forEach((id) => {
+    ['home', 'stages', 'features', 'guide', 'about'].forEach((id) => {
         const el = document.getElementById(id);
 
         if (el) {
@@ -61,7 +74,131 @@ const navItems = [
     { id: 'home', label: 'Beranda' },
     { id: 'stages', label: 'Tahapan Belajar' },
     { id: 'features', label: 'Fasilitas' },
+    { id: 'guide', label: 'Panduan' },
     { id: 'about', label: 'Tentang ElementVerse' },
+];
+
+const siswaGuideSteps = [
+    {
+        step: '01',
+        title: 'Registrasi & Masuk Kelas',
+        desc: 'Daftar akun sebagai Siswa, lalu masukkan 6 Digit Kode Kelas yang diberikan oleh Guru untuk bergabung ke ruang kelas virtual.',
+        icon: markRaw(GraduationCap),
+        badge: 'Akses Kelas',
+        color: 'from-[#d2ff00]/20 to-[#d2ff00]/5 text-[#d2ff00] border-[#d2ff00]/30',
+        highlights: [
+            'Registrasi Akun Mandiri',
+            'Input Kode Kelas 6 Karakter',
+            'Akses Topik Pembelajaran Aktif',
+        ],
+    },
+    {
+        step: '02',
+        title: 'Ikuti Sesi Pembelajaran & Instruksi Guru',
+        desc: 'Pelajari materi melalui alur Sesi Pembelajaran yang disusun Guru (Apersepsi, Video Interaktif, Worksheet POE, Rangkuman, & Latihan Soal). Siswa wajib mengikuti secara penuh seluruh instruksi dari Guru Kelas.',
+        icon: markRaw(BookOpen),
+        badge: 'Sesi Pembelajaran',
+        color: 'from-[#00ffff]/20 to-[#00ffff]/5 text-[#00ffff] border-[#00ffff]/30',
+        highlights: [
+            'Alur Sesi 1-5 (Apersepsi s/d Latihan)',
+            'Patuhi Penuh Instruksi Guru',
+            'Kerjakan Worksheet Predict-Observe-Explain',
+        ],
+    },
+    {
+        step: '03',
+        title: 'Konsultasi AI Tutor 24/7',
+        desc: 'Jika mengalami kesulitan konsep saat mengerjakan sesi, manfaatkan AI Tutor Chatbot untuk membimbing pemikiranmu tanpa membocorkan jawaban langsung.',
+        icon: markRaw(Bot),
+        badge: 'Bantuan AI',
+        color: 'from-purple-500/20 to-purple-500/5 text-purple-400 border-purple-500/30',
+        highlights: [
+            'Respon Cepat 24/7',
+            'Metode Pembimbingan Sokratik',
+            'Fokus Relevan Materi Kimia',
+        ],
+    },
+    {
+        step: '04',
+        title: 'Feedback AI & Evaluasi Guru',
+        desc: 'Dapatkan umpan balik otomatis dari AI saat mengisi jawaban esai/worksheet, ikuti forum diskusi kelas, dan dapatkan nilai final resmi dari Guru.',
+        icon: markRaw(CheckCircle2),
+        badge: 'Penilaian & Nilai',
+        color: 'from-amber-500/20 to-amber-500/5 text-amber-400 border-amber-500/30',
+        highlights: [
+            'Evaluasi Esai Otomatis',
+            'Diskusi Forum Per Sesi',
+            'Nilai & Catatan Final Guru',
+        ],
+    },
+];
+
+const guruGuideSteps = [
+    {
+        step: '01',
+        title: 'Pembuatan Kelas Virtual',
+        desc: 'Buat ruang kelas baru untuk mata pelajaran kimia. Sistem secara otomatis menerbitkan Kode Kelas unik 6-digit untuk dibagikan kepada siswa.',
+        icon: markRaw(UserCheck),
+        badge: 'Manajemen Kelas',
+        color: 'from-[#d2ff00]/20 to-[#d2ff00]/5 text-[#d2ff00] border-[#d2ff00]/30',
+        highlights: [
+            'Buat Ruang Kelas Baru',
+            'Kode Kelas Unik (6 Digit)',
+            'Pantau Anggota & Kemajuan',
+        ],
+    },
+    {
+        step: '02',
+        title: 'Content Builder Berbasis POE',
+        desc: 'Rancang alur Sesi Pembelajaran (seperti Apersepsi, Video Interaktif, Worksheet POE, Rangkuman & Peta Konsep, hingga Latihan Soal) menggunakan beragam jenis blok konten interaktif dinamis.',
+        icon: markRaw(Layers),
+        badge: 'Sesi Pembelajaran',
+        color: 'from-[#00ffff]/20 to-[#00ffff]/5 text-[#00ffff] border-[#00ffff]/30',
+        highlights: [
+            'Kelola Alur Sesi Pembelajaran',
+            'Blok Teks, Video & Pilihan Ganda',
+            'Soal Esai & Status Draft / Publish',
+        ],
+    },
+    {
+        step: '03',
+        title: 'Kustomisasi Prompt Agen AI',
+        desc: 'Atur kriteria evaluasi otomatis esai (AI Feedback) dan instruksi batasan perilaku AI Chatbot Tutor per sesi sesuai target pembelajaran.',
+        icon: markRaw(Sliders),
+        badge: 'Pengaturan AI',
+        color: 'from-purple-500/20 to-purple-500/5 text-purple-400 border-purple-500/30',
+        highlights: [
+            'Prompt Evaluasi Penilaian Esai',
+            'Instruksi Perilaku Chatbot Tutor',
+            'Koreksi Objektif & Konsisten',
+        ],
+    },
+    {
+        step: '04',
+        title: 'Penilaian, Validasi & Publikasi',
+        desc: 'Tinjau draf nilai dan umpan balik yang dihasilkan AI pada rekap jawaban kelas. Sesuaikan nilai secara manual bila perlu, lalu kirim ke siswa.',
+        icon: markRaw(Award),
+        badge: 'Review & Grading',
+        color: 'from-emerald-500/20 to-emerald-500/5 text-emerald-400 border-emerald-500/30',
+        highlights: [
+            'Review Draf Penilaian AI',
+            'Koreksi Skor/Feedback Manual',
+            'Kirim Nilai Final ke Siswa',
+        ],
+    },
+    {
+        step: '05',
+        title: 'Ekspor Rekap & Log Chat AI',
+        desc: 'Unduh rekapitulasi nilai seluruh siswa ke format Excel/CSV dan ekspor riwayat percakapan AI Tutor siswa ke PDF untuk analisis kendala belajar.',
+        icon: markRaw(Download),
+        badge: 'Laporan & Analytics',
+        color: 'from-rose-500/20 to-rose-500/5 text-rose-400 border-rose-500/30',
+        highlights: [
+            'Ekspor Nilai Excel / CSV',
+            'Cetak Log Chat PDF',
+            'Analisis Perilaku Belajar',
+        ],
+    },
 ];
 
 const stages = [
@@ -771,6 +908,294 @@ const features = [
             </div>
         </section>
 
+        <!-- ===== GUIDE (PANDUAN PENGGUNAAN) ===== -->
+        <section
+            id="guide"
+            class="relative overflow-hidden border-t border-white/5 bg-[#070814]/95 py-16 sm:py-24"
+        >
+            <!-- Glow background effect -->
+            <div
+                class="pointer-events-none absolute -top-40 right-1/4 h-96 w-96 rounded-full bg-[#d2ff00]/5 blur-3xl"
+            ></div>
+            <div
+                class="pointer-events-none absolute -bottom-40 left-1/4 h-96 w-96 rounded-full bg-[#00ffff]/5 blur-3xl"
+            ></div>
+
+            <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
+                <!-- Section Header -->
+                <div class="mb-14 text-center" data-aos="fade-up">
+                    <div
+                        class="mb-4 inline-flex items-center gap-2 rounded-full border border-[#d2ff00]/20 bg-[#d2ff00]/5 px-3 py-1 text-xs font-semibold text-[#d2ff00] shadow-[0_0_10px_rgba(210,255,0,0.1)]"
+                    >
+                        <Zap class="h-3.5 w-3.5" />
+                        Panduan Lengkap Platform
+                    </div>
+                    <h2
+                        class="mb-4 text-3xl font-extrabold text-white sm:text-4xl"
+                    >
+                        Panduan Penggunaan LMS
+                    </h2>
+                    <p
+                        class="mx-auto max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base"
+                    >
+                        Petunjuk praktis langkah demi langkah untuk
+                        memaksimalkan pengalaman belajar interaktif dan
+                        pengelolaan kelas berbasis POE dan AI.
+                    </p>
+
+                    <!-- Tab Switcher (Siswa / Guru) -->
+                    <div class="mt-8 flex justify-center">
+                        <div
+                            class="inline-flex rounded-full border border-white/10 bg-[#0e1026]/80 p-1.5 backdrop-blur-md"
+                        >
+                            <button
+                                @click="activeGuideTab = 'siswa'"
+                                :class="[
+                                    'flex items-center gap-2.5 rounded-full px-6 py-2.5 text-xs font-bold transition-all duration-300 sm:text-sm',
+                                    activeGuideTab === 'siswa'
+                                        ? 'bg-gradient-to-r from-[#d2ff00] to-[#00ffff] text-[#070814] shadow-[0_0_20px_rgba(210,255,0,0.3)]'
+                                        : 'text-slate-400 hover:text-white',
+                                ]"
+                            >
+                                <GraduationCap class="h-4 w-4" />
+                                Panduan Siswa
+                            </button>
+                            <button
+                                @click="activeGuideTab = 'guru'"
+                                :class="[
+                                    'flex items-center gap-2.5 rounded-full px-6 py-2.5 text-xs font-bold transition-all duration-300 sm:text-sm',
+                                    activeGuideTab === 'guru'
+                                        ? 'bg-gradient-to-r from-[#00ffff] to-purple-400 text-[#070814] shadow-[0_0_20px_rgba(0,255,255,0.3)]'
+                                        : 'text-slate-400 hover:text-white',
+                                ]"
+                            >
+                                <UserCheck class="h-4 w-4" />
+                                Panduan Guru
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: SISWA GUIDE -->
+                <div v-if="activeGuideTab === 'siswa'" class="space-y-8">
+                    <div
+                        class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+                    >
+                        <div
+                            v-for="(item, idx) in siswaGuideSteps"
+                            :key="item.step"
+                            data-aos="fade-up"
+                            :data-aos-delay="idx * 100"
+                            class="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]"
+                        >
+                            <div>
+                                <!-- Step Header -->
+                                <div
+                                    class="mb-5 flex items-center justify-between"
+                                >
+                                    <span
+                                        :class="`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${item.color} border text-sm font-black shadow-inner`"
+                                    >
+                                        {{ item.step }}
+                                    </span>
+                                    <span
+                                        class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-semibold text-slate-300"
+                                    >
+                                        {{ item.badge }}
+                                    </span>
+                                </div>
+
+                                <!-- Icon & Title -->
+                                <div class="mb-3 flex items-center gap-3">
+                                    <div
+                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#00ffff]"
+                                    >
+                                        <component
+                                            :is="item.icon"
+                                            class="h-4 w-4"
+                                        />
+                                    </div>
+                                    <h3
+                                        class="text-base font-extrabold text-white"
+                                    >
+                                        {{ item.title }}
+                                    </h3>
+                                </div>
+
+                                <p
+                                    class="mb-5 text-xs leading-relaxed text-slate-300"
+                                >
+                                    {{ item.desc }}
+                                </p>
+                            </div>
+
+                            <!-- Highlights -->
+                            <div class="border-t border-white/5 pt-4">
+                                <ul class="space-y-2">
+                                    <li
+                                        v-for="(point, pIdx) in item.highlights"
+                                        :key="pIdx"
+                                        class="flex items-center gap-2 text-[11px] text-slate-400"
+                                    >
+                                        <CheckCircle2
+                                            class="h-3.5 w-3.5 shrink-0 text-[#d2ff00]"
+                                        />
+                                        <span>{{ point }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Note Penekanan Instruksi Guru -->
+                    <div
+                        data-aos="fade-up"
+                        class="rounded-xl border border-[#00ffff]/20 bg-[#00ffff]/5 p-4 shadow-lg backdrop-blur-md"
+                    >
+                        <div
+                            class="flex flex-col items-center gap-3 text-center md:flex-row md:text-left"
+                        >
+                            <div
+                                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#00ffff]/30 bg-[#00ffff]/10 text-[#00ffff]"
+                            >
+                                <BookOpen class="h-5 w-5" />
+                            </div>
+                            <p class="text-xs leading-relaxed text-slate-300">
+                                <strong class="font-extrabold text-[#00ffff]"
+                                    >Penting untuk Siswa:</strong
+                                >
+                                Setiap topik pembelajaran kimia disusun dalam
+                                urutan
+                                <span class="font-semibold text-white"
+                                    >Sesi Pembelajaran</span
+                                >
+                                (Apersepsi, Video Interaktif, Worksheet POE,
+                                Rangkuman & Peta Konsep, hingga Latihan Soal).
+                                Siswa
+                                <strong
+                                    class="text-white underline decoration-[#d2ff00] underline-offset-4"
+                                    >wajib mengikuti secara penuh seluruh
+                                    instruksi dari Guru Kelas</strong
+                                >
+                                di setiap sesi!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: GURU GUIDE -->
+                <div v-else class="space-y-8">
+                    <div
+                        class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+                    >
+                        <div
+                            v-for="(item, idx) in guruGuideSteps"
+                            :key="item.step"
+                            data-aos="fade-up"
+                            :data-aos-delay="idx * 100"
+                            class="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]"
+                        >
+                            <div>
+                                <!-- Step Header -->
+                                <div
+                                    class="mb-5 flex items-center justify-between"
+                                >
+                                    <span
+                                        :class="`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${item.color} border text-sm font-black shadow-inner`"
+                                    >
+                                        {{ item.step }}
+                                    </span>
+                                    <span
+                                        class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-semibold text-slate-300"
+                                    >
+                                        {{ item.badge }}
+                                    </span>
+                                </div>
+
+                                <!-- Icon & Title -->
+                                <div class="mb-3 flex items-center gap-3">
+                                    <div
+                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#d2ff00]"
+                                    >
+                                        <component
+                                            :is="item.icon"
+                                            class="h-4 w-4"
+                                        />
+                                    </div>
+                                    <h3
+                                        class="text-base font-extrabold text-white"
+                                    >
+                                        {{ item.title }}
+                                    </h3>
+                                </div>
+
+                                <p
+                                    class="mb-5 text-xs leading-relaxed text-slate-300"
+                                >
+                                    {{ item.desc }}
+                                </p>
+                            </div>
+
+                            <!-- Highlights -->
+                            <div class="border-t border-white/5 pt-4">
+                                <ul class="space-y-2">
+                                    <li
+                                        v-for="(point, pIdx) in item.highlights"
+                                        :key="pIdx"
+                                        class="flex items-center gap-2 text-[11px] text-slate-400"
+                                    >
+                                        <CheckCircle2
+                                            class="h-3.5 w-3.5 shrink-0 text-[#00ffff]"
+                                        />
+                                        <span>{{ point }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reset Password & Help Info Banner -->
+                <div
+                    data-aos="fade-up"
+                    class="mt-12 rounded-2xl border border-white/10 bg-gradient-to-r from-[#0c0e29] via-[#10133a] to-[#0c0e29] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md"
+                >
+                    <div
+                        class="flex flex-col items-center justify-between gap-4 md:flex-row"
+                    >
+                        <div
+                            class="flex items-center gap-4 text-center md:text-left"
+                        >
+                            <div
+                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-amber-500/30 bg-amber-500/10 text-amber-400"
+                            >
+                                <ShieldCheck class="h-6 w-6" />
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">
+                                    Lupa Kata Sandi atau Kendala Akses Akun?
+                                </h4>
+                                <p class="mt-0.5 text-xs text-slate-300">
+                                    Siswa atau Guru dapat mengajukan permohonan
+                                    reset password di halaman
+                                    <strong class="text-white"
+                                        >Lupa Password</strong
+                                    >. Permohonan diproses langsung oleh Admin
+                                    Sekolah.
+                                </p>
+                            </div>
+                        </div>
+                        <Link
+                            :href="route('password.request')"
+                            class="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-5 py-2 text-xs font-bold text-amber-400 transition-all hover:bg-amber-500/20 hover:text-white"
+                        >
+                            Reset Password &rarr;
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ===== ABOUT ===== -->
         <section
             id="about"
@@ -900,17 +1325,6 @@ const features = [
                     © {{ new Date().getFullYear() }} ElementVerse. Platform
                     Pembelajaran Kimia SMA Berbasis AI Tutor.
                 </p>
-                <div>
-                    <p class="text-center text-xs">
-                        Developed by
-                        <a
-                            href="https://instagram.com/scalenix.studio"
-                            target="_blank"
-                            class="text-[#00ffff] transition-colors hover:text-[#d2ff00]"
-                            >Scalenix Studio</a
-                        >
-                    </p>
-                </div>
             </div>
         </footer>
     </div>

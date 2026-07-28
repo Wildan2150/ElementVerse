@@ -540,6 +540,48 @@ const isImage = (url: string | null) => {
                                         <i class="pi pi-times-circle"></i> Salah
                                     </span>
                                 </div>
+
+                                <!-- Umpan Balik PG Guru -->
+                                <div
+                                    v-if="
+                                        checkAutoGrade(answer) === true &&
+                                        answer.content.content_data
+                                            ?.feedback_correct
+                                    "
+                                    class="mt-3 rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3 text-xs text-emerald-300"
+                                >
+                                    <span
+                                        class="mb-0.5 block font-bold text-emerald-400"
+                                        >Umpan Balik Jawaban Benar (Dilihat
+                                        Siswa):</span
+                                    >
+                                    <p class="text-slate-200">
+                                        {{
+                                            answer.content.content_data
+                                                .feedback_correct
+                                        }}
+                                    </p>
+                                </div>
+                                <div
+                                    v-if="
+                                        checkAutoGrade(answer) === false &&
+                                        answer.content.content_data
+                                            ?.feedback_incorrect
+                                    "
+                                    class="mt-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-300"
+                                >
+                                    <span
+                                        class="mb-0.5 block font-bold text-rose-400"
+                                        >Umpan Balik Jawaban Salah (Dilihat
+                                        Siswa):</span
+                                    >
+                                    <p class="text-slate-200">
+                                        {{
+                                            answer.content.content_data
+                                                .feedback_incorrect
+                                        }}
+                                    </p>
+                                </div>
                             </div>
 
                             <!-- Jawaban Upload File -->

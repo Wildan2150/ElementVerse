@@ -566,6 +566,103 @@ const isImage = (url: string | null) => {
                                                                 ></div>
                                                             </template>
                                                         </div>
+
+                                                        <!-- Umpan Balik PG Guru -->
+                                                        <template
+                                                            v-if="
+                                                                [
+                                                                    'eval_mcq',
+                                                                    'eval_cmcq',
+                                                                ].includes(
+                                                                    answer
+                                                                        .content
+                                                                        .type,
+                                                                )
+                                                            "
+                                                        >
+                                                            <div
+                                                                v-if="
+                                                                    checkAutoGrade(
+                                                                        answer,
+                                                                    ) ===
+                                                                        true &&
+                                                                    answer
+                                                                        .content
+                                                                        .content_data
+                                                                        ?.feedback_correct
+                                                                "
+                                                                class="mt-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-xs text-emerald-300 shadow-sm backdrop-blur-md"
+                                                            >
+                                                                <div
+                                                                    class="flex items-start gap-2.5"
+                                                                >
+                                                                    <i
+                                                                        class="pi pi-check-circle mt-0.5 text-sm text-emerald-400"
+                                                                    ></i>
+                                                                    <div>
+                                                                        <span
+                                                                            class="mb-0.5 block font-bold text-emerald-400"
+                                                                            >Umpan
+                                                                            Balik
+                                                                            Guru
+                                                                            (Jawaban
+                                                                            Benar):</span
+                                                                        >
+                                                                        <p
+                                                                            class="leading-relaxed text-slate-200"
+                                                                        >
+                                                                            {{
+                                                                                answer
+                                                                                    .content
+                                                                                    .content_data
+                                                                                    .feedback_correct
+                                                                            }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                v-if="
+                                                                    checkAutoGrade(
+                                                                        answer,
+                                                                    ) ===
+                                                                        false &&
+                                                                    answer
+                                                                        .content
+                                                                        .content_data
+                                                                        ?.feedback_incorrect
+                                                                "
+                                                                class="mt-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-xs text-rose-300 shadow-sm backdrop-blur-md"
+                                                            >
+                                                                <div
+                                                                    class="flex items-start gap-2.5"
+                                                                >
+                                                                    <i
+                                                                        class="pi pi-times-circle mt-0.5 text-sm text-rose-400"
+                                                                    ></i>
+                                                                    <div>
+                                                                        <span
+                                                                            class="mb-0.5 block font-bold text-rose-400"
+                                                                            >Umpan
+                                                                            Balik
+                                                                            Guru
+                                                                            (Jawaban
+                                                                            Salah):</span
+                                                                        >
+                                                                        <p
+                                                                            class="leading-relaxed text-slate-200"
+                                                                        >
+                                                                            {{
+                                                                                answer
+                                                                                    .content
+                                                                                    .content_data
+                                                                                    .feedback_incorrect
+                                                                            }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                             </div>

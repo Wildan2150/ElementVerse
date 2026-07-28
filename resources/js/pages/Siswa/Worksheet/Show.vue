@@ -185,6 +185,55 @@ const saveAnswer = (contentId: number) => {
     );
 };
 
+const checkMcqStatus = (content: any, studentAnswerData: any) => {
+    if (
+        !content ||
+        !content.correct_answers ||
+        content.correct_answers.length === 0
+    )
+        return null;
+    if (
+        studentAnswerData === undefined ||
+        studentAnswerData === null ||
+        studentAnswerData === ''
+    )
+        return null;
+
+    const correctAnswers = content.correct_answers || [];
+
+    if (content.type === 'eval_mcq') {
+        let selectedIndex = studentAnswerData;
+        if (
+            typeof studentAnswerData === 'string' &&
+            Array.isArray(content.content_data?.options)
+        ) {
+            const idx = content.content_data.options.indexOf(studentAnswerData);
+            if (idx !== -1) selectedIndex = idx;
+        }
+        return (
+            correctAnswers.includes(String(selectedIndex)) ||
+            correctAnswers.includes(Number(selectedIndex))
+        );
+    } else if (content.type === 'eval_cmcq') {
+        let studentAnsArr = Array.isArray(studentAnswerData)
+            ? studentAnswerData
+            : [];
+        if (studentAnsArr.length === 0) return null;
+        if (Array.isArray(content.content_data?.options)) {
+            studentAnsArr = studentAnsArr.map((val: any) => {
+                const idx = content.content_data.options.indexOf(val);
+                return idx !== -1 ? idx : val;
+            });
+        }
+        const isSameLength = studentAnsArr.length === correctAnswers.length;
+        const hasAllCorrect = correctAnswers.every((c: any) =>
+            studentAnsArr.map(String).includes(String(c)),
+        );
+        return isSameLength && hasAllCorrect;
+    }
+    return null;
+};
+
 const uploadFile = (contentId: number, event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
@@ -533,6 +582,55 @@ const refreshDiscussions = () => {
                             Menyimpan...</span
                         >
                     </div>
+
+                    <!-- Umpan Balik Guru (Benar / Salah) -->
+                    <div
+                        v-if="
+                            checkMcqStatus(content, answers[content.id]) ===
+                                true && content.content_data?.feedback_correct
+                        "
+                        class="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-xs text-emerald-300 shadow-sm backdrop-blur-md"
+                    >
+                        <div class="flex items-start gap-2.5">
+                            <i
+                                class="pi pi-check-circle mt-0.5 text-sm text-[#d2ff00]"
+                            ></i>
+                            <div>
+                                <span
+                                    class="mb-0.5 block font-bold text-emerald-400"
+                                    >Umpan Balik Guru (Jawaban Benar):</span
+                                >
+                                <p class="leading-relaxed text-slate-200">
+                                    {{ content.content_data.feedback_correct }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        v-if="
+                            checkMcqStatus(content, answers[content.id]) ===
+                                false &&
+                            content.content_data?.feedback_incorrect
+                        "
+                        class="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-xs text-rose-300 shadow-sm backdrop-blur-md"
+                    >
+                        <div class="flex items-start gap-2.5">
+                            <i
+                                class="pi pi-times-circle mt-0.5 text-sm text-rose-400"
+                            ></i>
+                            <div>
+                                <span
+                                    class="mb-0.5 block font-bold text-rose-400"
+                                    >Umpan Balik Guru (Jawaban Salah):</span
+                                >
+                                <p class="leading-relaxed text-slate-200">
+                                    {{
+                                        content.content_data.feedback_incorrect
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- SOAL CHECKBOX (CMCQ) -->
@@ -590,6 +688,55 @@ const refreshDiscussions = () => {
                             ><i class="pi pi-spinner pi-spin mr-1"></i>
                             Menyimpan...</span
                         >
+                    </div>
+
+                    <!-- Umpan Balik Guru (Benar / Salah) -->
+                    <div
+                        v-if="
+                            checkMcqStatus(content, answers[content.id]) ===
+                                true && content.content_data?.feedback_correct
+                        "
+                        class="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-xs text-emerald-300 shadow-sm backdrop-blur-md"
+                    >
+                        <div class="flex items-start gap-2.5">
+                            <i
+                                class="pi pi-check-circle mt-0.5 text-sm text-[#d2ff00]"
+                            ></i>
+                            <div>
+                                <span
+                                    class="mb-0.5 block font-bold text-emerald-400"
+                                    >Umpan Balik Guru (Jawaban Benar):</span
+                                >
+                                <p class="leading-relaxed text-slate-200">
+                                    {{ content.content_data.feedback_correct }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        v-if="
+                            checkMcqStatus(content, answers[content.id]) ===
+                                false &&
+                            content.content_data?.feedback_incorrect
+                        "
+                        class="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-xs text-rose-300 shadow-sm backdrop-blur-md"
+                    >
+                        <div class="flex items-start gap-2.5">
+                            <i
+                                class="pi pi-times-circle mt-0.5 text-sm text-rose-400"
+                            ></i>
+                            <div>
+                                <span
+                                    class="mb-0.5 block font-bold text-rose-400"
+                                    >Umpan Balik Guru (Jawaban Salah):</span
+                                >
+                                <p class="leading-relaxed text-slate-200">
+                                    {{
+                                        content.content_data.feedback_incorrect
+                                    }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

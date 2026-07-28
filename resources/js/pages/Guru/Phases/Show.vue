@@ -269,6 +269,14 @@ watch(
                 if (!Array.isArray(c.content_data.options)) {
                     c.content_data.options = ['Opsi 1', 'Opsi 2'];
                 }
+
+                if (c.content_data.feedback_correct === undefined) {
+                    c.content_data.feedback_correct = '';
+                }
+
+                if (c.content_data.feedback_incorrect === undefined) {
+                    c.content_data.feedback_incorrect = '';
+                }
             }
 
             // Inisialisasi untuk Forum Diskusi
@@ -885,6 +893,55 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                                         Opsi</Button
                                     >
                                 </div>
+
+                                <!-- Umpan Balik Manual Guru -->
+                                <div
+                                    class="grid grid-cols-1 gap-4 md:grid-cols-2"
+                                >
+                                    <div
+                                        class="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4"
+                                    >
+                                        <label
+                                            class="mb-2 block text-[11px] font-bold text-emerald-400"
+                                        >
+                                            <i
+                                                class="pi pi-check-circle mr-1"
+                                            ></i>
+                                            Umpan Balik Jawaban Benar (Opsional)
+                                        </label>
+                                        <textarea
+                                            v-model="
+                                                content.content_data
+                                                    .feedback_correct
+                                            "
+                                            rows="2"
+                                            placeholder="Tuliskan penjelasan/umpan balik jika siswa menjawab BENAR..."
+                                            class="w-full rounded-lg border border-emerald-500/20 bg-white/5 p-2.5 text-xs text-slate-100 placeholder-slate-500 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none"
+                                        ></textarea>
+                                    </div>
+                                    <div
+                                        class="rounded-xl border border-rose-500/20 bg-rose-500/5 p-4"
+                                    >
+                                        <label
+                                            class="mb-2 block text-[11px] font-bold text-rose-400"
+                                        >
+                                            <i
+                                                class="pi pi-times-circle mr-1"
+                                            ></i>
+                                            Umpan Balik Jawaban Salah (Opsional)
+                                        </label>
+                                        <textarea
+                                            v-model="
+                                                content.content_data
+                                                    .feedback_incorrect
+                                            "
+                                            rows="2"
+                                            placeholder="Tuliskan penjelasan/umpan balik jika siswa menjawab SALAH..."
+                                            class="w-full rounded-lg border border-rose-500/20 bg-white/5 p-2.5 text-xs text-slate-100 placeholder-slate-500 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/20 focus:outline-none"
+                                        ></textarea>
+                                    </div>
+                                </div>
+
                                 <div class="flex justify-end">
                                     <Button
                                         @click="saveContent(content)"
