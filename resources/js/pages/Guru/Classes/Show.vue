@@ -748,16 +748,16 @@ const saveScores = (studentId: number) => {
                     <Card
                         v-for="log in chatLogs.data"
                         :key="log.id"
-                        class="overflow-hidden border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+                        class="overflow-hidden border-border/40 bg-card/60 p-5 shadow-sm backdrop-blur-md transition-all hover:border-[var(--theme-primary)]/50"
                     >
                         <div class="flex flex-col gap-4">
                             <!-- Header Info -->
                             <div
-                                class="flex items-center justify-between border-b border-slate-100 pb-3"
+                                class="flex items-center justify-between border-b border-border/40 pb-3"
                             >
                                 <div class="flex items-center gap-3">
                                     <div
-                                        class="flex h-9 w-9 items-center justify-center rounded-full border border-indigo-100 bg-indigo-50 text-[13px] font-extrabold text-indigo-600 uppercase"
+                                        class="flex h-9 w-9 items-center justify-center rounded-full border border-indigo-500/30 bg-indigo-500/15 text-[13px] font-extrabold text-indigo-300 uppercase"
                                     >
                                         {{
                                             (log.user?.name || 'S').substring(
@@ -768,7 +768,7 @@ const saveScores = (studentId: number) => {
                                     </div>
                                     <div>
                                         <h4
-                                            class="text-[14px] leading-none font-bold text-slate-900"
+                                            class="text-[14px] leading-none font-bold text-slate-100"
                                         >
                                             {{
                                                 log.user?.name ||
@@ -783,7 +783,7 @@ const saveScores = (studentId: number) => {
                                     </div>
                                 </div>
                                 <span
-                                    class="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-bold text-slate-400"
+                                    class="rounded-md border border-border/40 bg-white/5 px-2.5 py-1 text-[11px] font-bold text-slate-400"
                                 >
                                     <i class="pi pi-clock mr-1 text-[9px]"></i
                                     >{{ formatDate(log.created_at) }}
@@ -794,19 +794,19 @@ const saveScores = (studentId: number) => {
                             <div class="space-y-4">
                                 <!-- Student Prompt -->
                                 <div
-                                    class="group relative overflow-hidden rounded-xl border border-slate-100 bg-slate-50 p-4"
+                                    class="group relative overflow-hidden rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4"
                                 >
                                     <div
-                                        class="absolute top-0 left-0 h-full w-1 bg-indigo-400"
+                                        class="absolute top-0 left-0 h-full w-1 bg-indigo-500"
                                     ></div>
                                     <div
-                                        class="mb-2 flex items-center gap-2 text-[11px] font-bold tracking-wide text-indigo-500 uppercase"
+                                        class="mb-2 flex items-center gap-2 text-[11px] font-bold tracking-wide text-indigo-400 uppercase"
                                     >
                                         <i class="pi pi-user text-[10px]"></i>
                                         Pertanyaan Siswa
                                     </div>
                                     <div
-                                        class="text-[13.5px] leading-relaxed font-medium whitespace-pre-wrap text-slate-700"
+                                        class="text-[13.5px] leading-relaxed font-medium whitespace-pre-wrap text-slate-200"
                                     >
                                         {{ log.prompt }}
                                     </div>
@@ -818,24 +818,24 @@ const saveScores = (studentId: number) => {
                                     class="relative overflow-hidden rounded-xl border border-dashed p-4"
                                     :class="
                                         isLogTimedOut(log.created_at)
-                                            ? 'border-rose-200 bg-rose-50/40'
-                                            : 'animate-pulse border-amber-200 bg-amber-50/40'
+                                            ? 'border-rose-500/30 bg-rose-500/10'
+                                            : 'animate-pulse border-amber-500/30 bg-amber-500/10'
                                     "
                                 >
                                     <div
                                         class="absolute top-0 left-0 h-full w-1"
                                         :class="
                                             isLogTimedOut(log.created_at)
-                                                ? 'bg-rose-400'
-                                                : 'bg-amber-400'
+                                                ? 'bg-rose-500'
+                                                : 'bg-amber-500'
                                         "
                                     ></div>
                                     <div
                                         class="flex items-center gap-2 text-[11px] font-bold tracking-wide uppercase"
                                         :class="
                                             isLogTimedOut(log.created_at)
-                                                ? 'text-rose-600'
-                                                : 'text-amber-600'
+                                                ? 'text-rose-400'
+                                                : 'text-amber-400'
                                         "
                                     >
                                         <i
@@ -855,13 +855,13 @@ const saveScores = (studentId: number) => {
                                 </div>
                                 <div
                                     v-else
-                                    class="relative overflow-hidden rounded-xl border border-emerald-100 bg-emerald-50/10 p-4 shadow-sm transition-shadow hover:shadow-md"
+                                    class="relative overflow-hidden rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 shadow-sm backdrop-blur-md transition-shadow hover:shadow-md"
                                 >
                                     <div
-                                        class="absolute top-0 left-0 h-full w-1 bg-emerald-400"
+                                        class="absolute top-0 left-0 h-full w-1 bg-emerald-500"
                                     ></div>
                                     <div
-                                        class="mb-2 flex items-center gap-2 text-[11px] font-bold tracking-wide text-emerald-600 uppercase"
+                                        class="mb-2 flex items-center gap-2 text-[11px] font-bold tracking-wide text-emerald-400 uppercase"
                                     >
                                         <i
                                             class="pi pi-sparkles text-[10px]"
@@ -870,7 +870,7 @@ const saveScores = (studentId: number) => {
                                     </div>
                                     <div
                                         v-html="renderMarkdown(log.response)"
-                                        class="prose prose-sm prose-slate max-w-none text-[13.5px] leading-relaxed break-words text-slate-700"
+                                        class="prose prose-invert prose-sm prose-p:text-slate-200 prose-headings:text-slate-100 prose-strong:text-slate-100 prose-code:text-emerald-300 max-w-none text-[13.5px] leading-relaxed break-words text-slate-200"
                                     ></div>
                                 </div>
                             </div>
@@ -880,10 +880,10 @@ const saveScores = (studentId: number) => {
                     <!-- Pagination -->
                     <div
                         v-if="chatLogs.links && chatLogs.links.length > 3"
-                        class="mt-4 flex items-center justify-between rounded-xl border border-t border-slate-200 bg-slate-50/50 p-4 px-6"
+                        class="mt-4 flex items-center justify-between rounded-xl border border-border/40 bg-card/60 p-4 px-6 backdrop-blur-md"
                     >
                         <span
-                            class="hidden text-[13px] font-medium text-slate-500 sm:block"
+                            class="hidden text-[13px] font-medium text-slate-400 sm:block"
                             >Paginasi Halaman</span
                         >
                         <div class="flex items-center gap-1">
@@ -897,8 +897,8 @@ const saveScores = (studentId: number) => {
                                     class="rounded-md px-3 py-1.5 text-[13px] font-semibold transition-colors"
                                     :class="
                                         link.active
-                                            ? 'border border-slate-200 bg-white text-slate-900 shadow-sm'
-                                            : 'text-slate-600 hover:bg-slate-200/50'
+                                            ? 'border border-[var(--theme-primary)]/40 bg-[var(--theme-primary)]/20 text-white shadow-sm'
+                                            : 'text-slate-400 hover:bg-white/10 hover:text-white'
                                     "
                                 >
                                     <span v-html="link.label"></span>
@@ -906,10 +906,10 @@ const saveScores = (studentId: number) => {
                                 <span
                                     v-else
                                     v-html="link.label"
-                                    class="cursor-not-allowed rounded-md px-3 py-1.5 text-[13px] font-semibold text-slate-300 transition-colors"
+                                    class="cursor-not-allowed rounded-md px-3 py-1.5 text-[13px] font-semibold text-slate-600 transition-colors"
                                     :class="
                                         link.active
-                                            ? 'border border-slate-200 bg-white text-slate-900 shadow-sm'
+                                            ? 'border border-[var(--theme-primary)]/40 bg-[var(--theme-primary)]/20 text-white shadow-sm'
                                             : ''
                                     "
                                 />
@@ -920,18 +920,18 @@ const saveScores = (studentId: number) => {
 
                 <div
                     v-else
-                    class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white py-20 text-center"
+                    class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/40 bg-card/60 py-20 text-center backdrop-blur-md"
                 >
                     <div
-                        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-50"
+                        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/5"
                     >
-                        <i class="pi pi-comments text-3xl text-indigo-300"></i>
+                        <i class="pi pi-comments text-3xl text-slate-400"></i>
                     </div>
-                    <h4 class="mb-1 text-[16px] font-bold text-slate-800">
+                    <h4 class="mb-1 text-[16px] font-bold text-slate-200">
                         Tidak Ada Log Chat
                     </h4>
                     <p
-                        class="max-w-[350px] text-[13px] font-medium text-slate-500"
+                        class="max-w-[350px] text-[13px] font-medium text-slate-400"
                     >
                         Belum ada pertanyaan siswa yang terekam untuk kelas ini,
                         atau pencarian Anda tidak mencocokkan nama siswa mana
