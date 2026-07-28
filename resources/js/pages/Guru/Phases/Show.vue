@@ -116,8 +116,8 @@ const toggleAI = () => {
             name: props.phase.name,
             is_ai_enabled: localAisEnabled.value,
             is_chatbot_enabled: localChatbotEnabled.value,
-            ai_prompt_setting: props.phase.ai_prompt_setting,
-            chatbot_prompt_setting: props.phase.chatbot_prompt_setting,
+            ai_prompt_setting: localAiPromptSetting.value,
+            chatbot_prompt_setting: localChatbotPromptSetting.value,
         },
         {
             preserveScroll: true,
@@ -141,6 +141,22 @@ const toggleAI = () => {
 const isTogglingChatbot = ref(false);
 const localChatbotEnabled = ref(!!props.phase.is_chatbot_enabled);
 
+const localAiPromptSetting = ref(props.phase.ai_prompt_setting || '');
+watch(
+    () => props.phase.ai_prompt_setting,
+    (newVal) => {
+        localAiPromptSetting.value = newVal || '';
+    },
+);
+
+const localChatbotPromptSetting = ref(props.phase.chatbot_prompt_setting || '');
+watch(
+    () => props.phase.chatbot_prompt_setting,
+    (newVal) => {
+        localChatbotPromptSetting.value = newVal || '';
+    },
+);
+
 watch(
     () => props.phase.is_chatbot_enabled,
     (newVal) => {
@@ -162,8 +178,8 @@ const toggleChatbot = () => {
             name: props.phase.name,
             is_ai_enabled: localAisEnabled.value,
             is_chatbot_enabled: localChatbotEnabled.value,
-            ai_prompt_setting: props.phase.ai_prompt_setting,
-            chatbot_prompt_setting: props.phase.chatbot_prompt_setting,
+            ai_prompt_setting: localAiPromptSetting.value,
+            chatbot_prompt_setting: localChatbotPromptSetting.value,
         },
         {
             preserveScroll: true,
@@ -191,8 +207,8 @@ const saveAIPrompt = () => {
             name: props.phase.name,
             is_ai_enabled: localAisEnabled.value,
             is_chatbot_enabled: localChatbotEnabled.value,
-            ai_prompt_setting: props.phase.ai_prompt_setting,
-            chatbot_prompt_setting: props.phase.chatbot_prompt_setting,
+            ai_prompt_setting: localAiPromptSetting.value,
+            chatbot_prompt_setting: localChatbotPromptSetting.value,
         },
         {
             preserveScroll: true,
@@ -350,9 +366,13 @@ const saveContent = (content: any) => {
 };
 
 const moveContent = (index: number, direction: 'up' | 'down') => {
-    if (direction === 'up' && index === 0) return;
-    if (direction === 'down' && index === localContents.value.length - 1)
+    if (direction === 'up' && index === 0) {
         return;
+    }
+
+    if (direction === 'down' && index === localContents.value.length - 1) {
+        return;
+    }
 
     const targetIndex = direction === 'up' ? index - 1 : index + 1;
 
@@ -584,7 +604,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                         >
                     </p>
                     <textarea
-                        v-model="phase.ai_prompt_setting"
+                        v-model="localAiPromptSetting"
                         @blur="saveAIPrompt"
                         placeholder="Ketik instruksi evaluator AI di sini..."
                         class="min-h-[100px] w-full resize-y rounded-xl border border-white/10 bg-white/5 p-4 text-[14px] text-slate-100 placeholder-slate-500 shadow-sm focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none"
@@ -612,7 +632,7 @@ const toggleCorrectAnswer = (content: any, index: number) => {
                         >
                     </p>
                     <textarea
-                        v-model="phase.chatbot_prompt_setting"
+                        v-model="localChatbotPromptSetting"
                         @blur="saveAIPrompt"
                         placeholder="Ketik instruksi khusus chatbot AI di sini..."
                         class="min-h-[100px] w-full resize-y rounded-xl border border-white/10 bg-white/5 p-4 text-[14px] text-slate-100 placeholder-slate-500 shadow-sm focus:border-[var(--theme-primary)] focus:ring-2 focus:ring-[var(--theme-primary)]/20 focus:outline-none"

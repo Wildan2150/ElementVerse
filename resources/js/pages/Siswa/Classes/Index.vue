@@ -15,7 +15,7 @@ const stripHtml = (html: string | null | undefined): string => {
         .trim();
 };
 
-const props = defineProps<{
+defineProps<{
     classrooms: Array<{
         id: number;
         class_name: string;

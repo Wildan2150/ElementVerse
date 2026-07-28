@@ -49,7 +49,7 @@ const renderMarkdown = (text: string | null) => {
             );
 
             return `%%MATH_BLOCK_TOKEN_${mathBlocks.length - 1}%%`;
-        } catch (e) {
+        } catch {
             return match;
         }
     });
@@ -59,7 +59,7 @@ const renderMarkdown = (text: string | null) => {
             mathBlocks.push(rendered);
 
             return `%%MATH_BLOCK_TOKEN_${mathBlocks.length - 1}%%`;
-        } catch (e) {
+        } catch {
             return match;
         }
     });

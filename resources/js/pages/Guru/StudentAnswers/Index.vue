@@ -95,7 +95,7 @@ const formatAnswer = (answer: string | null, type: string): string => {
             if (Array.isArray(arr)) {
                 return arr.join(', ');
             }
-        } catch (e) {
+        } catch {
             // fallback
         }
     }

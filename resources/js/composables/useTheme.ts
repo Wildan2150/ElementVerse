@@ -9,7 +9,7 @@ export function useTheme() {
         document.documentElement.setAttribute('data-theme', 'elementverse');
     });
 
-    const updateTheme = (newTheme: Theme) => {
+    const updateTheme = () => {
         theme.value = 'elementverse';
         document.documentElement.setAttribute('data-theme', 'elementverse');
     };

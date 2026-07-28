@@ -190,26 +190,34 @@ const checkMcqStatus = (content: any, studentAnswerData: any) => {
         !content ||
         !content.correct_answers ||
         content.correct_answers.length === 0
-    )
-        return null;
+    ) {
+return null;
+}
+
     if (
         studentAnswerData === undefined ||
         studentAnswerData === null ||
         studentAnswerData === ''
-    )
-        return null;
+    ) {
+return null;
+}
 
     const correctAnswers = content.correct_answers || [];
 
     if (content.type === 'eval_mcq') {
         let selectedIndex = studentAnswerData;
+
         if (
             typeof studentAnswerData === 'string' &&
             Array.isArray(content.content_data?.options)
         ) {
             const idx = content.content_data.options.indexOf(studentAnswerData);
-            if (idx !== -1) selectedIndex = idx;
+
+            if (idx !== -1) {
+selectedIndex = idx;
+}
         }
+
         return (
             correctAnswers.includes(String(selectedIndex)) ||
             correctAnswers.includes(Number(selectedIndex))
@@ -218,19 +226,27 @@ const checkMcqStatus = (content: any, studentAnswerData: any) => {
         let studentAnsArr = Array.isArray(studentAnswerData)
             ? studentAnswerData
             : [];
-        if (studentAnsArr.length === 0) return null;
+
+        if (studentAnsArr.length === 0) {
+return null;
+}
+
         if (Array.isArray(content.content_data?.options)) {
             studentAnsArr = studentAnsArr.map((val: any) => {
                 const idx = content.content_data.options.indexOf(val);
+
                 return idx !== -1 ? idx : val;
             });
         }
+
         const isSameLength = studentAnsArr.length === correctAnswers.length;
         const hasAllCorrect = correctAnswers.every((c: any) =>
             studentAnsArr.map(String).includes(String(c)),
         );
+
         return isSameLength && hasAllCorrect;
     }
+
     return null;
 };
 
