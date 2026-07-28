@@ -18,10 +18,15 @@ class DashboardTest extends TestCase
 
     public function test_authenticated_users_can_visit_the_dashboard()
     {
+        $role = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'SISWA']);
         $user = User::factory()->create();
+        $user->assignRole($role);
         $this->actingAs($user);
 
         $response = $this->get(route('dashboard'));
-        $response->assertOk();
+        $response->assertRedirect(route('siswa.dashboard'));
+
+        $dashboardResponse = $this->get(route('siswa.dashboard'));
+        $dashboardResponse->assertOk();
     }
 }
