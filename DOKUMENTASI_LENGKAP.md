@@ -276,7 +276,7 @@ Sistem menerapkan dua agen AI khusus dengan instruksi sistem bawaan yang kokoh:
 
 ## 6. Fitur Keamanan Khusus & Manajemen Reset Password
 
-Selain menerapkan RBAC standar, EduChem dirancang untuk lingkungan sekolah yang sering kali menghadapi kendala siswa lupa password tanpa memiliki akses kotak masuk email pribadi yang memadai (atau server mail SMTP sekolah yang tidak aktif).
+Selain menerapkan RBAC standar,  dirancang untuk lingkungan sekolah yang sering kali menghadapi kendala siswa lupa password tanpa memiliki akses kotak masuk email pribadi yang memadai (atau server mail SMTP sekolah yang tidak aktif).
 
 ### Alur Lupa Password dengan Persetujuan Admin (Admin Approval Reset)
 
@@ -326,7 +326,7 @@ Metode ini memastikan token reset sepanjang 64 karakter acak tidak dapat disalah
 
 ## 7. Peta Direktori Proyek (Project Directory Map)
 
-Berikut adalah panduan navigasi ke file-file kritis dalam repositori EduChem LMS untuk membantu pengembang memahami struktur kode sumber secara mendalam:
+Berikut adalah panduan navigasi ke file-file kritis dalam repositori  LMS untuk membantu pengembang memahami struktur kode sumber secara mendalam:
 
 ```
 elementverse/
